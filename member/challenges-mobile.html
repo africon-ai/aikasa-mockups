@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Weekly Challenges — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .page-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+      margin-bottom: var(--s-5);
+    }
+
+    .challenge-hero {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: var(--s-8);
+    }
+    .challenge-hero-banner {
+      position: relative;
+      padding: var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 70%, #000a14 100%);
+      color: white;
+      overflow: hidden;
+    }
+    .challenge-hero-banner::before {
+      content: "";
+      position: absolute;
+      top: -80px; right: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.28) 0%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+    }
+    .challenge-hero-banner-inner { position: relative; }
+    .challenge-eyebrow {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-1) var(--s-3);
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--brand-green);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-3);
+    }
+    .challenge-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: var(--s-3);
+    }
+    .challenge-desc {
+      color: rgba(255,255,255,0.8);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-4);
+    }
+    .challenge-status {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-1) var(--s-3);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-3);
+    }
+    .challenge-status .dot {
+      width: 6px; height: 6px;
+      background: var(--brand-green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+    .challenge-submissions {
+      display: flex; align-items: center; gap: var(--s-2);
+      color: rgba(255,255,255,0.8);
+      font-size: var(--text-caption);
+    }
+    .submission-avatars { display: inline-flex; }
+    .submission-avatar {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--brand-blue-200);
+      color: var(--brand-blue);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.5625rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid var(--brand-blue-700);
+    }
+    .submission-avatar + .submission-avatar { margin-left: -7px; }
+    .submission-avatar.more {
+      background: rgba(255,255,255,0.12);
+      color: white; font-size: 0.5rem;
+    }
+
+    .challenge-body { padding: var(--s-5); }
+
+    .challenge-section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-1);
+      display: block;
+    }
+    .challenge-section-h {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-4);
+      letter-spacing: -0.005em;
+    }
+
+    .step-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-6); }
+    .step {
+      display: flex; gap: var(--s-3);
+      padding: var(--s-3);
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      color: white;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-caption);
+    }
+    .step-content h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      margin-bottom: 2px;
+    }
+    .step-content p {
+      color: var(--text-secondary);
+      font-size: var(--text-caption);
+      line-height: 1.5;
+    }
+
+    .submit-form { display: flex; flex-direction: column; gap: var(--s-3); }
+    .submit-form textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: var(--s-3);
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      color: var(--text-primary);
+      resize: vertical;
+    }
+    .submit-form textarea:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px var(--brand-blue-100);
+    }
+
+    .upload-zone {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: var(--s-2);
+      padding: var(--s-5);
+      background: var(--bg-soft);
+      border: 2px dashed var(--border-strong);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    .upload-zone-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: white;
+      color: var(--brand-blue);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .upload-zone-icon svg { width: 18px; height: 18px; }
+    .upload-zone-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-caption);
+    }
+    .upload-zone-hint {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+
+    .submit-checkbox {
+      display: flex; align-items: flex-start; gap: var(--s-2);
+      padding: var(--s-3);
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+    }
+    .submit-checkbox input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--brand-blue); }
+    .submit-checkbox-label {
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      line-height: 1.4;
+    }
+
+    /* Progress 2x2 */
+    .progress-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-3);
+      margin-bottom: var(--s-8);
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-1);
+    }
+    .stat-card-icon {
+      align-self: flex-start;
+      width: 28px; height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: var(--s-1);
+    }
+    .stat-card-icon svg { width: 14px; height: 14px; }
+    .stat-card-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stat-card-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-card-trend {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+    }
+
+    /* Past list */
+    .section-title-row {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-3);
+      margin-bottom: var(--s-4);
+    }
+    .section-h {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.005em;
+    }
+    .section-sub {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .past-stack { display: flex; flex-direction: column; gap: var(--s-2); }
+    .past-row {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+    }
+    .past-row-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-3);
+      margin-bottom: var(--s-2);
+    }
+    .past-week {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+    }
+    .past-week-date {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .past-status {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .past-status.submitted { color: var(--brand-green-700); }
+    .past-status.submitted svg {
+      width: 11px; height: 11px;
+      padding: 2px;
+      border-radius: 50%;
+      background: var(--brand-green-100);
+    }
+    .past-status.skipped { color: var(--text-faint); }
+    .past-status.skipped svg {
+      width: 11px; height: 11px;
+      padding: 2px;
+      border-radius: 50%;
+      background: var(--bg-soft-3);
+    }
+    .past-title {
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      line-height: 1.35;
+      margin-bottom: var(--s-3);
+    }
+    .past-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-2);
+      padding-top: var(--s-2);
+      border-top: 1px solid var(--border-soft);
+    }
+    .past-winners {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    .past-winners-row { display: inline-flex; }
+    .winner-avatar {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.5rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid white;
+    }
+    .winner-avatar + .winner-avatar { margin-left: -6px; }
+    .past-thread-link {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+
+    .member-content { padding-bottom: calc(100px + var(--mobile-safe-bottom)) !important; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"/><path d="M6 18 18 6"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V8"/><path d="M7 13l5-5 5 5"/><path d="M5 4h14"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 4 4 5 4 9a4 4 0 0 1-8 0c0-2 2-3 2-6 2 1 2 3 2 3Z"/><path d="M9 18a3 3 0 0 0 6 0"/></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 5-9 9-9 9Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Mobile topbar -->
+  <header class="mobile-topbar">
+    <span class="mobile-topbar-title">Challenges</span>
+    <div style="display:flex;gap:var(--s-2);align-items:center;">
+      <button class="btn-icon" aria-label="Notifications" style="color:var(--text-secondary);">
+        <svg class="icon" width="20" height="20"><use href="#i-bell"/></svg>
+      </button>
+      <span class="avatar" aria-label="Yaa Mensah">YM</span>
+    </div>
+  </header>
+
+  <main id="main" class="member-content">
+    <h1 class="page-title">Weekly Challenges</h1>
+    <p class="page-sub">One small action per week. Apply what you've learned. Earn momentum.</p>
+
+    <!-- Current challenge hero -->
+    <section class="challenge-hero" aria-label="This week's challenge">
+      <div class="challenge-hero-banner">
+        <div class="challenge-hero-banner-inner">
+          <div class="challenge-eyebrow">
+            <svg class="icon" width="11" height="11" aria-hidden="true"><use href="#i-bolt"/></svg>
+            Week 21 · 19–25 May 2026
+          </div>
+          <h2 class="challenge-title">Build a 5-prompt productivity playbook for your role</h2>
+          <p class="challenge-desc">Pick one repetitive task. Design 5 prompts that handle it end-to-end. Try it for 3 days, then post your playbook in the community.</p>
+
+          <div class="challenge-status">
+            <span class="dot"></span>
+            Open · 4 days left
+          </div>
+          <div class="challenge-submissions">
+            <div class="submission-avatars">
+              <span class="submission-avatar">KA</span>
+              <span class="submission-avatar">EN</span>
+              <span class="submission-avatar">AA</span>
+              <span class="submission-avatar more">+44</span>
+            </div>
+            <span><strong style="color:white;font-weight:600;">47 submissions</strong> so far</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="challenge-body">
+        <!-- Guidelines -->
+        <span class="challenge-section-eyebrow">The brief</span>
+        <h3 class="challenge-section-h">How to play this week</h3>
+        <div class="step-list">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <h4>Choose your task</h4>
+              <p>Pick one thing you do every week — proposals, meeting recaps, email triage, content drafts.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <h4>Draft 5 prompts</h4>
+              <p>Build prompts that move from blank page to finished output. Each one named, described, tested.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <h4>Try it for 3 days, then post</h4>
+              <p>Run the playbook live this week. Share results with a short reflection.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submission form -->
+        <span class="challenge-section-eyebrow">Your submission</span>
+        <h3 class="challenge-section-h">Submit your playbook</h3>
+        <form class="submit-form" onsubmit="return false;">
+          <div class="field">
+            <label class="field-label" for="entry">Your playbook + reflection</label>
+            <textarea id="entry" placeholder="Paste your playbook, links to your prompts, or your reflection."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label">Attach a file</label>
+            <div class="upload-zone" tabindex="0" role="button" aria-label="Upload file">
+              <span class="upload-zone-icon"><svg aria-hidden="true"><use href="#i-upload"/></svg></span>
+              <span class="upload-zone-title">Tap to attach</span>
+              <span class="upload-zone-hint">Max 10 MB · MD, PDF, screenshot</span>
+            </div>
+          </div>
+
+          <label class="submit-checkbox">
+            <input type="checkbox" checked>
+            <span class="submit-checkbox-label"><strong>Share in #challenges-week-21.</strong> Others can react and learn.</span>
+          </label>
+
+          <button type="submit" class="btn btn-lg btn-block">
+            Submit your playbook
+            <svg class="icon" width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Your progress -->
+    <section aria-label="Your progress">
+      <div class="section-title-row">
+        <h2 class="section-h">Your progress</h2>
+        <span class="section-sub">May 2026</span>
+      </div>
+      <div class="progress-strip">
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg aria-hidden="true"><use href="#i-calendar"/></svg></div>
+          <div class="stat-card-label">Submitted</div>
+          <div class="stat-card-value">2 / 4</div>
+          <div class="stat-card-trend">2 weeks left</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+          <div class="stat-card-label">Total</div>
+          <div class="stat-card-value">7</div>
+          <div class="stat-card-trend">Since joining</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:#fef3c7;color:#92400e;"><svg aria-hidden="true"><use href="#i-fire"/></svg></div>
+          <div class="stat-card-label">Streak</div>
+          <div class="stat-card-value">3 wks</div>
+          <div class="stat-card-trend">Don't break it</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:var(--brand-green-100);color:var(--brand-green-700);"><svg aria-hidden="true"><use href="#i-heart"/></svg></div>
+          <div class="stat-card-label">Helped</div>
+          <div class="stat-card-value">9</div>
+          <div class="stat-card-trend">Reactions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Past challenges -->
+    <section aria-label="Past challenges">
+      <div class="section-title-row">
+        <h2 class="section-h">Past challenges</h2>
+        <span class="section-sub">6 weeks</span>
+      </div>
+      <div class="past-stack">
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 20</div>
+              <div class="past-week-date">12–18 May</div>
+            </div>
+            <span class="past-status submitted"><svg aria-hidden="true"><use href="#i-check"/></svg>Submitted</span>
+          </div>
+          <div class="past-title">Cut a meeting summary down to 5 actions</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">AB</span>
+                <span class="winner-avatar">CN</span>
+                <span class="winner-avatar">JO</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 19</div>
+              <div class="past-week-date">5–11 May</div>
+            </div>
+            <span class="past-status submitted"><svg aria-hidden="true"><use href="#i-check"/></svg>Submitted</span>
+          </div>
+          <div class="past-title">Write a sales follow-up that gets a reply</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">YM</span>
+                <span class="winner-avatar">DA</span>
+                <span class="winner-avatar">KA</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 18</div>
+              <div class="past-week-date">28 Apr–4 May</div>
+            </div>
+            <span class="past-status skipped"><svg aria-hidden="true"><use href="#i-x"/></svg>Skipped</span>
+          </div>
+          <div class="past-title">Make a 7-day content plan with Gamma</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">EN</span>
+                <span class="winner-avatar">SK</span>
+                <span class="winner-avatar">MO</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 17</div>
+              <div class="past-week-date">21–27 Apr</div>
+            </div>
+            <span class="past-status submitted"><svg aria-hidden="true"><use href="#i-check"/></svg>Submitted</span>
+          </div>
+          <div class="past-title">Set up your first weekly review with AI</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">RA</span>
+                <span class="winner-avatar">LI</span>
+                <span class="winner-avatar">FK</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 16</div>
+              <div class="past-week-date">14–20 Apr</div>
+            </div>
+            <span class="past-status submitted"><svg aria-hidden="true"><use href="#i-check"/></svg>Submitted</span>
+          </div>
+          <div class="past-title">Prompt template you'll reuse for a year</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">NN</span>
+                <span class="winner-avatar">OB</span>
+                <span class="winner-avatar">PA</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+
+        <article class="past-row">
+          <div class="past-row-head">
+            <div>
+              <div class="past-week">Week 15</div>
+              <div class="past-week-date">7–13 Apr</div>
+            </div>
+            <span class="past-status submitted"><svg aria-hidden="true"><use href="#i-check"/></svg>Submitted</span>
+          </div>
+          <div class="past-title">Apply one AI workflow to your real Monday</div>
+          <div class="past-foot">
+            <span class="past-winners">
+              <span class="past-winners-row">
+                <span class="winner-avatar">YM</span>
+                <span class="winner-avatar">RA</span>
+                <span class="winner-avatar">CH</span>
+              </span>
+              Top 3
+            </span>
+            <a href="#" class="past-thread-link">Thread →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tab-bar" aria-label="Main navigation">
+    <a href="dashboard-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-home"/></svg></span>
+      Home
+    </a>
+    <a href="lessons-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-book"/></svg></span>
+      Lessons
+    </a>
+    <a href="live-sessions-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-video"/></svg></span>
+      Live
+    </a>
+    <a href="challenges-mobile.html" class="tab-item active" aria-current="page">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-target"/></svg></span>
+      Challenges
+    </a>
+    <a href="profile-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-user"/></svg></span>
+      Profile
+    </a>
+  </nav>
+</body>
+</html>

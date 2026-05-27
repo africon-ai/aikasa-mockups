@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Sign in — AIKASA</title>
+  <meta name="description" content="Sign in to AIKASA. Continue your guided AI journey.">
+  <meta property="og:title" content="Sign in — AIKASA">
+  <meta property="og:description" content="Continue your guided AI journey.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* Login-specific layout */
+    .login-shell {
+      max-width: var(--container);
+      margin: var(--s-12) auto var(--s-20);
+      padding: var(--s-16) var(--s-6) var(--s-20);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-16);
+      align-items: center;
+      min-height: calc(100vh - 200px);
+    }
+
+    .login-card-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      width: 480px;
+      max-width: 100%;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--s-10);
+      box-shadow: var(--shadow);
+    }
+    .login-wordmark {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-8);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .login-wordmark::after {
+      content: "AI that works";
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding-left: var(--s-3);
+      border-left: 1px solid var(--border);
+    }
+    .login-card h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: var(--s-2);
+    }
+    .login-card .sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body);
+      line-height: 1.5;
+      margin-bottom: var(--s-8);
+    }
+
+    /* Form */
+    .login-form {
+      display: grid; gap: var(--s-5);
+    }
+    .input-with-icon {
+      position: relative;
+    }
+    .input-with-icon .input {
+      padding-right: var(--s-12);
+    }
+    .input-eye {
+      position: absolute;
+      right: var(--s-3);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color var(--t-instant) var(--ease-glass), background var(--t-instant) var(--ease-glass);
+    }
+    .input-eye:hover {
+      color: var(--brand-blue);
+      background: var(--bg-soft);
+    }
+    .input-eye svg { width: 18px; height: 18px; }
+
+    /* Row */
+    .login-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4);
+      flex-wrap: wrap;
+    }
+    .check-row {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      cursor: pointer;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+    .check-row input { position: absolute; opacity: 0; pointer-events: none; }
+    .check-box {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border-strong);
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--t-instant) var(--ease-glass);
+      flex-shrink: 0;
+      background: white;
+    }
+    .check-row input:checked ~ .check-box {
+      background: var(--brand-blue);
+      border-color: var(--brand-blue);
+    }
+    .check-box::after {
+      content: "";
+      width: 8px; height: 5px;
+      border-left: 2px solid white;
+      border-bottom: 2px solid white;
+      transform: rotate(-45deg) scale(0);
+      margin-top: -2px;
+      transition: transform var(--t-instant) var(--ease-glass);
+    }
+    .check-row input:checked ~ .check-box::after { transform: rotate(-45deg) scale(1); }
+
+    .forgot {
+      font-size: var(--text-body-sm);
+      color: var(--brand-blue);
+      font-weight: 500;
+    }
+    .forgot:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .submit-btn {
+      margin-top: var(--s-2);
+    }
+    .submit-btn .btn {
+      width: 100%; justify-content: center;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: var(--s-3);
+      margin: var(--s-6) 0 var(--s-5);
+      color: var(--text-faint);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    .info-banner {
+      padding: var(--s-3) var(--s-4);
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      font-size: var(--text-body-sm);
+      color: var(--brand-blue);
+      display: flex; gap: var(--s-3); align-items: flex-start;
+      line-height: 1.5;
+    }
+    .info-banner svg {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .info-banner strong { display: block; font-weight: 600; margin-bottom: 1px; }
+    .info-banner-body { font-size: var(--text-caption); color: var(--brand-blue-700); }
+
+    .login-foot {
+      margin-top: var(--s-6);
+      text-align: center;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+    .login-foot a {
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .login-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Right rail */
+    .login-rail {
+      padding: 0 var(--s-4);
+      max-width: 460px;
+    }
+    .login-rail .eyebrow {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-5);
+    }
+    .login-rail .eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: var(--brand-green-large);
+    }
+    .login-rail h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--s-4);
+    }
+    .login-rail h2 .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .login-rail-lede {
+      color: var(--text-secondary);
+      font-size: var(--text-body);
+      line-height: 1.55;
+      margin-bottom: var(--s-10);
+      max-width: 28rem;
+    }
+
+    .pillar-list {
+      display: grid; gap: var(--s-6);
+    }
+    .pillar {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--s-5);
+      align-items: start;
+    }
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      color: var(--brand-green-large);
+      font-weight: 500;
+      padding-top: var(--s-1);
+      width: 40px;
+    }
+    .pillar-content h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-1);
+    }
+    .pillar-content p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- AIKASA inline SVG icon sprite. Copy this <svg> block into every page once,
+       then reference icons via <svg class="icon"><use href="#icon-name"></use></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="nav-shell">
+    <nav class="nav-public" aria-label="Primary">
+      <a href="landing-desktop.html" class="wordmark">AIKASA</a>
+      <div class="nav-public-right">
+        <div class="nav-public-links">
+          <a href="pricing-desktop.html">Pricing</a>
+          <a href="login-desktop.html" aria-current="page" style="color: var(--brand-blue); font-weight: 600;">Sign in</a>
+        </div>
+        <a href="join-desktop.html" class="btn">Become a Founding Member</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="login-shell">
+      <!-- Left: form card -->
+      <div class="login-card-wrap">
+        <div class="login-card">
+          <div class="login-wordmark">AIKASA</div>
+          <h1>Welcome back.</h1>
+          <p class="sub">Continue your guided AI journey.</p>
+
+          <form class="login-form" aria-live="polite">
+            <div class="field">
+              <label class="field-label" for="email">Email</label>
+              <input class="input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <div class="input-with-icon">
+                <input class="input" type="password" id="password" name="password" placeholder="Your password" autocomplete="current-password" required>
+                <button type="button" class="input-eye" aria-label="Show password" aria-pressed="false">
+                  <svg><use href="#i-eye"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="login-row">
+              <label class="check-row">
+                <input type="checkbox" name="remember">
+                <span class="check-box" aria-hidden="true"></span>
+                <span>Remember me</span>
+              </label>
+              <a href="#" class="forgot">Forgot password?</a>
+            </div>
+
+            <div class="submit-btn">
+              <button type="submit" class="btn btn-lg">
+                Sign in
+                <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="divider">or</div>
+
+          <div class="info-banner">
+            <svg><use href="#i-calendar"/></svg>
+            <div>
+              <strong>Founding Members</strong>
+              <span class="info-banner-body">Your access starts on launch day &mdash; August/September 2026. We'll email you the moment we go live.</span>
+            </div>
+          </div>
+
+          <div class="login-foot">
+            Not a member yet? <a href="join-desktop.html">Become a Founding Member</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right rail: 3 pillars -->
+      <aside class="login-rail" aria-label="What's inside AIKASA">
+        <span class="eyebrow">What you'll find inside</span>
+        <h2>Three practical paths. One promise: <span class="accent">AI that works.</span></h2>
+        <p class="login-rail-lede">Every lesson, prompt and live session sits inside one of these. No marathon syllabus, no buzzwords &mdash; just the skills African professionals and entrepreneurs need.</p>
+
+        <div class="pillar-list">
+          <article class="pillar">
+            <span class="pillar-num">01</span>
+            <div class="pillar-content">
+              <h3>AI for Productivity</h3>
+              <p>Save time, write, research, plan, summarise. Use AI to handle the work that drains your week so the work that matters gets your full attention.</p>
+            </div>
+          </article>
+
+          <article class="pillar">
+            <span class="pillar-num">02</span>
+            <div class="pillar-content">
+              <h3>AI for Business and Entrepreneurship</h3>
+              <p>Sales, marketing, customer service, operations. AI workflows that move your numbers &mdash; written for African SMEs and the realities they trade in.</p>
+            </div>
+          </article>
+
+          <article class="pillar">
+            <span class="pillar-num">03</span>
+            <div class="pillar-content">
+              <h3>AI Navigation and Clarity</h3>
+              <p>Updates, tool guidance, what changed and why it matters. A continuous filter on a noisy field, so you know what to try this week.</p>
+            </div>
+          </article>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="wordmark" style="font-size: 1.5rem; margin-bottom: var(--s-3);">AIKASA</div>
+          <p style="color: var(--text-secondary); font-size: var(--text-body-sm); line-height: 1.55; max-width: 22rem;">AI that works. A guided AI implementation ecosystem built for African professionals and entrepreneurs.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Product</h4>
+          <div class="footer-list">
+            <a href="pricing-desktop.html">Pricing</a>
+            <a href="join-desktop.html">Become a Founding Member</a>
+            <a href="login-desktop.html">Sign in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Pillars</h4>
+          <div class="footer-list">
+            <a href="#">AI for Productivity</a>
+            <a href="#">AI for Business</a>
+            <a href="#">AI Navigation &amp; Clarity</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Africon</h4>
+          <div class="footer-list">
+            <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a>
+            <a href="#">No. 2, 2nd Nii Kokonya Road,<br>East Legon, Accra &mdash; Ghana</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-endorsement">An Africon project &middot; &copy; 2026 Africa AI Consult</span>
+        <span>aikasa.ai</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

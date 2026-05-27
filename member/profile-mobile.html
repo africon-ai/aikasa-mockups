@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Profile — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+
+    .mobile-topbar-actions { display: flex; align-items: center; gap: var(--s-2); }
+    .topbar-icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      color: var(--text-secondary);
+      position: relative;
+    }
+    .topbar-icon-btn:hover { background: var(--bg-soft); color: var(--brand-blue); }
+    .topbar-icon-btn .icon { width: 20px; height: 20px; }
+    .topbar-icon-btn .badge-dot {
+      position: absolute; top: 8px; right: 8px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--brand-green);
+      border: 2px solid var(--glass-bg);
+    }
+
+    /* Profile header */
+    .profile-header {
+      position: relative;
+      padding: var(--s-8) var(--s-5) var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      overflow: hidden;
+      margin-bottom: var(--s-5);
+    }
+    .profile-header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100px;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      z-index: 0;
+    }
+    .profile-header::after {
+      content: "";
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%);
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .profile-header-inner { position: relative; z-index: 1; }
+    .profile-header .avatar-xl {
+      width: 88px; height: 88px;
+      font-size: 1.625rem;
+      margin: 0 auto var(--s-4);
+      background: white;
+      color: var(--brand-blue);
+      border: 4px solid white;
+      box-shadow: var(--shadow);
+    }
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .profile-sub {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--s-3);
+    }
+    .profile-badge-wrap { margin-bottom: var(--s-3); }
+    .profile-pills {
+      display: flex; gap: var(--s-2); flex-wrap: wrap; justify-content: center;
+      margin-bottom: var(--s-4);
+    }
+    .profile-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 11px;
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+    }
+    .profile-pill-strong {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .profile-pill-level {
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-color: var(--brand-green-200);
+    }
+    .profile-since {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-bottom: var(--s-4);
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-3);
+      margin-bottom: var(--s-5);
+    }
+    .mini-stat {
+      padding: var(--s-3);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    .mini-stat-value {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .mini-stat-value .frac { font-size: 0.875rem; color: var(--text-muted); font-weight: 500; }
+    .mini-stat-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Level */
+    .level-card {
+      padding: var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--s-5);
+    }
+    .level-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-3);
+    }
+    .level-title {
+      font-family: var(--font-display);
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .level-pct {
+      font-family: var(--font-mono);
+      font-size: var(--text-body);
+      font-weight: 700;
+      color: var(--brand-blue);
+    }
+    .level-card .progress { height: 8px; margin-bottom: var(--s-3); }
+    .level-card .progress-bar { background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-blue-400) 100%); }
+    .level-explanation {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Section card */
+    .section-card {
+      padding: var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--s-5);
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      margin-bottom: var(--s-4);
+      padding-bottom: var(--s-3);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .section-head h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+    }
+
+    /* Field rows */
+    .field-row {
+      padding: var(--s-3) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .field-row:last-child { border-bottom: none; }
+    .field-row-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-1);
+    }
+    .field-row-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .field-row-edit {
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .field-row-value {
+      font-size: var(--text-body);
+      color: var(--text-primary);
+      font-weight: 500;
+      display: flex; align-items: center; gap: var(--s-2);
+      flex-wrap: wrap;
+    }
+    .verified-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 7px;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+    }
+
+    /* Toggle */
+    .toggle {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      cursor: pointer;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 38px; height: 22px;
+      background: var(--bg-soft-3);
+      border-radius: var(--radius-pill);
+      transition: background var(--t-instant) var(--ease-glass);
+      flex-shrink: 0;
+    }
+    .toggle-switch::after {
+      content: "";
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: transform var(--t-instant) var(--ease-glass);
+    }
+    .toggle.on .toggle-switch { background: var(--brand-blue); }
+    .toggle.on .toggle-switch::after { transform: translateX(16px); }
+    .toggle-label { font-size: var(--text-caption); color: var(--text-secondary); }
+
+    /* Billing summary */
+    .billing-summary {
+      padding: var(--s-4);
+      background: linear-gradient(135deg, var(--brand-blue-50) 0%, white 100%);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-3);
+    }
+    .billing-summary .plan-name {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-2);
+    }
+    .billing-summary .plan-cost {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: var(--s-2);
+    }
+    .billing-summary .plan-cost span { font-size: 0.875rem; color: var(--text-muted); font-weight: 500; }
+    .billing-summary .plan-meta {
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      margin-bottom: var(--s-3);
+    }
+    .billing-renewal {
+      padding: var(--s-3);
+      background: white;
+      border-radius: var(--radius-sm);
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      display: flex; align-items: flex-start; gap: var(--s-2);
+      line-height: 1.4;
+    }
+    .billing-renewal .icon { width: 14px; height: 14px; color: var(--brand-green-700); flex-shrink: 0; margin-top: 2px; }
+    .billing-actions { display: flex; flex-direction: column; gap: var(--s-2); }
+    .receipts-link {
+      font-size: var(--text-body-sm);
+      color: var(--brand-blue);
+      font-weight: 600;
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      align-self: center;
+      padding: var(--s-2);
+    }
+
+    /* Pref row */
+    .pref-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      padding: var(--s-3) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .pref-row:last-child { border-bottom: none; }
+    .pref-row-text strong {
+      display: block;
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .pref-row-text span {
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+    }
+
+    /* Discover */
+    .discover-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--s-3);
+    }
+    .discover-card {
+      padding: var(--s-4) var(--s-3);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      transition: border-color var(--t-instant) var(--ease-glass), background var(--t-instant) var(--ease-glass);
+    }
+    .discover-card:hover { border-color: var(--brand-blue); background: var(--brand-blue-50); }
+    .discover-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--s-2);
+    }
+    .discover-icon .icon { width: 20px; height: 20px; }
+    .discover-icon-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .discover-card strong {
+      display: block;
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Settings list */
+    .settings-list {
+      display: flex; flex-direction: column;
+    }
+    .settings-item {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3) 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .settings-item:last-child { border-bottom: none; }
+    .settings-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .settings-icon .icon { width: 18px; height: 18px; }
+    .settings-text { flex: 1; min-width: 0; }
+    .settings-text strong {
+      display: block;
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .settings-text span {
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+    }
+    .settings-item .arrow { color: var(--text-muted); }
+    .settings-item .arrow .icon { width: 18px; height: 18px; }
+
+    /* Danger zone */
+    .danger-zone {
+      padding: var(--s-4);
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius);
+    }
+    .danger-zone h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: #991b1b;
+      margin-bottom: var(--s-2);
+    }
+    .danger-zone p {
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      margin-bottom: var(--s-3);
+    }
+    .danger-cancel {
+      font-size: var(--text-body-sm);
+      color: #991b1b;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .danger-help {
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      padding-top: var(--s-3);
+      margin-top: var(--s-3);
+      border-top: 1px solid #fecaca;
+      line-height: 1.5;
+    }
+    .danger-help a { color: var(--brand-blue); font-weight: 600; }
+
+    /* Sign out CTA */
+    .signout-area {
+      margin: var(--s-5) 0 var(--s-4);
+    }
+    .signout-btn {
+      width: 100%;
+      padding: var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: var(--s-2);
+      box-shadow: var(--shadow-sm);
+      transition: background var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass);
+    }
+    .signout-btn:hover { background: var(--bg-soft); color: var(--brand-blue); }
+    .signout-btn .icon { width: 18px; height: 18px; }
+
+    /* Endorsement */
+    .endorsement-foot {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      text-align: center;
+      padding: var(--s-4) 0;
+    }
+
+    /* Profile header founding badge inline arrangement */
+    .name-row {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: var(--s-2);
+      margin-bottom: var(--s-3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Mobile topbar -->
+  <header class="mobile-topbar" role="banner">
+    <div class="mobile-topbar-title">Profile</div>
+    <div class="mobile-topbar-actions">
+      <button class="topbar-icon-btn" aria-label="Notifications">
+        <svg class="icon" aria-hidden="true"><use href="#i-bell"/></svg>
+        <span class="badge-dot" aria-hidden="true"></span>
+      </button>
+      <div class="avatar" aria-label="Yaa Mensah">YM</div>
+    </div>
+  </header>
+
+  <main id="main" class="member-content" role="main">
+    <!-- Profile header -->
+    <article class="profile-header">
+      <div class="profile-header-inner">
+        <div class="avatar avatar-xl" aria-label="Yaa Mensah">YM</div>
+        <h1 class="profile-name">Yaa Mensah</h1>
+        <div class="profile-badge-wrap">
+          <span class="founding-badge">Founding Member 2026</span>
+        </div>
+        <p class="profile-sub">Marketing Strategist · Accra, Ghana</p>
+        <div class="profile-pills">
+          <span class="profile-pill profile-pill-strong">
+            <svg class="icon" style="width:12px;height:12px" aria-hidden="true"><use href="#i-shield"/></svg>
+            AI Transformation
+          </span>
+          <span class="profile-pill profile-pill-level">Foundation · Lv 2</span>
+        </div>
+        <div class="profile-pills">
+          <span class="profile-pill" style="background:white;color:var(--text-secondary)">
+            All-tier access
+          </span>
+        </div>
+        <p class="profile-since">Member since 24 May 2026</p>
+        <a href="#" class="btn btn-secondary">
+          <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-edit"/></svg>
+          Edit profile
+        </a>
+      </div>
+    </article>
+
+    <!-- Stats grid -->
+    <section class="stats-grid" aria-label="Your stats">
+      <div class="mini-stat">
+        <div class="mini-stat-value">7 <span class="frac">/ 24</span></div>
+        <div class="mini-stat-label">Lessons</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-value">2h 40m</div>
+        <div class="mini-stat-label">Practiced</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-value">3</div>
+        <div class="mini-stat-label">Challenges</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat-value">5 <span class="frac">days</span></div>
+        <div class="mini-stat-label">Streak</div>
+      </div>
+    </section>
+
+    <!-- Level -->
+    <article class="level-card">
+      <div class="level-head">
+        <span class="level-title">Foundation → Intermediate</span>
+        <span class="level-pct">60%</span>
+      </div>
+      <div class="progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Level progress">
+        <div class="progress-bar" style="width:60%"></div>
+      </div>
+      <div class="level-explanation">
+        You're 60% to <strong style="color:var(--brand-blue)">Intermediate (Level 3)</strong>. Each level reflects how often you watch lessons, post in community, and complete challenges. We don't gamify — we just show momentum.
+      </div>
+    </article>
+
+    <!-- Profile details -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Profile details</h2>
+        <a href="#" style="font-size:var(--text-caption);color:var(--brand-blue);font-weight:600">Edit all</a>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Full name</span>
+          <a href="#" class="field-row-edit">Edit</a>
+        </div>
+        <div class="field-row-value">Yaa Mensah</div>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Email</span>
+          <a href="#" class="field-row-edit">Edit</a>
+        </div>
+        <div class="field-row-value">
+          yaa.mensah@example.com
+          <span class="verified-tag">
+            <svg class="icon" style="width:10px;height:10px" aria-hidden="true"><use href="#i-check"/></svg>
+            Verified
+          </span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Phone</span>
+          <a href="#" class="field-row-edit">Edit</a>
+        </div>
+        <div class="field-row-value" style="margin-bottom:var(--s-2)">+233 24 555 0182</div>
+        <label class="toggle on" style="cursor:pointer">
+          <span class="toggle-switch" aria-hidden="true"></span>
+          <span class="toggle-label">WhatsApp updates enabled</span>
+        </label>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Country</span>
+          <a href="#" class="field-row-edit">Edit</a>
+        </div>
+        <div class="field-row-value">
+          <svg class="icon" style="width:14px;height:14px;color:var(--text-muted)" aria-hidden="true"><use href="#i-globe"/></svg>
+          Ghana
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Profession</span>
+          <a href="#" class="field-row-edit">Edit</a>
+        </div>
+        <div class="field-row-value">Marketing Strategist</div>
+      </div>
+      <div class="field-row">
+        <div class="field-row-top">
+          <span class="field-row-label">Avatar</span>
+          <a href="#" class="field-row-edit">Upload</a>
+        </div>
+        <div class="field-row-value">
+          <span class="avatar" aria-hidden="true">YM</span>
+          <span style="color:var(--text-muted);font-size:var(--text-caption)">Initials placeholder</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Billing -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Subscription</h2>
+      </div>
+      <div class="billing-summary">
+        <div class="plan-name">Annual Founding Access</div>
+        <div class="plan-cost">GHS 999<span> / year</span></div>
+        <div class="plan-meta">Paid 24 May 2026 · Visa •••• 4242</div>
+        <div class="billing-renewal">
+          <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+          <div>
+            Next renewal: <strong style="color:var(--text-primary)">24 May 2027</strong><br>
+            <span style="color:var(--brand-green-700);font-weight:600">Up to 25% discount as a founding member.</span>
+          </div>
+        </div>
+      </div>
+      <div class="billing-actions">
+        <a href="#" class="btn btn-secondary btn-block">Update payment method</a>
+        <a href="#" class="receipts-link">
+          <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-download"/></svg>
+          View receipts
+        </a>
+      </div>
+    </section>
+
+    <!-- Notifications -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Notifications</h2>
+      </div>
+      <div class="pref-row">
+        <div class="pref-row-text">
+          <strong>Weekly AI update by email</strong>
+          <span>Mondays, 8:00 AM GMT</span>
+        </div>
+        <label class="toggle on" style="cursor:pointer">
+          <span class="toggle-switch" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div class="pref-row-text">
+          <strong>Live session reminders</strong>
+          <span>Morning-of email reminder</span>
+        </div>
+        <label class="toggle on" style="cursor:pointer">
+          <span class="toggle-switch" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div class="pref-row-text">
+          <strong>WhatsApp summary of weekly wins</strong>
+          <span>3-line digest in WhatsApp</span>
+        </div>
+        <label class="toggle" style="cursor:pointer">
+          <span class="toggle-switch" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="pref-row">
+        <div class="pref-row-text">
+          <strong>Challenge reactions</strong>
+          <span>When the community reacts to your post</span>
+        </div>
+        <label class="toggle on" style="cursor:pointer">
+          <span class="toggle-switch" aria-hidden="true"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Discover (mobile only) -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Discover</h2>
+      </div>
+      <div class="discover-grid">
+        <a href="#" class="discover-card">
+          <div class="discover-icon"><svg class="icon" aria-hidden="true"><use href="#i-tools"/></svg></div>
+          <strong>Toolbox</strong>
+        </a>
+        <a href="ai-updates-mobile.html" class="discover-card">
+          <div class="discover-icon discover-icon-green"><svg class="icon" aria-hidden="true"><use href="#i-newspaper"/></svg></div>
+          <strong>AI Updates</strong>
+        </a>
+        <a href="community-mobile.html" class="discover-card">
+          <div class="discover-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></div>
+          <strong>Community</strong>
+        </a>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Settings</h2>
+      </div>
+      <div class="settings-list">
+        <a href="#" class="settings-item">
+          <span class="settings-icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+          <div class="settings-text">
+            <strong>Language</strong>
+            <span>English · Ghanaian English</span>
+          </div>
+          <span class="arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+        <a href="#" class="settings-item">
+          <span class="settings-icon"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+          <div class="settings-text">
+            <strong>Privacy controls</strong>
+            <span>What we collect and how</span>
+          </div>
+          <span class="arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+        <a href="#" class="settings-item">
+          <span class="settings-icon"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></span>
+          <div class="settings-text">
+            <strong>Download my data</strong>
+            <span>Export your account info</span>
+          </div>
+          <span class="arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Danger zone -->
+    <section class="section-card">
+      <div class="section-head">
+        <h2>Account</h2>
+      </div>
+      <div class="danger-zone">
+        <h3>Cancel subscription</h3>
+        <p>Cancelling stops the next renewal. You keep access until 24 May 2027.</p>
+        <a href="#" class="danger-cancel">Cancel subscription</a>
+        <div class="danger-help">
+          Need to leave? Email <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a> and we'll help with cancellation, refund, or pause.
+        </div>
+      </div>
+    </section>
+
+    <!-- Sign out -->
+    <div class="signout-area">
+      <a href="#" class="signout-btn">
+        <svg class="icon" aria-hidden="true"><use href="#i-logout"/></svg>
+        Sign out
+      </a>
+    </div>
+
+    <div class="endorsement-foot">
+      An Africon project — © 2026 Africa AI Consult
+    </div>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tab-bar" aria-label="Primary navigation">
+    <a href="dashboard-desktop.html" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" style="width:22px;height:22px" aria-hidden="true"><use href="#i-home"/></svg></span>
+      Home
+    </a>
+    <a href="lesson-library-desktop.html" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" style="width:22px;height:22px" aria-hidden="true"><use href="#i-book"/></svg></span>
+      Lessons
+    </a>
+    <a href="#" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" style="width:22px;height:22px" aria-hidden="true"><use href="#i-video"/></svg></span>
+      Live
+    </a>
+    <a href="#" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" style="width:22px;height:22px" aria-hidden="true"><use href="#i-target"/></svg></span>
+      Challenges
+    </a>
+    <a href="profile-mobile.html" class="tab-item active" aria-current="page">
+      <span class="tab-item-icon"><svg class="icon" style="width:22px;height:22px" aria-hidden="true"><use href="#i-user"/></svg></span>
+      Profile
+    </a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>AIKASA — AI that works</title>
+  <meta name="description" content="AIKASA is a guided AI implementation ecosystem for African professionals and entrepreneurs.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { max-width: 414px; margin: 0 auto; background: var(--bg); position: relative; }
+
+    .mob-nav {
+      position: sticky; top: 0; z-index: 50;
+      padding: var(--s-3) var(--s-4);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mob-nav .wordmark { font-size: 1.125rem; }
+    .mob-nav-actions { display: flex; gap: var(--s-2); align-items: center; }
+    .mob-nav-actions .btn-sm { padding: var(--s-2) var(--s-3); min-height: 36px; font-size: var(--text-caption); }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--text-primary);
+      border-radius: var(--radius);
+    }
+
+    .hero {
+      padding: var(--s-8) var(--s-4) var(--s-10);
+    }
+    .hero-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: var(--s-5);
+      display: inline-flex; align-items: center; gap: var(--s-2);
+    }
+    .hero-eyebrow::before {
+      content: ""; width: 1.5rem; height: 1px; background: var(--text-faint);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-4);
+    }
+    .hero-headline .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-subhead {
+      font-size: var(--text-body);
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin-bottom: var(--s-8);
+    }
+    .hero-cta-row { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-8); }
+
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 3/2;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(140deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+      box-shadow: var(--shadow-blue-lg);
+    }
+    .hero-visual-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .hero-visual-orb {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.7;
+    }
+    .hero-visual-orb-1 {
+      top: -60px; right: -40px;
+      background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%);
+    }
+    .hero-visual-orb-2 {
+      bottom: -40px; left: -40px;
+      background: radial-gradient(circle, var(--brand-blue-400) 0%, transparent 70%);
+    }
+    .hero-watermark {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 3rem;
+      color: rgba(255,255,255,0.08);
+      letter-spacing: -0.04em;
+    }
+    .hero-visual-card {
+      position: absolute;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: var(--s-3);
+      color: white;
+      bottom: var(--s-4); left: var(--s-4); right: var(--s-4);
+      display: flex; gap: var(--s-3); align-items: center;
+    }
+    .hero-visual-card-icon {
+      width: 36px; height: 36px;
+      background: rgba(46, 204, 113, 0.18);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-green);
+    }
+    .hero-visual-card-text { font-size: var(--text-body-sm); flex: 1; }
+    .hero-visual-card-text strong { display: block; font-weight: 600; }
+    .hero-visual-card-text span { color: rgba(255,255,255,0.6); font-size: 0.6875rem; }
+
+    .trust-mobile {
+      padding: var(--s-6) var(--s-4);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .trust-label-mob {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-4);
+    }
+    .trust-stats-mob {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5);
+    }
+    .trust-stat-num-mob {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--brand-blue); line-height: 1;
+    }
+    .trust-stat-label-mob {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: var(--s-1);
+    }
+
+    .founding-banner-mob {
+      margin: var(--s-8) var(--s-4) 0;
+      padding: var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-blue);
+      position: relative; overflow: hidden;
+    }
+    .founding-banner-mob::before {
+      content: "";
+      position: absolute;
+      top: -50%; right: -30%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .founding-banner-badge {
+      position: relative;
+      display: inline-block;
+      padding: 4px var(--s-3);
+      background: rgba(46, 204, 113, 0.2);
+      border: 1px solid rgba(46, 204, 113, 0.5);
+      color: var(--brand-green);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-3);
+    }
+    .founding-banner-mob h3 {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      margin-bottom: var(--s-2);
+    }
+    .founding-banner-mob p {
+      position: relative;
+      color: rgba(255,255,255,0.75);
+      font-size: var(--text-body-sm);
+      margin-bottom: var(--s-5);
+    }
+    .founding-banner-mob .btn {
+      position: relative;
+      background: white; color: var(--brand-blue); border-color: white;
+      width: 100%; justify-content: center;
+    }
+
+    .section-mob {
+      padding: var(--s-12) var(--s-4) 0;
+    }
+    .section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-3);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.625rem;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-3);
+    }
+    .section-lede {
+      font-size: var(--text-body);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--s-8);
+    }
+
+    .pillar-list-mob {
+      display: flex; flex-direction: column; gap: var(--s-4);
+    }
+    .pillar-mob {
+      padding: var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .pillar-num-mob {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      color: var(--brand-green-large);
+      font-weight: 500;
+      margin-bottom: var(--s-3);
+      display: block;
+    }
+    .pillar-mob h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-2);
+    }
+    .pillar-mob p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-4);
+    }
+    .pillar-mob-target {
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--border-soft);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .how-mob-list { display: flex; flex-direction: column; gap: var(--s-3); }
+    .how-step-mob {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: var(--s-3);
+      padding: var(--s-4);
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+    }
+    .how-step-mob-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .how-step-mob-num::before { content: "0"; }
+    .how-step-mob h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .how-step-mob p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+    }
+
+    .credibility-mob {
+      margin: var(--s-12) var(--s-4) 0;
+      padding: var(--s-8);
+      background: var(--bg-soft);
+      border-radius: var(--radius-lg);
+    }
+    .credibility-mob h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-4);
+    }
+    .credibility-mob p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: var(--text-body-sm);
+      margin-bottom: var(--s-4);
+    }
+    .credibility-stats-mob {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3);
+      margin-top: var(--s-6);
+    }
+    .cred-stat-mob {
+      padding: var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .cred-stat-num-mob {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      margin-bottom: var(--s-1);
+    }
+    .cred-stat-label-mob {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .credibility-signature {
+      display: flex; gap: var(--s-3); align-items: center;
+      margin-top: var(--s-6);
+      padding-top: var(--s-5);
+      border-top: 1px solid var(--border);
+    }
+    .credibility-signature-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600;
+    }
+    .credibility-signature-text strong { display: block; font-weight: 600; }
+    .credibility-signature-text span { font-size: var(--text-caption); color: var(--text-muted); }
+
+    .journey-mob-list {
+      display: flex; flex-direction: column; gap: var(--s-4);
+    }
+    .journey-mob {
+      padding: var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: var(--s-4);
+      align-items: start;
+    }
+    .journey-mob:first-child { border-color: var(--brand-blue-200); background: var(--brand-blue-50); }
+    .journey-mob-marker {
+      width: 3rem; height: 3rem;
+      background: white;
+      border: 2px solid var(--brand-blue);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+    }
+    .journey-mob:first-child .journey-mob-marker { background: var(--brand-blue); color: white; }
+    .journey-mob-day {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-1);
+      display: block;
+    }
+    .journey-mob h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-2);
+    }
+    .journey-mob p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+    }
+
+    .benefits-list-mob {
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .benefit-mob {
+      padding: var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: 1.5rem 1fr;
+      gap: var(--s-3);
+    }
+    .benefit-check-mob {
+      width: 1.5rem; height: 1.5rem;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .benefit-check-mob svg { width: 12px; height: 12px; }
+    .benefit-text-mob strong {
+      display: block;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      margin-bottom: 2px;
+    }
+    .benefit-text-mob span {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+    }
+
+    .final-cta-mob {
+      margin: var(--s-12) var(--s-4) var(--s-8);
+      padding: var(--s-10) var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta-mob::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%; transform: translate(-50%, -50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+    }
+    .final-cta-mob h2 {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      margin-bottom: var(--s-4);
+    }
+    .final-cta-mob p {
+      position: relative;
+      font-size: var(--text-body-sm);
+      color: rgba(255,255,255,0.8);
+      margin-bottom: var(--s-6);
+    }
+    .final-cta-mob .btn {
+      position: relative;
+      width: 100%; justify-content: center;
+      background: white; color: var(--brand-blue); border-color: white;
+    }
+
+    footer {
+      padding: var(--s-8) var(--s-4);
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-3);
+    }
+    .footer-tag {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      margin-bottom: var(--s-6);
+    }
+    .footer-links-mob {
+      display: flex; flex-wrap: wrap; gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    .footer-links-mob a {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+    }
+    .footer-endorsement-mob {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      padding-top: var(--s-4);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Bottom sticky CTA */
+    .sticky-cta {
+      position: sticky;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: var(--s-3) var(--s-4);
+      padding-bottom: calc(var(--s-3) + var(--mobile-safe-bottom));
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      z-index: 40;
+    }
+    .sticky-cta .btn { width: 100%; justify-content: center; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+    </defs>
+  </svg>
+
+  <nav class="mob-nav" aria-label="Primary">
+    <a href="landing-mobile.html" class="wordmark">AIKASA</a>
+    <div class="mob-nav-actions">
+      <a href="login-mobile.html" class="btn btn-secondary btn-sm">Sign in</a>
+      <button class="icon-btn" aria-label="Menu">
+        <svg width="22" height="22"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section class="hero">
+      <span class="hero-eyebrow">An Africon project</span>
+      <h1 class="hero-headline">AI that <span class="accent">works.</span> Built for African work.</h1>
+      <p class="hero-subhead">A guided AI implementation ecosystem. Move from AI confusion to AI confidence through practical learning, community and weekly application to your real work.</p>
+      <div class="hero-cta-row">
+        <a href="join-mobile.html" class="btn btn-lg btn-block">Become a Founding Member</a>
+        <a href="pricing-mobile.html" class="btn btn-secondary btn-block">View pricing</a>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-visual-grid"></div>
+        <div class="hero-visual-orb hero-visual-orb-1"></div>
+        <div class="hero-visual-orb hero-visual-orb-2"></div>
+        <div class="hero-watermark">AI</div>
+        <div class="hero-visual-card">
+          <div class="hero-visual-card-icon">
+            <svg width="18" height="18"><use href="#i-bolt"/></svg>
+          </div>
+          <div class="hero-visual-card-text">
+            <strong>Lesson 1 complete</strong>
+            <span>Save 4 hours this week</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-mobile">
+      <div class="trust-label-mob">Africon-anchored · since 2024</div>
+      <div class="trust-stats-mob">
+        <div>
+          <div class="trust-stat-num-mob">150+</div>
+          <div class="trust-stat-label-mob">Professionals trained</div>
+        </div>
+        <div>
+          <div class="trust-stat-num-mob">100%</div>
+          <div class="trust-stat-label-mob">Client satisfaction</div>
+        </div>
+        <div>
+          <div class="trust-stat-num-mob">1,000+</div>
+          <div class="trust-stat-label-mob">AI-interest contacts</div>
+        </div>
+        <div>
+          <div class="trust-stat-num-mob">5+</div>
+          <div class="trust-stat-label-mob">Facilitators</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="founding-banner-mob">
+      <span class="founding-banner-badge">Founding window open</span>
+      <h3>Prepay before launch. Founder pricing.</h3>
+      <p>From GHS 399. Access begins at official launch — August/September 2026.</p>
+      <a href="join-mobile.html" class="btn">Claim your seat</a>
+    </div>
+
+    <section class="section-mob">
+      <span class="section-eyebrow">The three launch pillars</span>
+      <h2 class="section-title">Three practical paths. One promise: AI that works.</h2>
+      <p class="section-lede">Every lesson sits in one of these. No marathon syllabus.</p>
+      <div class="pillar-list-mob">
+        <article class="pillar-mob">
+          <span class="pillar-num-mob">01 / Productivity</span>
+          <h3>AI for Productivity</h3>
+          <p>Save time, write, research, plan, summarise and communicate better. Let AI handle the work that drains your week.</p>
+          <div class="pillar-mob-target">For professionals</div>
+        </article>
+        <article class="pillar-mob">
+          <span class="pillar-num-mob">02 / Business</span>
+          <h3>AI for Business and Entrepreneurship</h3>
+          <p>Sales, marketing, customer service, proposals, operations and growth. Workflows for African SMEs.</p>
+          <div class="pillar-mob-target">For entrepreneurs and SMEs</div>
+        </article>
+        <article class="pillar-mob">
+          <span class="pillar-num-mob">03 / Navigation</span>
+          <h3>AI Navigation and Clarity</h3>
+          <p>Updates, tool guidance, what changed, why it matters. A continuous filter on a noisy field.</p>
+          <div class="pillar-mob-target">A continuous filter for everyone</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-mob">
+      <span class="section-eyebrow">How it works</span>
+      <h2 class="section-title">A weekly loop. Built to compound.</h2>
+      <p class="section-lede">No bootcamp drama. Just one loop, every week, that turns watching into doing.</p>
+      <div class="how-mob-list">
+        <div class="how-step-mob"><div class="how-step-mob-num">1</div><div><h4>Watch a short practical video</h4><p>Five to twelve minutes. Useful before it is over.</p></div></div>
+        <div class="how-step-mob"><div class="how-step-mob-num">2</div><div><h4>Download the prompt or template</h4><p>A real artefact you can paste, edit and run today.</p></div></div>
+        <div class="how-step-mob"><div class="how-step-mob-num">3</div><div><h4>Apply it to a real task</h4><p>Finish the lesson with one real document, plan or message.</p></div></div>
+        <div class="how-step-mob"><div class="how-step-mob-num">4</div><div><h4>Attend a live session</h4><p>Weekly facilitator-led troubleshooting and feedback.</p></div></div>
+        <div class="how-step-mob"><div class="how-step-mob-num">5</div><div><h4>Post in community</h4><p>Share a win, ask a question, flag a challenge.</p></div></div>
+        <div class="how-step-mob"><div class="how-step-mob-num">6</div><div><h4>Complete the weekly challenge</h4><p>One small structured exercise. Tracked and visible.</p></div></div>
+      </div>
+    </section>
+
+    <div class="credibility-mob">
+      <span class="section-eyebrow">Who is behind AIKASA</span>
+      <h2>Africon. Africa-first AI for nearly two years.</h2>
+      <p>AIKASA is built by Africon — Africa AI Consult — from the AI Training and Innovation Centre in Ghana. Africon has trained corporate teams across Ghana and run the Africa AI Club since 2024.</p>
+      <p>AIKASA is the natural next step: make what we do for companies accessible to individuals — month by month, with the community already in place.</p>
+      <div class="credibility-stats-mob">
+        <div class="cred-stat-mob">
+          <div class="cred-stat-num-mob">70</div>
+          <div class="cred-stat-label-mob">Adansi Travels staff trained</div>
+        </div>
+        <div class="cred-stat-mob">
+          <div class="cred-stat-num-mob">80</div>
+          <div class="cred-stat-label-mob">Multimedia Group trained</div>
+        </div>
+      </div>
+      <div class="credibility-signature">
+        <div class="credibility-signature-avatar">GA</div>
+        <div class="credibility-signature-text">
+          <strong>Gideon Asare</strong>
+          <span>Founder &amp; CEO, Africon</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-mob">
+      <span class="section-eyebrow">The 90-day journey</span>
+      <h2 class="section-title">From confusion to confidence in 90 days.</h2>
+      <p class="section-lede">Members run on this rhythm. Not a course you finish — a habit you build.</p>
+      <div class="journey-mob-list">
+        <div class="journey-mob">
+          <div class="journey-mob-marker">01</div>
+          <div>
+            <span class="journey-mob-day">Day 1–7</span>
+            <h4>Quick Win</h4>
+            <p>Set up your tools. Complete one real task better or faster than before.</p>
+          </div>
+        </div>
+        <div class="journey-mob">
+          <div class="journey-mob-marker">02</div>
+          <div>
+            <span class="journey-mob-day">Day 8–30</span>
+            <h4>Confidence</h4>
+            <p>Complete beginner modules, attend a live session, post in community.</p>
+          </div>
+        </div>
+        <div class="journey-mob">
+          <div class="journey-mob-marker">03</div>
+          <div>
+            <span class="journey-mob-day">Day 31–60</span>
+            <h4>Habit</h4>
+            <p>Use AI weekly or daily. Build one repeatable workflow for your role.</p>
+          </div>
+        </div>
+        <div class="journey-mob">
+          <div class="journey-mob-marker">04</div>
+          <div>
+            <span class="journey-mob-day">Day 61–90</span>
+            <h4>Transformation</h4>
+            <p>Complete one small productivity or business project. Document the value.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-mob">
+      <span class="section-eyebrow">Founding Member benefits</span>
+      <h2 class="section-title">Eight reasons to lock in before launch.</h2>
+      <p class="section-lede">Founding Members fund the build and shape the product.</p>
+      <div class="benefits-list-mob">
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Tier 2 / all-tier access</strong><span>AI Transformation tier for the full subscription term.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Founding Member 2026 digital badge</strong><span>Permanent mark on your profile, dashboard and community.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Launch discount pricing</strong><span>The lowest price we will ever offer for AIKASA.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Up to 25% discount on renewal</strong><span>Loyalty discount when the founding term ends.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Early access content</strong><span>One preview video and one prompt pack before official launch.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Periodic build updates by email</strong><span>See progress and decisions as they happen.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>Direct feedback channel</strong><span>Your feedback lands with the team that decides what we build next.</span></div>
+        </div>
+        <div class="benefit-mob">
+          <div class="benefit-check-mob"><svg><use href="#i-check"/></svg></div>
+          <div class="benefit-text-mob"><strong>One-time launch-day welcome</strong><span>The "the wait is over" moment when AIKASA goes live.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="final-cta-mob">
+      <h2>AI is happening. With or without your work.</h2>
+      <p>Join the Founding Cohort. Help us build the AI ecosystem African work actually needs.</p>
+      <a href="join-mobile.html" class="btn btn-lg">Become a Founding Member</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-wordmark">AIKASA</div>
+    <p class="footer-tag">AI that works. A guided AI implementation ecosystem for Africans.</p>
+    <div class="footer-links-mob">
+      <a href="pricing-mobile.html">Pricing</a>
+      <a href="join-mobile.html">Join</a>
+      <a href="login-mobile.html">Sign in</a>
+      <a href="mailto:hello@aikasa.ai">Contact</a>
+    </div>
+    <div class="footer-endorsement-mob">An Africon project &middot; &copy; 2026 Africa AI Consult</div>
+  </footer>
+
+  <div class="sticky-cta">
+    <a href="join-mobile.html" class="btn">Become a Founding Member</a>
+  </div>
+</body>
+</html>

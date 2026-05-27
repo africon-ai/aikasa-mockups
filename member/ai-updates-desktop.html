@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>AI Updates — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+
+    .page-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-6); flex-wrap: wrap;
+      margin-bottom: var(--s-8);
+    }
+    .page-head h1 {
+      font-size: var(--text-h2);
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--s-2);
+    }
+    .page-head .eyebrow {
+      display: inline-flex; align-items: center; gap: var(--s-3);
+      margin-bottom: var(--s-3);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .page-head .eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: var(--text-faint);
+    }
+    .page-head p {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+      max-width: 44rem;
+    }
+    .page-head-side { display: flex; align-items: center; gap: var(--s-3); }
+
+    /* Two-column layout */
+    .feed-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: var(--s-8);
+      align-items: start;
+    }
+    @media (max-width: 1200px) {
+      .feed-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Filters */
+    .filter-bar {
+      display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap;
+      margin-bottom: var(--s-6);
+      padding: var(--s-3);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .chip-row { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      padding: var(--s-2) var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: background var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass);
+      cursor: pointer;
+    }
+    .chip:hover { background: var(--bg-soft-2); color: var(--brand-blue); }
+    .chip.active {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .search-wrap {
+      margin-left: auto;
+      position: relative;
+      min-width: 240px;
+    }
+    .search-wrap .icon-search {
+      position: absolute; left: var(--s-3); top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: var(--s-2) var(--s-3) var(--s-2) var(--s-8);
+      min-height: 36px;
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+    }
+    .search-input:focus { outline: none; border-color: var(--brand-blue); box-shadow: 0 0 0 3px var(--brand-blue-100); }
+
+    /* Post cards */
+    .post-list { display: flex; flex-direction: column; gap: var(--s-5); }
+    .post {
+      padding: var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass), transform var(--t-smooth) var(--ease-glass);
+    }
+    .post:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow);
+      transform: translateY(-1px);
+    }
+    .post-meta {
+      display: flex; align-items: center; gap: var(--s-3);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-bottom: var(--s-3);
+    }
+    .post-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-faint); display: inline-block; }
+    .post-meta .date { color: var(--text-secondary); font-weight: 500; }
+    .post-meta .this-week {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      padding: 2px 8px;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .post-meta .this-week::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand-green);
+    }
+    .post-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: var(--s-3);
+    }
+    .post-title a { color: inherit; }
+    .post-title a:hover { color: var(--brand-blue); }
+    .post-author {
+      display: flex; align-items: center; gap: var(--s-2);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--s-4);
+    }
+    .post-author .avatar { width: 28px; height: 28px; font-size: 0.6875rem; }
+    .post-author .author-org { color: var(--text-muted); }
+    .post-teaser {
+      color: var(--text-secondary);
+      font-size: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: var(--s-4);
+    }
+    .post-teaser p + p { margin-top: var(--s-3); }
+    .post-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4); flex-wrap: wrap;
+      padding-top: var(--s-4);
+      border-top: 1px solid var(--border-soft);
+    }
+    .post-tags { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: 3px 10px;
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+    }
+    .tag-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .tag-amber { background: #fef3c7; color: #92400e; }
+    .tag-violet { background: #ede9fe; color: #5b21b6; }
+    .tag-slate { background: var(--bg-soft-2); color: var(--text-secondary); }
+    .post-link {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .post-link:hover { color: var(--brand-blue-hover); }
+    .read-time {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    /* Featured post */
+    .post-featured {
+      padding: 0;
+      overflow: hidden;
+      border-color: var(--brand-blue-100);
+      background:
+        linear-gradient(180deg, var(--brand-blue-50) 0%, white 220px);
+    }
+    .post-featured-head {
+      padding: var(--s-6) var(--s-6) 0;
+    }
+    .post-featured-banner {
+      position: relative;
+      margin: 0 var(--s-6) var(--s-6);
+      height: 140px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+      box-shadow: var(--shadow-blue);
+    }
+    .post-featured-banner .grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .post-featured-banner .orb {
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      filter: blur(48px);
+      opacity: 0.6;
+    }
+    .post-featured-banner .orb-1 {
+      background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%);
+      top: -60px; right: -40px;
+    }
+    .post-featured-banner .orb-2 {
+      background: radial-gradient(circle, var(--brand-blue-400) 0%, transparent 70%);
+      bottom: -80px; left: -20px;
+    }
+    .post-featured-banner-watermark {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: rgba(255,255,255,0.08);
+      letter-spacing: -0.03em;
+    }
+    .post-featured-banner-badge {
+      position: absolute;
+      top: var(--s-4); left: var(--s-4);
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .post-featured-body {
+      padding: 0 var(--s-6) var(--s-6);
+    }
+    .post-featured .post-title {
+      font-size: var(--text-h2);
+    }
+
+    /* Sidebar */
+    .feed-side { display: flex; flex-direction: column; gap: var(--s-5); position: sticky; top: var(--s-6); }
+    .side-card {
+      padding: var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .side-card h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .side-card p {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--s-4);
+    }
+    .pref-list { display: flex; flex-direction: column; gap: var(--s-3); margin-bottom: var(--s-4); }
+    .pref-row {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      padding: var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+    }
+    .checkbox {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      border: 2px solid var(--border-strong);
+      border-radius: 4px;
+      background: white;
+      margin-top: 2px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background var(--t-instant) var(--ease-glass), border-color var(--t-instant) var(--ease-glass);
+    }
+    .checkbox.checked {
+      background: var(--brand-blue);
+      border-color: var(--brand-blue);
+      color: white;
+    }
+    .checkbox .icon { width: 12px; height: 12px; }
+    .pref-text {
+      display: flex; flex-direction: column; gap: 2px;
+      font-size: var(--text-body-sm);
+      flex: 1;
+    }
+    .pref-text strong { font-weight: 600; color: var(--text-primary); }
+    .pref-text span { color: var(--text-muted); font-size: var(--text-caption); }
+    .pref-note {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      text-align: center;
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--border-soft);
+    }
+
+    /* Pillars side card */
+    .pillar-list { display: flex; flex-direction: column; gap: var(--s-2); }
+    .pillar-row {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-2) var(--s-3);
+      border-radius: var(--radius);
+      transition: background var(--t-instant) var(--ease-glass);
+    }
+    .pillar-row:hover { background: var(--bg-soft); }
+    .pillar-icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .pillar-icon .icon { width: 16px; height: 16px; }
+    .pillar-icon-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .pillar-text {
+      font-size: var(--text-body-sm);
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .pillar-count { color: var(--text-muted); font-size: var(--text-caption); margin-left: auto; }
+
+    /* Load more */
+    .load-more-wrap { display: flex; justify-content: center; margin-top: var(--s-8); }
+
+    .nav-item-icon { width: 20px; height: 20px; }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="app-shell">
+    <!-- Desktop sidebar -->
+    <aside class="sidebar" aria-label="Member navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <div class="wordmark">AIKASA</div>
+          <div class="endorsement">An Africon project</div>
+        </div>
+        <nav aria-label="Primary">
+          <a href="dashboard-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-home"/></svg>
+            Dashboard
+          </a>
+          <a href="lesson-library-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-book"/></svg>
+            Lessons
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-video"/></svg>
+            Live Sessions
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-target"/></svg>
+            Challenges
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-tools"/></svg>
+            Toolbox
+          </a>
+          <a href="ai-updates-desktop.html" class="nav-item active" aria-current="page">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-newspaper"/></svg>
+            AI Updates
+          </a>
+          <a href="community-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-users"/></svg>
+            Community
+          </a>
+          <a href="profile-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-user"/></svg>
+            Profile
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-logout"/></svg>
+            Sign out
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main id="main" class="member-content" role="main">
+      <!-- Page head -->
+      <section class="page-head">
+        <div>
+          <div class="eyebrow">Published every Monday · Curated by the Africon team</div>
+          <h1>AI Updates</h1>
+          <p>What changed this week. What it means. What to do.</p>
+        </div>
+        <div class="page-head-side">
+          <span class="founding-badge">Founding Member 2026</span>
+          <button class="btn btn-icon btn-secondary" aria-label="Notifications">
+            <svg class="icon" style="width:20px;height:20px" aria-hidden="true"><use href="#i-bell"/></svg>
+          </button>
+          <div class="avatar avatar-lg" aria-label="Yaa Mensah" style="width:44px;height:44px;font-size:1rem">YM</div>
+        </div>
+      </section>
+
+      <div class="feed-layout">
+        <!-- Feed column -->
+        <div>
+          <!-- Filters -->
+          <div class="filter-bar" role="region" aria-label="Filter posts">
+            <div class="chip-row">
+              <button class="chip active">All</button>
+              <button class="chip">This week</button>
+              <button class="chip">Tool changes</button>
+              <button class="chip">New tools</button>
+              <button class="chip">Workflow tips</button>
+              <button class="chip">Africa-specific</button>
+            </div>
+            <div class="search-wrap">
+              <svg class="icon icon-search" aria-hidden="true"><use href="#i-search"/></svg>
+              <input class="search-input" type="search" placeholder="Search updates..." aria-label="Search updates">
+            </div>
+          </div>
+
+          <!-- Post list -->
+          <div class="post-list">
+            <!-- Featured post -->
+            <article class="post post-featured">
+              <div class="post-featured-head">
+                <div class="post-meta">
+                  <span class="date">20 May 2026</span>
+                  <span class="dot" aria-hidden="true"></span>
+                  <span class="this-week">This week</span>
+                </div>
+                <h2 class="post-title"><a href="#">ChatGPT now opens files directly — what changes for your daily workflow</a></h2>
+                <div class="post-author">
+                  <div class="avatar" aria-hidden="true">KA</div>
+                  <span><strong>Kojo Asante</strong> <span class="author-org">· Africon</span></span>
+                </div>
+              </div>
+              <div class="post-featured-banner" aria-hidden="true">
+                <div class="grid"></div>
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <span class="post-featured-banner-watermark">Tool change · Week 21</span>
+                <span class="post-featured-banner-badge">Featured update</span>
+              </div>
+              <div class="post-featured-body">
+                <div class="post-teaser">
+                  <p>OpenAI rolled out direct file handling inside ChatGPT this week. You can now drop a PDF, spreadsheet, or image and have it open inline — without uploading first.</p>
+                  <p>For most members, this collapses two steps into one. Below: what's new, what to try Monday, and the one thing to watch.</p>
+                </div>
+                <div class="post-foot">
+                  <div class="post-tags">
+                    <span class="tag">AI for Productivity</span>
+                    <span class="tag tag-amber">Tool change</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:var(--s-4)">
+                    <span class="read-time">4 min read</span>
+                    <a href="#" class="post-link">
+                      Read more
+                      <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 2 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">13 May 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 20</span>
+              </div>
+              <h2 class="post-title"><a href="#">Gemini in Docs: a real change for Google Workspace teams</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">AB</div>
+                <span><strong>Adwoa Boateng</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">Google quietly turned Gemini into the default sidebar assistant in Docs and Sheets for paid Workspace tiers. If your team runs on Workspace, this changes how a draft becomes a finished doc — and what the human still owns.</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag">AI for Productivity</span>
+                  <span class="tag tag-amber">Tool change</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">3 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 3 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">6 May 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 19</span>
+              </div>
+              <h2 class="post-title"><a href="#">Why your prompts work better when you give the AI a deadline</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">GA</div>
+                <span><strong>Gideon Asare</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">Counter-intuitive but consistent: when you write "answer in under 90 seconds" or "5 bullets max" in your prompt, output quality usually rises. Here's what's happening, and three deadlines to test in your prompts this week.</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag tag-violet">Workflow tips</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">5 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 4 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">29 April 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 18</span>
+              </div>
+              <h2 class="post-title"><a href="#">Three free AI tools that work well in low-bandwidth conditions</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">AM</div>
+                <span><strong>Albert Mensah</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">Most AI demos assume fibre. We sat in Tamale, Kumasi and Accra with a 4G phone tethered to a laptop and stress-tested the popular tools. Three held up. Two didn't. Here's what to keep on a slow day.</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag tag-green">Africa-specific</span>
+                  <span class="tag tag-amber">New tools</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">6 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 5 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">22 April 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 17</span>
+              </div>
+              <h2 class="post-title"><a href="#">Perplexity vs NotebookLM: which to use for which kind of research</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">KA</div>
+                <span><strong>Kojo Asante</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">Both call themselves research assistants. They are not the same product. A side-by-side on three real Africon member queries — proposal research, market sizing, and competitor scan — to help you pick the right tool the first time.</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag">AI for Productivity</span>
+                  <span class="tag tag-slate">Tool guidance</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">7 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 6 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">15 April 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 16</span>
+              </div>
+              <h2 class="post-title"><a href="#">What changed in AI this week (week 16): a roundup</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">AB</div>
+                <span><strong>Adwoa Boateng</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">A short scan of the noise so you don't have to. Five things mattered: Claude's new project memory, Anthropic's pricing simplification, Microsoft Copilot in Excel, two new free vector image tools, and a quiet ChatGPT mobile change.</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag tag-slate">This week</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">4 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post 7 -->
+            <article class="post">
+              <div class="post-meta">
+                <span class="date">8 April 2026</span>
+                <span class="dot" aria-hidden="true"></span>
+                <span>Week 15</span>
+              </div>
+              <h2 class="post-title"><a href="#">How to read AI release notes without losing your day</a></h2>
+              <div class="post-author">
+                <div class="avatar" aria-hidden="true">GA</div>
+                <span><strong>Gideon Asare</strong> <span class="author-org">· Africon</span></span>
+              </div>
+              <p class="post-teaser">Every week, ten tools ship updates. You don't need to read them all. We share the 4-question scan we use to triage a release note in under a minute — "does this affect my workflow today?" "Do I need to relearn anything?" "Is it free?" "Is it stable?"</p>
+              <div class="post-foot">
+                <div class="post-tags">
+                  <span class="tag tag-violet">Workflow tips</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-4)">
+                  <span class="read-time">3 min read</span>
+                  <a href="#" class="post-link">
+                    Read more
+                    <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="load-more-wrap">
+            <button class="btn btn-secondary">Load more updates</button>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="feed-side" aria-label="Subscription preferences and pillars">
+          <div class="side-card">
+            <h3>Get it in your inbox</h3>
+            <p>Choose how you want the weekly update delivered. Already enabled for founding members.</p>
+            <div class="pref-list">
+              <label class="pref-row" style="cursor:pointer">
+                <span class="checkbox checked" aria-hidden="true">
+                  <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+                </span>
+                <span class="pref-text">
+                  <strong>Email me the weekly update</strong>
+                  <span>Mondays, around 8:00 AM GMT</span>
+                </span>
+              </label>
+              <label class="pref-row" style="cursor:pointer">
+                <span class="checkbox" aria-hidden="true"></span>
+                <span class="pref-text">
+                  <strong>WhatsApp summary</strong>
+                  <span>3-line digest with the headline link</span>
+                </span>
+              </label>
+            </div>
+            <p class="pref-note">Already enabled for founding members.</p>
+          </div>
+
+          <div class="side-card">
+            <h3>Browse by pillar</h3>
+            <p style="margin-bottom:var(--s-3)">Updates are tagged by AIKASA's three pillars.</p>
+            <div class="pillar-list">
+              <a href="#" class="pillar-row">
+                <span class="pillar-icon"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg></span>
+                <span class="pillar-text">AI for Productivity</span>
+                <span class="pillar-count">18</span>
+              </a>
+              <a href="#" class="pillar-row">
+                <span class="pillar-icon pillar-icon-green"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg></span>
+                <span class="pillar-text">AI for Business and Entrepreneurship</span>
+                <span class="pillar-count">14</span>
+              </a>
+              <a href="#" class="pillar-row">
+                <span class="pillar-icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></span>
+                <span class="pillar-text">AI Navigation and Clarity</span>
+                <span class="pillar-count">21</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="side-card" style="background:var(--brand-blue-50);border-color:var(--brand-blue-100)">
+            <h3 style="color:var(--brand-blue)">Why this exists</h3>
+            <p style="color:var(--text-secondary);margin-bottom:0">
+              AI changes weekly. Most people give up trying to keep up. The Africon team reads the noise, picks what matters for African professionals, and writes one update on Monday — so you don't have to.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

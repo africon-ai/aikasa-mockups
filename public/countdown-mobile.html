@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Almost there — AIKASA Founding Member</title>
+  <meta name="description" content="AIKASA is in build. As a Founding Member, you're one of the first inside. Target launch: August / September 2026.">
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* ============================================================
+       Countdown — mobile — DARK theme
+       Same emotional treatment as desktop, stacked.
+       ============================================================ */
+
+    :root {
+      --bg: #020617;
+      --bg-soft: #0F172A;
+      --bg-soft-2: #1E293B;
+      --text-primary: #F8FAFC;
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+      --text-faint: #64748B;
+      --border: #1E293B;
+      --border-soft: #0F172A;
+      --border-strong: #334155;
+      --glass-bg: rgba(15, 23, 42, 0.75);
+      --glass-border: rgba(51, 65, 85, 0.6);
+      --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 120% 40% at 50% -5%, rgba(0, 51, 102, 0.4), transparent),
+        radial-gradient(ellipse 120% 40% at 50% 105%, rgba(0, 51, 102, 0.3), transparent),
+        radial-gradient(ellipse 80% 30% at 50% 50%, rgba(46, 204, 113, 0.04), transparent);
+      background-attachment: fixed;
+      color: var(--text-primary);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+      animation: grid-breathe 12s ease-in-out infinite;
+    }
+    @keyframes grid-breathe {
+      0%, 100% { opacity: 0.5; }
+      50%      { opacity: 0.9; }
+    }
+
+    .wordmark { color: white; }
+    .skip-link { background: var(--brand-blue-400); }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* Top bar */
+    .top-bar {
+      padding: var(--s-4) var(--s-5);
+      padding-top: max(var(--s-4), env(safe-area-inset-top, 0px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-3);
+    }
+    .top-bar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .top-bar-left .wordmark { font-size: 1.125rem; }
+    .endorsement {
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .top-bar-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-2);
+      padding: 4px var(--s-2);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .status-pulse {
+      width: 6px; height: 6px;
+      background: var(--brand-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.6);
+      animation: status-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes status-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.6); }
+      50%      { box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
+    }
+
+    main {
+      flex: 1;
+      padding: var(--s-4) var(--s-5) var(--s-10);
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: var(--s-6) 0 var(--s-8);
+    }
+    .hero-badge { margin-bottom: var(--s-4); }
+    .founding-badge {
+      background: rgba(46, 204, 113, 0.10);
+      border-color: rgba(46, 204, 113, 0.35);
+      color: var(--brand-green);
+    }
+    .hero-eyebrow {
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-4);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-2);
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: "";
+      width: 1.5rem;
+      height: 1px;
+      background: var(--text-faint);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: white;
+      margin-bottom: var(--s-3);
+    }
+    .hero-headline .accent {
+      color: var(--brand-green);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-sub {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 24rem;
+      margin: 0 auto;
+    }
+
+    /* COUNTDOWN — 2x2 on mobile */
+    .countdown-wrap { margin-bottom: var(--s-6); }
+    .countdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-3);
+    }
+    .digit-card {
+      position: relative;
+      padding: var(--s-6) var(--s-4);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.65) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(51, 65, 85, 0.55);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      animation: card-pulse 4s ease-in-out infinite;
+    }
+    .digit-card:nth-child(2) { animation-delay: 0.5s; }
+    .digit-card:nth-child(3) { animation-delay: 1s; }
+    .digit-card:nth-child(4) { animation-delay: 1.5s; }
+    @keyframes card-pulse {
+      0%, 100% {
+        border-color: rgba(51, 65, 85, 0.55);
+        box-shadow:
+          0 4px 16px rgba(0, 0, 0, 0.4),
+          0 0 0 0 rgba(0, 51, 102, 0),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+      50% {
+        border-color: rgba(51, 133, 255, 0.45);
+        box-shadow:
+          0 4px 16px rgba(0, 0, 0, 0.4),
+          0 0 0 4px rgba(51, 133, 255, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+    }
+    .digit-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%; transform: translate(-50%, -60%);
+      width: 160px; height: 80px;
+      background: radial-gradient(ellipse, rgba(51, 133, 255, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .digit-value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 3.5rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: white;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: var(--s-2);
+      position: relative;
+      background: linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .digit-label {
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      position: relative;
+    }
+
+    .launch-target {
+      text-align: center;
+      padding: var(--s-2) var(--s-2) var(--s-10);
+    }
+    .launch-target-label {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 600;
+      color: white;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+      line-height: 1.35;
+    }
+    .launch-target-label .target-accent {
+      color: var(--brand-green);
+      display: block;
+      font-weight: 600;
+    }
+    .launch-target-detail {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    /* BETWEEN NOW AND LAUNCH — stacked */
+    .between { margin-bottom: var(--s-12); }
+    .section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-2);
+      text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: var(--s-2);
+    }
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: ""; width: 1.5rem; height: 1px; background: var(--border-strong);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.625rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      text-align: center;
+      margin-bottom: var(--s-6);
+      line-height: 1.2;
+    }
+    .between-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-3);
+    }
+    .between-card {
+      padding: var(--s-4);
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.4);
+      border-radius: var(--radius-lg);
+      display: flex; align-items: flex-start;
+      gap: var(--s-4);
+    }
+    .between-card.is-done {
+      background: rgba(46, 204, 113, 0.06);
+      border-color: rgba(46, 204, 113, 0.25);
+    }
+    .between-card.is-active {
+      background: rgba(51, 133, 255, 0.08);
+      border-color: rgba(51, 133, 255, 0.35);
+    }
+    .between-icon {
+      width: 42px; height: 42px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.55);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .between-icon svg { width: 20px; height: 20px; }
+    .between-card.is-done .between-icon {
+      background: rgba(46, 204, 113, 0.15);
+      border-color: rgba(46, 204, 113, 0.4);
+      color: var(--brand-green);
+    }
+    .between-card.is-active .between-icon {
+      background: rgba(51, 133, 255, 0.15);
+      border-color: rgba(51, 133, 255, 0.4);
+      color: var(--brand-blue-400);
+    }
+    .between-card-text { flex: 1; min-width: 0; }
+    .between-card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-2);
+      margin-bottom: var(--s-1);
+    }
+    .between-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: -0.005em;
+      line-height: 1.3;
+    }
+    .between-card p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .between-tag {
+      font-family: var(--font-caption);
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px var(--s-2);
+      border-radius: var(--radius-pill);
+      background: rgba(100, 116, 139, 0.15);
+      color: var(--text-muted);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .between-tag.tag-done {
+      background: rgba(46, 204, 113, 0.12);
+      color: var(--brand-green);
+      border-color: rgba(46, 204, 113, 0.3);
+    }
+    .between-tag.tag-active {
+      background: rgba(51, 133, 255, 0.12);
+      color: var(--brand-blue-400);
+      border-color: rgba(51, 133, 255, 0.3);
+    }
+
+    /* WHAT WE'RE BUILDING */
+    .building { text-align: center; }
+    .pillar-chips {
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .pillar-chip {
+      padding: var(--s-3) var(--s-4);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.5) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.45);
+      border-radius: var(--radius);
+      display: flex; align-items: center; gap: var(--s-3);
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .pillar-chip-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--brand-blue-400);
+      letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    .countdown-footer {
+      padding: var(--s-6) var(--s-5);
+      padding-bottom: calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .countdown-footer a {
+      color: var(--text-secondary);
+    }
+
+    /* Floating glow accents */
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 {
+      top: 10%; left: -30%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0, 51, 102, 0.5) 0%, transparent 70%);
+      animation: glow-drift 14s ease-in-out infinite;
+    }
+    .glow-2 {
+      top: 50%; right: -40%;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.08) 0%, transparent 70%);
+      animation: glow-drift 18s ease-in-out infinite reverse;
+    }
+    @keyframes glow-drift {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+      50%      { transform: translate(20px, -20px) scale(1.05); opacity: 0.7; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before, .digit-card, .status-pulse, .glow-1, .glow-2 {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="glow glow-1" aria-hidden="true"></div>
+  <div class="glow glow-2" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="top-bar" aria-label="Header">
+      <div class="top-bar-left">
+        <a href="dashboard-mobile.html" class="wordmark">AIKASA</a>
+        <span class="endorsement">An Africon project</span>
+      </div>
+      <span class="top-bar-status">
+        <span class="status-pulse" aria-hidden="true"></span>
+        Building
+      </span>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-badge">
+          <span class="founding-badge">Founding Member 2026</span>
+        </div>
+        <p class="hero-eyebrow">Building in public</p>
+        <h1 class="hero-headline">Almost there, <span class="accent">Yaa.</span></h1>
+        <p class="hero-sub">We're putting the finishing touches on AIKASA. You'll be one of the first inside.</p>
+      </section>
+
+      <!-- COUNTDOWN — 2x2 -->
+      <section class="countdown-wrap" aria-label="Time until launch">
+        <div class="countdown" role="timer" aria-live="off">
+          <div class="digit-card">
+            <div class="digit-value">84</div>
+            <div class="digit-label">Days</div>
+          </div>
+          <div class="digit-card">
+            <div class="digit-value">12</div>
+            <div class="digit-label">Hours</div>
+          </div>
+          <div class="digit-card">
+            <div class="digit-value">35</div>
+            <div class="digit-label">Minutes</div>
+          </div>
+          <div class="digit-card">
+            <div class="digit-value">22</div>
+            <div class="digit-label">Seconds</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="launch-target">
+        <div class="launch-target-label">
+          Target launch
+          <span class="target-accent">August / September 2026</span>
+        </div>
+        <div class="launch-target-detail">Final date confirmed when our GO / NO-GO gates close in July.</div>
+      </div>
+
+      <!-- BETWEEN NOW AND LAUNCH -->
+      <section class="between" aria-labelledby="between-title">
+        <p class="section-eyebrow">Between now and launch</p>
+        <h2 id="between-title" class="section-title">No silence. Just the build.</h2>
+
+        <div class="between-grid">
+          <article class="between-card is-done">
+            <div class="between-icon"><svg><use href="#i-check"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>Welcome confirmation</h4>
+                <span class="between-tag tag-done">Done</span>
+              </div>
+              <p>Email and WhatsApp confirmation landed in your inbox.</p>
+            </div>
+          </article>
+
+          <article class="between-card is-done">
+            <div class="between-icon"><svg><use href="#i-trophy"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>Founding Member 2026 badge</h4>
+                <span class="between-tag tag-done">Done</span>
+              </div>
+              <p>Unlocked on your profile and dashboard.</p>
+            </div>
+          </article>
+
+          <article class="between-card is-active">
+            <div class="between-icon"><svg><use href="#i-bell"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>Monthly build updates</h4>
+                <span class="between-tag tag-active">In progress</span>
+              </div>
+              <p>Periodic notes on what shipped, what's next, what changed.</p>
+            </div>
+          </article>
+
+          <article class="between-card">
+            <div class="between-icon"><svg><use href="#i-video"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>One preview video</h4>
+                <span class="between-tag">Coming in July</span>
+              </div>
+              <p>A first look at a working pillar lesson, well before launch.</p>
+            </div>
+          </article>
+
+          <article class="between-card">
+            <div class="between-icon"><svg><use href="#i-download"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>One downloadable prompt pack</h4>
+                <span class="between-tag">Coming in July</span>
+              </div>
+              <p>Start using AIKASA prompts at work the day you receive them.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- WHAT WE'RE BUILDING -->
+      <section class="building" aria-labelledby="building-title">
+        <p class="section-eyebrow">What we're building</p>
+        <h2 id="building-title" class="section-title">Three pillars. One promise.</h2>
+
+        <div class="pillar-chips">
+          <span class="pillar-chip">
+            <span class="pillar-chip-num">01</span>
+            AI for Productivity
+          </span>
+          <span class="pillar-chip">
+            <span class="pillar-chip-num">02</span>
+            AI for Business and Entrepreneurship
+          </span>
+          <span class="pillar-chip">
+            <span class="pillar-chip-num">03</span>
+            AI Navigation and Clarity
+          </span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="countdown-footer">
+      Questions? <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a><br>
+      An Africon project &middot; aikasa.ai
+    </footer>
+  </div>
+</body>
+</html>

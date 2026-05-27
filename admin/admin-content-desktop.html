@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Content — AIKASA Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* Admin shell — denser sidebar (§10.4) */
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+    .nav-item-icon { width: 18px; height: 18px; }
+
+    @media (min-width: 1024px) {
+      .sidebar { width: 224px; padding: var(--s-4); }
+      .sidebar-inner {
+        background: white;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-radius: var(--radius);
+        padding: var(--s-4);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
+      }
+      .sidebar-brand { padding: 0 var(--s-2) var(--s-4); margin-bottom: var(--s-3); }
+      .sidebar-brand .wordmark { font-size: 1.125rem; display: inline-flex; align-items: baseline; }
+      .nav-item { padding: var(--s-2) var(--s-3); font-size: var(--text-body-sm); }
+      .admin-badge {
+        display: inline-block;
+        background: var(--bg-soft-2);
+        color: var(--brand-blue);
+        font-family: var(--font-caption);
+        font-size: var(--text-micro);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        margin-left: var(--s-2);
+        vertical-align: middle;
+        font-weight: 600;
+      }
+      .app-shell { grid-template-columns: 224px 1fr; }
+    }
+
+    .admin-content {
+      padding: var(--s-6) var(--s-8) var(--s-12);
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Page header */
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-6); flex-wrap: wrap;
+      margin-bottom: var(--s-6);
+    }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      line-height: 1.1;
+    }
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      margin-top: var(--s-2);
+      max-width: 64ch;
+      line-height: 1.55;
+    }
+
+    /* Toast */
+    .toast {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      background: var(--brand-green-100);
+      border: 1px solid var(--brand-green-200);
+      color: var(--brand-green-700);
+      padding: var(--s-3) var(--s-4);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-6);
+      font-size: var(--text-body-sm);
+    }
+    .toast-icon {
+      width: 24px; height: 24px;
+      background: var(--brand-green);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .toast-icon .icon { width: 14px; height: 14px; }
+    .toast-body { flex: 1; line-height: 1.5; }
+    .toast-body strong { font-weight: 600; }
+    .toast-close {
+      width: 24px; height: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--brand-green-700);
+    }
+    .toast-close .icon { width: 14px; height: 14px; }
+
+    /* Quick stats */
+    .quick-stats {
+      display: flex; gap: var(--s-6);
+      padding: var(--s-4) var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-4);
+      flex-wrap: wrap;
+    }
+    .quick-stat {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .quick-stat-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .quick-stat-value {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .quick-stat-value .num-soft {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .quick-stat-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--s-4);
+      gap: var(--s-1);
+    }
+    .tab {
+      padding: var(--s-3) var(--s-4);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      font-weight: 500;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      cursor: pointer;
+      transition: color var(--t-instant) var(--ease-glass), border-color var(--t-instant) var(--ease-glass);
+      display: inline-flex; align-items: center; gap: var(--s-2);
+    }
+    .tab:hover { color: var(--brand-blue); }
+    .tab.active {
+      color: var(--brand-blue);
+      border-bottom-color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .tab-count {
+      background: var(--bg-soft-2);
+      color: var(--text-secondary);
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      font-weight: 600;
+    }
+    .tab.active .tab-count {
+      background: var(--brand-blue-100);
+      color: var(--brand-blue);
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3) var(--s-4);
+      margin-bottom: var(--s-4);
+      display: flex; align-items: center; gap: var(--s-3);
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 240px;
+      position: relative;
+    }
+    .search-wrap .icon-prefix {
+      position: absolute; left: var(--s-3); top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 16px;
+      color: var(--text-muted);
+    }
+    .search-wrap .input {
+      padding-left: calc(var(--s-3) + 16px + var(--s-2));
+      min-height: 38px;
+      font-size: var(--text-body-sm);
+    }
+    .filter-select {
+      padding: 0 var(--s-3);
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      min-height: 38px;
+    }
+
+    /* Draft callout banner */
+    .draft-callout {
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      padding: var(--s-3) var(--s-4);
+      margin-bottom: var(--s-4);
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      font-size: var(--text-body-sm);
+      color: var(--brand-blue);
+    }
+    .draft-callout-icon {
+      width: 24px; height: 24px;
+      flex-shrink: 0;
+      background: var(--brand-blue-100);
+      color: var(--brand-blue);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .draft-callout-icon .icon { width: 14px; height: 14px; }
+    .draft-callout-body { flex: 1; line-height: 1.5; }
+    .draft-callout code {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      padding: 1px 6px;
+      background: white;
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius-sm);
+      color: var(--brand-blue);
+    }
+
+    /* Table */
+    .table-wrap {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table thead th {
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      padding: var(--s-3) var(--s-4);
+      text-align: left;
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .table thead th.center { text-align: center; }
+    .table thead th.right { text-align: right; }
+    .table tbody td {
+      padding: var(--s-3) var(--s-4);
+      border-bottom: 1px solid var(--border-soft);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    .table tbody tr:last-child td { border-bottom: none; }
+    .table tbody tr:hover { background: var(--bg-soft); }
+
+    .lesson-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .lesson-meta-source {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pillar-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .pillar-tag::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .pillar-productivity { background: var(--brand-blue-50); color: var(--brand-blue); }
+    .pillar-productivity::before { background: var(--brand-blue); }
+    .pillar-business { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .pillar-business::before { background: var(--brand-green); }
+    .pillar-navigation { background: #fce7f3; color: #9d174d; }
+    .pillar-navigation::before { background: #ec4899; }
+
+    .tier-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .tier-all { background: var(--bg-soft-2); color: var(--text-secondary); border: 1px solid var(--border); }
+    .tier-2 { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+
+    /* Status switch */
+    .switch {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+    }
+    .switch-track {
+      width: 36px; height: 20px;
+      background: var(--bg-soft-3);
+      border-radius: 999px;
+      position: relative;
+      transition: background var(--t-instant) var(--ease-glass);
+      flex-shrink: 0;
+    }
+    .switch-track::before {
+      content: "";
+      position: absolute;
+      left: 2px; top: 2px;
+      width: 16px; height: 16px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--t-instant) var(--ease-glass);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .switch.on .switch-track { background: var(--brand-green); }
+    .switch.on .switch-track::before { transform: translateX(16px); }
+    .switch-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .switch.on .switch-label { color: var(--brand-green-700); }
+    .switch:not(.on) .switch-label { color: var(--text-muted); }
+
+    /* Status pills */
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .status-pill::before {
+      content: "";
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .status-published { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .status-published::before { background: var(--brand-green); }
+    .status-draft { background: var(--bg-soft-2); color: var(--text-secondary); }
+    .status-draft::before { background: var(--text-faint); }
+    .status-unlisted { background: #fef3c7; color: #92400e; }
+    .status-unlisted::before { background: var(--color-warning); }
+
+    .action-link {
+      color: var(--brand-blue);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .action-link:hover { text-decoration: underline; }
+    .action-cell { display: flex; gap: var(--s-3); align-items: center; }
+
+    .row-menu {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+    }
+    .row-menu:hover { background: var(--bg-soft-2); color: var(--brand-blue); }
+
+    .meta-secondary {
+      color: var(--text-muted);
+      font-size: var(--text-caption);
+    }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"/><path d="M6 18 18 6"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><path d="M12 8h0"/></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="app-shell">
+    <!-- Admin sidebar -->
+    <aside class="sidebar" aria-label="Admin navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <div class="wordmark">AIKASA <span class="admin-badge">Admin</span></div>
+        </div>
+        <nav aria-label="Primary">
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-home"/></svg>
+            Overview
+          </a>
+          <a href="admin-members-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-users"/></svg>
+            Members
+          </a>
+          <a href="admin-content-desktop.html" class="nav-item active" aria-current="page">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-book"/></svg>
+            Content
+          </a>
+          <a href="admin-analytics-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-chart"/></svg>
+            Analytics
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div style="padding: var(--s-3); display: flex; align-items: center; gap: var(--s-3); border-radius: var(--radius-sm); background: var(--bg-soft);">
+            <div class="avatar" style="width:32px;height:32px;font-size:0.75rem;background:var(--brand-blue);color:white;">AM</div>
+            <div style="min-width: 0; flex: 1;">
+              <div style="font-size: var(--text-caption); font-weight: 600; color: var(--text-primary); line-height: 1.2;">Albert Mensah</div>
+              <div style="font-size: var(--text-micro); color: var(--text-muted); font-family: var(--font-caption); text-transform: uppercase; letter-spacing: 0.06em;">Admin</div>
+            </div>
+          </div>
+          <a href="#" class="nav-item" style="margin-top: var(--s-2);">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-logout"/></svg>
+            Sign out
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main" role="main">
+      <div class="admin-content">
+
+        <!-- Toast -->
+        <div class="toast" role="status">
+          <span class="toast-icon" aria-hidden="true">
+            <svg class="icon"><use href="#i-check"/></svg>
+          </span>
+          <div class="toast-body">
+            <strong>Lesson "How to set up ChatGPT for daily work" published.</strong>
+            Visible to all tiers. Indexed by search.
+          </div>
+          <button class="toast-close" aria-label="Dismiss">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+          </button>
+        </div>
+
+        <!-- Page header -->
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">Content</h1>
+            <p class="page-subtitle">Publish state for lessons, modules, resources, and live sessions. Content is authored from seed files; this console only toggles visibility.</p>
+          </div>
+        </header>
+
+        <!-- Quick stats -->
+        <section class="quick-stats" aria-label="Content overview">
+          <div class="quick-stat">
+            <span class="quick-stat-label">Lessons</span>
+            <span class="quick-stat-value">67 <span class="num-soft">published</span> · 12 <span class="num-soft">draft</span> · 4 <span class="num-soft">unlisted</span></span>
+          </div>
+          <div class="quick-stat-divider" aria-hidden="true"></div>
+          <div class="quick-stat">
+            <span class="quick-stat-label">Resources</span>
+            <span class="quick-stat-value">41</span>
+          </div>
+          <div class="quick-stat-divider" aria-hidden="true"></div>
+          <div class="quick-stat">
+            <span class="quick-stat-label">Live sessions</span>
+            <span class="quick-stat-value">24 <span class="num-soft">total</span> · 4 <span class="num-soft">upcoming</span></span>
+          </div>
+        </section>
+
+        <!-- Tabs -->
+        <div class="tabs" role="tablist" aria-label="Content type">
+          <button class="tab active" role="tab" aria-selected="true">
+            <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-book"/></svg>
+            Lessons <span class="tab-count">83</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false">
+            <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-folder"/></svg>
+            Modules <span class="tab-count">18</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false">
+            <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-newspaper"/></svg>
+            Resources <span class="tab-count">41</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false">
+            <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-video"/></svg>
+            Live sessions <span class="tab-count">24</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false">
+            <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-newspaper"/></svg>
+            AI Updates <span class="tab-count">31</span>
+          </button>
+        </div>
+
+        <!-- Draft callout -->
+        <div class="draft-callout" role="status">
+          <div class="draft-callout-icon" aria-hidden="true">
+            <svg class="icon"><use href="#i-info"/></svg>
+          </div>
+          <div class="draft-callout-body">
+            <strong>12 lessons in Draft.</strong> Seed file pattern: <code>content/lessons/&lt;pillar&gt;-&lt;module&gt;-&lt;lesson&gt;.yml</code>. Run <code>pnpm seed:apply</code> to sync.
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <section class="filter-bar" aria-label="Filter lessons">
+          <div class="search-wrap">
+            <svg class="icon icon-prefix" aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" class="input" placeholder="Search by title or source file" aria-label="Search lessons">
+          </div>
+          <select class="filter-select" aria-label="Pillar filter">
+            <option>All pillars</option>
+            <option>AI for Productivity</option>
+            <option>AI for Business and Entrepreneurship</option>
+            <option>AI Navigation and Clarity</option>
+          </select>
+          <select class="filter-select" aria-label="Status filter">
+            <option>All statuses</option>
+            <option>Published</option>
+            <option>Draft</option>
+            <option>Unlisted</option>
+          </select>
+          <select class="filter-select" aria-label="Tier filter">
+            <option>All tiers</option>
+            <option>All-tier only</option>
+            <option>Tier 2 only</option>
+          </select>
+        </section>
+
+        <!-- Lessons table -->
+        <section class="table-wrap" aria-label="Lessons table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" style="min-width: 260px;">Lesson title</th>
+                <th scope="col">Pillar</th>
+                <th scope="col">Module</th>
+                <th scope="col">Tier</th>
+                <th scope="col">Status</th>
+                <th scope="col">Last updated</th>
+                <th scope="col" class="center">Published</th>
+                <th scope="col" class="right" style="width: 140px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="lesson-title">How to set up ChatGPT for daily work</div>
+                  <div class="lesson-meta-source">lessons/p1-m1-l1.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-productivity">Productivity</span></td>
+                <td>Setup</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>22 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More actions"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">How to write better emails in 3 minutes</div>
+                  <div class="lesson-meta-source">lessons/p1-m2-l3.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-productivity">Productivity</span></td>
+                <td>Write better</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>18 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">How to refine a Gamma deck</div>
+                  <div class="lesson-meta-source">lessons/p2-m3-l2.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-business">Business</span></td>
+                <td>Presentations with Gamma</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>20 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">Use AI to critique your own work</div>
+                  <div class="lesson-meta-source">lessons/p1-m5-l2.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-productivity">Productivity</span></td>
+                <td>Practice</td>
+                <td><span class="tier-tag tier-2">Tier 2 only</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>14 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">When NOT to use AI</div>
+                  <div class="lesson-meta-source">lessons/p3-m1-l3.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-navigation">Navigation</span></td>
+                <td>Frameworks</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>21 May 2026</td>
+                <td class="center"><div class="switch"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Publish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">Three weekly rituals that compound</div>
+                  <div class="lesson-meta-source">lessons/p1-m4-l1.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-productivity">Productivity</span></td>
+                <td>Habits</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>12 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">Picking the right summariser</div>
+                  <div class="lesson-meta-source">lessons/p1-m3-l4.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-productivity">Productivity</span></td>
+                <td>Plan and research</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>9 May 2026</td>
+                <td class="center"><div class="switch"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Publish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="lesson-title">A simple framework for choosing an AI tool</div>
+                  <div class="lesson-meta-source">lessons/p3-m1-l1.yml</div>
+                </td>
+                <td><span class="pillar-tag pillar-navigation">Navigation</span></td>
+                <td>Frameworks</td>
+                <td><span class="tier-tag tier-all">All tiers</span></td>
+                <td><span class="status-pill status-published">Published</span></td>
+                <td>6 May 2026</td>
+                <td class="center"><div class="switch on"><span class="switch-track"></span></div></td>
+                <td class="right">
+                  <div class="action-cell" style="justify-content: flex-end;">
+                    <a href="#" class="action-link">Unpublish</a>
+                    <a href="#" class="action-link">Edit source</a>
+                    <button class="row-menu" aria-label="More"><svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-dots"/></svg></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

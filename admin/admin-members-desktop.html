@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Members — AIKASA Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* ============================================================
+       Admin shell overrides (§10.4)
+       Denser, utility-focused, less glass than member sidebar.
+       ============================================================ */
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+    .nav-item-icon { width: 18px; height: 18px; }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        width: 224px;
+        padding: var(--s-4);
+      }
+      .sidebar-inner {
+        background: white;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-radius: var(--radius);
+        padding: var(--s-4);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
+      }
+      .sidebar-brand { padding: 0 var(--s-2) var(--s-4); margin-bottom: var(--s-3); }
+      .sidebar-brand .wordmark { font-size: 1.125rem; display: inline-flex; align-items: baseline; }
+      .nav-item {
+        padding: var(--s-2) var(--s-3);
+        font-size: var(--text-body-sm);
+      }
+      .admin-badge {
+        display: inline-block;
+        background: var(--bg-soft-2);
+        color: var(--brand-blue);
+        font-family: var(--font-caption);
+        font-size: var(--text-micro);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        margin-left: var(--s-2);
+        vertical-align: middle;
+        font-weight: 600;
+      }
+      .app-shell { grid-template-columns: 224px 1fr; }
+    }
+
+    .admin-content {
+      padding: var(--s-6) var(--s-8) var(--s-12);
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    @media (max-width: 1023px) {
+      .admin-content { padding: var(--s-4); padding-bottom: var(--s-12); }
+    }
+
+    /* Mobile top bar (admin) */
+    .admin-topbar {
+      display: none;
+    }
+    @media (max-width: 1023px) {
+      .admin-topbar {
+        position: sticky; top: 0; z-index: 40;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        padding: var(--s-3) var(--s-4);
+        display: flex; align-items: center; justify-content: space-between;
+        gap: var(--s-3);
+      }
+      .admin-topbar-title {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: var(--text-body);
+        color: var(--brand-blue);
+        display: inline-flex; align-items: baseline;
+      }
+      .hamburger-btn {
+        width: var(--touch-target); height: var(--touch-target);
+        display: inline-flex; align-items: center; justify-content: center;
+        border-radius: var(--radius);
+        background: var(--bg-soft);
+        color: var(--brand-blue);
+      }
+      .admin-topbar-hint {
+        font-family: var(--font-caption);
+        font-size: var(--text-micro);
+        color: var(--text-muted);
+        padding: var(--s-2) var(--s-4);
+        background: var(--bg-soft);
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    /* Page header */
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-6); flex-wrap: wrap;
+      margin-bottom: var(--s-6);
+    }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      line-height: 1.1;
+    }
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      margin-top: var(--s-2);
+      max-width: 56ch;
+    }
+    .page-actions { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    @media (max-width: 1023px) {
+      .page-title { font-size: var(--text-h3); }
+    }
+
+    /* Inline toast (top of page) */
+    .toast {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      background: var(--brand-green-100);
+      border: 1px solid var(--brand-green-200);
+      color: var(--brand-green-700);
+      padding: var(--s-3) var(--s-4);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-6);
+      font-size: var(--text-body-sm);
+    }
+    .toast-icon {
+      width: 24px; height: 24px;
+      background: var(--brand-green);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .toast-icon .icon { width: 14px; height: 14px; }
+    .toast-body { flex: 1; line-height: 1.5; }
+    .toast-body strong { font-weight: 600; }
+    .toast-close {
+      width: 24px; height: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--brand-green-700);
+      border-radius: var(--radius-sm);
+    }
+    .toast-close .icon { width: 14px; height: 14px; }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+      margin-bottom: var(--s-6);
+    }
+    @media (max-width: 1023px) {
+      .stats-strip { grid-template-columns: 1fr 1fr; }
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-1);
+    }
+    .stat-card-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .stat-card-value {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-card-detail {
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      margin-top: var(--s-1);
+      line-height: 1.4;
+    }
+    .stat-card-detail .pill-mini {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      margin-right: 2px;
+    }
+    .pill-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .pill-amber { background: #fef3c7; color: #92400e; }
+    .pill-red   { background: #fee2e2; color: #991b1b; }
+    .pill-blue  { background: var(--brand-blue-100); color: var(--brand-blue); }
+    .pill-slate { background: var(--bg-soft-2); color: var(--text-secondary); }
+
+    /* Filter bar */
+    .filter-bar {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+      margin-bottom: var(--s-4);
+      display: flex; align-items: center; gap: var(--s-3);
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 280px;
+      position: relative;
+    }
+    .search-wrap .icon-prefix {
+      position: absolute; left: var(--s-3); top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-wrap .input {
+      padding-left: calc(var(--s-3) + 16px + var(--s-2));
+      min-height: 38px;
+      font-size: var(--text-body-sm);
+    }
+
+    .chip-row { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    .chip {
+      padding: var(--s-1) var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--t-instant) var(--ease-glass);
+    }
+    .chip:hover { border-color: var(--brand-blue-200); color: var(--brand-blue); }
+    .chip.active { background: var(--brand-blue); color: white; border-color: var(--brand-blue); }
+    .chip-count {
+      margin-left: 4px;
+      opacity: 0.7;
+    }
+
+    .filter-select {
+      padding: var(--s-2) var(--s-3);
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      min-height: 38px;
+    }
+
+    /* Bulk actions bar */
+    .bulk-bar {
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      padding: var(--s-3) var(--s-4);
+      margin-bottom: var(--s-4);
+      display: flex; align-items: center; gap: var(--s-4);
+      flex-wrap: wrap;
+      font-size: var(--text-body-sm);
+      color: var(--brand-blue);
+    }
+    .bulk-bar strong { font-weight: 600; }
+    .bulk-bar .bulk-actions { display: flex; gap: var(--s-2); margin-left: auto; flex-wrap: wrap; }
+    .bulk-bar button {
+      padding: var(--s-1) var(--s-3);
+      background: white;
+      border: 1px solid var(--brand-blue-200);
+      border-radius: var(--radius-sm);
+      color: var(--brand-blue);
+      font-size: var(--text-caption);
+      font-weight: 500;
+    }
+    .bulk-bar button:hover { background: var(--brand-blue-100); }
+
+    /* Table */
+    .table-wrap {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table thead th {
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      padding: var(--s-3) var(--s-4);
+      text-align: left;
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .table thead th.sortable { cursor: pointer; }
+    .table thead th.sortable::after {
+      content: "↕";
+      margin-left: 4px;
+      color: var(--text-faint);
+      font-size: 10px;
+    }
+    .table thead th.sorted::after { content: "↑"; color: var(--brand-blue); }
+    .table thead th.center { text-align: center; }
+    .table thead th.right { text-align: right; }
+    .table tbody td {
+      padding: var(--s-3) var(--s-4);
+      border-bottom: 1px solid var(--border-soft);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    .table tbody tr:last-child td { border-bottom: none; }
+    .table tbody tr { transition: background var(--t-instant) var(--ease-glass); }
+    .table tbody tr:hover { background: var(--bg-soft); cursor: pointer; }
+    .table tbody tr.selected { background: var(--brand-blue-50); }
+    .table .checkbox {
+      width: 16px; height: 16px;
+      vertical-align: middle;
+    }
+
+    /* Member cell */
+    .member-cell {
+      display: flex; align-items: center; gap: var(--s-3);
+    }
+    .member-cell .avatar {
+      width: 36px; height: 36px;
+      font-size: 0.8125rem;
+      background: var(--brand-blue-100);
+      color: var(--brand-blue);
+      flex-shrink: 0;
+    }
+    .member-cell .avatar.alt-1 { background: #fef3c7; color: #92400e; }
+    .member-cell .avatar.alt-2 { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .member-cell .avatar.alt-3 { background: #fce7f3; color: #9d174d; }
+    .member-cell .avatar.alt-4 { background: #ede9fe; color: #5b21b6; }
+    .member-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      line-height: 1.2;
+    }
+    .member-email {
+      color: var(--text-muted);
+      font-size: var(--text-caption);
+      line-height: 1.3;
+    }
+
+    /* Status pills */
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+    .status-pill::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-active { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .status-active::before { background: var(--brand-green); }
+    .status-grace  { background: #fef3c7; color: #92400e; }
+    .status-grace::before { background: var(--color-warning); }
+    .status-expired{ background: #fee2e2; color: #991b1b; }
+    .status-expired::before { background: var(--color-danger); }
+    .status-pending{ background: var(--bg-soft-2); color: var(--text-secondary); }
+    .status-pending::before { background: var(--text-faint); }
+
+    .tier-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .tier-1 { background: var(--brand-blue-50); color: var(--brand-blue); border: 1px solid var(--brand-blue-100); }
+    .tier-2 { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+
+    .founding-tag {
+      display: inline-block;
+      margin-left: 4px;
+      padding: 1px 6px;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .level-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px;
+      background: var(--bg-soft-2);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .level-badge::before {
+      content: "Lv";
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .plan-text {
+      color: var(--text-primary);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .plan-cycle {
+      color: var(--text-muted);
+      font-size: var(--text-caption);
+    }
+
+    .row-menu {
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      background: transparent;
+    }
+    .row-menu:hover { background: var(--bg-soft-2); color: var(--brand-blue); }
+
+    .last-active {
+      color: var(--text-muted);
+      font-size: var(--text-caption);
+      white-space: nowrap;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--s-3) var(--s-4);
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      gap: var(--s-3);
+    }
+    .pagination-controls { display: flex; gap: var(--s-1); }
+    .pagination-controls button {
+      padding: var(--s-1) var(--s-3);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-secondary);
+      min-width: 32px;
+    }
+    .pagination-controls button:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
+    .pagination-controls button.current {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .pagination-controls .dots {
+      padding: var(--s-1) var(--s-2);
+      color: var(--text-faint);
+    }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>
+      </symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="app-shell">
+    <!-- Admin sidebar (denser, less glass) -->
+    <aside class="sidebar" aria-label="Admin navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <div class="wordmark">AIKASA <span class="admin-badge">Admin</span></div>
+        </div>
+        <nav aria-label="Primary">
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-home"/></svg>
+            Overview
+          </a>
+          <a href="admin-members-desktop.html" class="nav-item active" aria-current="page">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-users"/></svg>
+            Members
+          </a>
+          <a href="admin-content-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-book"/></svg>
+            Content
+          </a>
+          <a href="admin-analytics-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-chart"/></svg>
+            Analytics
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div style="padding: var(--s-3); display: flex; align-items: center; gap: var(--s-3); border-radius: var(--radius-sm); background: var(--bg-soft);">
+            <div class="avatar" style="width:32px;height:32px;font-size:0.75rem;background:var(--brand-blue);color:white;">AM</div>
+            <div style="min-width: 0; flex: 1;">
+              <div style="font-size: var(--text-caption); font-weight: 600; color: var(--text-primary); line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Albert Mensah</div>
+              <div style="font-size: var(--text-micro); color: var(--text-muted); font-family: var(--font-caption); text-transform: uppercase; letter-spacing: 0.06em;">Admin</div>
+            </div>
+          </div>
+          <a href="#" class="nav-item" style="margin-top: var(--s-2);">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-logout"/></svg>
+            Sign out
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main id="main" role="main">
+      <div class="admin-content">
+
+        <!-- Toast (re-sync success) -->
+        <div class="toast" role="status">
+          <span class="toast-icon" aria-hidden="true">
+            <svg class="icon"><use href="#i-check"/></svg>
+          </span>
+          <div class="toast-body">
+            <strong>Re-synced Yaa Mensah from Paystack.</strong>
+            Status: Active. Plan: Annual Founding Access. Last payment: 24 May 2026.
+          </div>
+          <button class="toast-close" aria-label="Dismiss notification">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+          </button>
+        </div>
+
+        <!-- Page header -->
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">Members</h1>
+            <p class="page-subtitle">All AIKASA members, sortable, searchable, exportable.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary btn-sm">
+              <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-download"/></svg>
+              Export CSV
+            </button>
+            <button class="btn btn-sm">
+              <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-refresh"/></svg>
+              Re-sync all
+            </button>
+          </div>
+        </header>
+
+        <!-- Stats strip -->
+        <section class="stats-strip" aria-label="Member overview stats">
+          <div class="stat-card">
+            <span class="stat-card-label">Total members</span>
+            <span class="stat-card-value">247</span>
+            <span class="stat-card-detail">+12 this week</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card-label">By status</span>
+            <span class="stat-card-value">218</span>
+            <span class="stat-card-detail">
+              <span class="pill-mini pill-green">218 Active</span>
+              <span class="pill-mini pill-amber">14 Grace</span>
+              <span class="pill-mini pill-red">15 Expired</span>
+            </span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card-label">Founding members</span>
+            <span class="stat-card-value">89</span>
+            <span class="stat-card-detail">36% of total</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card-label">This week</span>
+            <span class="stat-card-value">12</span>
+            <span class="stat-card-detail">new signups · 4 founding</span>
+          </div>
+        </section>
+
+        <!-- Filter bar -->
+        <section class="filter-bar" aria-label="Filter members">
+          <div class="search-wrap">
+            <svg class="icon icon-prefix" aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" class="input" placeholder="Search by name, email, or reference" aria-label="Search members">
+          </div>
+          <div class="chip-row" role="group" aria-label="Status filter">
+            <button class="chip active">All <span class="chip-count">247</span></button>
+            <button class="chip">Active <span class="chip-count">218</span></button>
+            <button class="chip">Grace <span class="chip-count">14</span></button>
+            <button class="chip">Expired <span class="chip-count">15</span></button>
+            <button class="chip">Founding <span class="chip-count">89</span></button>
+          </div>
+          <select class="filter-select" aria-label="Tier filter">
+            <option>All tiers</option>
+            <option>AI-Ready</option>
+            <option>AI Transformation</option>
+          </select>
+          <select class="filter-select" aria-label="Date range filter">
+            <option>All time</option>
+            <option>Last 7 days</option>
+            <option>Last 30 days</option>
+            <option>This year</option>
+          </select>
+        </section>
+
+        <!-- Bulk actions bar -->
+        <section class="bulk-bar" aria-label="Bulk actions">
+          <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-check"/></svg>
+          <strong>3 selected</strong>
+          <span>Yaa Mensah, Kwame Boateng, Adwoa Asante</span>
+          <div class="bulk-actions">
+            <button>
+              <svg class="icon" style="width:12px;height:12px;vertical-align:-1px" aria-hidden="true"><use href="#i-refresh"/></svg>
+              Re-sync from Paystack
+            </button>
+            <button>
+              <svg class="icon" style="width:12px;height:12px;vertical-align:-1px" aria-hidden="true"><use href="#i-download"/></svg>
+              Export
+            </button>
+            <button>Email selected</button>
+          </div>
+        </section>
+
+        <!-- Members table -->
+        <section class="table-wrap" aria-label="Members table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 32px;"><input type="checkbox" class="checkbox" aria-label="Select all"></th>
+                <th scope="col" class="sortable sorted">Member</th>
+                <th scope="col" class="sortable">Tier</th>
+                <th scope="col" class="sortable">Status</th>
+                <th scope="col">Plan</th>
+                <th scope="col" class="sortable">Joined</th>
+                <th scope="col" class="center">Level</th>
+                <th scope="col">Last active</th>
+                <th scope="col" class="right" style="width: 48px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="selected">
+                <td><input type="checkbox" class="checkbox" checked aria-label="Select Yaa Mensah"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar">YM</div>
+                    <div>
+                      <div class="member-name">Yaa Mensah</div>
+                      <div class="member-email">yaa.mensah@example.com · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-2">AI Transformation</span><span class="founding-tag">Founding</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 999</span> <span class="plan-cycle">/ annual</span></td>
+                <td>24 May 2026</td>
+                <td class="center"><span class="level-badge">2</span></td>
+                <td><span class="last-active">2 hours ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Open Yaa Mensah actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr class="selected">
+                <td><input type="checkbox" class="checkbox" checked aria-label="Select Kwame Boateng"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-1">KB</div>
+                    <div>
+                      <div class="member-name">Kwame Boateng</div>
+                      <div class="member-email">kwame@boateng.dev · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-1">AI-Ready</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 200</span> <span class="plan-cycle">/ month</span></td>
+                <td>8 Mar 2026</td>
+                <td class="center"><span class="level-badge">3</span></td>
+                <td><span class="last-active">Yesterday</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr class="selected">
+                <td><input type="checkbox" class="checkbox" checked aria-label="Select Adwoa Asante"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-2">AA</div>
+                    <div>
+                      <div class="member-name">Adwoa Asante</div>
+                      <div class="member-email">adwoa.asante@kosi.gh · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-2">AI Transformation</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 6,000</span> <span class="plan-cycle">/ year</span></td>
+                <td>15 Feb 2026</td>
+                <td class="center"><span class="level-badge">4</span></td>
+                <td><span class="last-active">3 hours ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Joseph Diallo"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-3">JD</div>
+                    <div>
+                      <div class="member-name">Joseph Diallo</div>
+                      <div class="member-email">jdiallo@example.sn · Senegal</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-1">AI-Ready</span></td>
+                <td><span class="status-pill status-grace">Grace</span></td>
+                <td><span class="plan-text">$15</span> <span class="plan-cycle">/ month</span></td>
+                <td>20 Apr 2026</td>
+                <td class="center"><span class="level-badge">2</span></td>
+                <td><span class="last-active">2 days ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Akua Oforiwaa"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-4">AO</div>
+                    <div>
+                      <div class="member-name">Akua Oforiwaa</div>
+                      <div class="member-email">akua.o@oforiwaa.co · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-2">AI Transformation</span><span class="founding-tag">Founding</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 999</span> <span class="plan-cycle">/ annual</span></td>
+                <td>1 May 2026</td>
+                <td class="center"><span class="level-badge">3</span></td>
+                <td><span class="last-active">1 hour ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Daniel Mwangi"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar">DM</div>
+                    <div>
+                      <div class="member-name">Daniel Mwangi</div>
+                      <div class="member-email">daniel@mwangi.co.ke · Kenya</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-1">AI-Ready</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">$12</span> <span class="plan-cycle">/ month (launch)</span></td>
+                <td>12 Apr 2026</td>
+                <td class="center"><span class="level-badge">2</span></td>
+                <td><span class="last-active">4 hours ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Christine Okonkwo"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-1">CO</div>
+                    <div>
+                      <div class="member-name">Christine Okonkwo</div>
+                      <div class="member-email">christine.o@okonkwo.ng · Nigeria</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-2">AI Transformation</span><span class="founding-tag">Founding</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 999</span> <span class="plan-cycle">/ annual</span></td>
+                <td>22 May 2026</td>
+                <td class="center"><span class="level-badge">1</span></td>
+                <td><span class="last-active">5 hours ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Samuel Asare"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-2">SA</div>
+                    <div>
+                      <div class="member-name">Samuel Asare</div>
+                      <div class="member-email">sam.asare@example.com · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-1">AI-Ready</span></td>
+                <td><span class="status-pill status-expired">Expired</span></td>
+                <td><span class="plan-text">GHS 175</span> <span class="plan-cycle">/ month (launch)</span></td>
+                <td>18 Apr 2026</td>
+                <td class="center"><span class="level-badge">2</span></td>
+                <td><span class="last-active">12 days ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Esi Quaye"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-3">EQ</div>
+                    <div>
+                      <div class="member-name">Esi Quaye</div>
+                      <div class="member-email">esi@quayedesigns.gh · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-2">AI Transformation</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 399</span> <span class="plan-cycle">/ month (launch)</span></td>
+                <td>5 May 2026</td>
+                <td class="center"><span class="level-badge">3</span></td>
+                <td><span class="last-active">Today</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="checkbox" aria-label="Select Kofi Annan-Yeboah"></td>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar alt-4">KA</div>
+                    <div>
+                      <div class="member-name">Kofi Annan-Yeboah</div>
+                      <div class="member-email">kofi.ay@annanyeboah.gh · Ghana</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="tier-pill tier-1">AI-Ready</span></td>
+                <td><span class="status-pill status-active">Active</span></td>
+                <td><span class="plan-text">GHS 1,650</span> <span class="plan-cycle">/ year (launch)</span></td>
+                <td>11 Apr 2026</td>
+                <td class="center"><span class="level-badge">2</span></td>
+                <td><span class="last-active">8 hours ago</span></td>
+                <td class="right"><button class="row-menu" aria-label="Actions"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-dots"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Pagination -->
+          <div class="pagination">
+            <span>Showing 1–10 of 247</span>
+            <div class="pagination-controls">
+              <button aria-label="Previous page" disabled>
+                <svg class="icon" style="width:12px;height:12px" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+                Previous
+              </button>
+              <button class="current" aria-current="page">1</button>
+              <button>2</button>
+              <button>3</button>
+              <span class="dots">…</span>
+              <button>25</button>
+              <button aria-label="Next page">
+                Next
+                <svg class="icon" style="width:12px;height:12px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

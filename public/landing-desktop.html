@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#003366">
+  <title>AIKASA — AI that works</title>
+  <meta name="description" content="AIKASA is a guided AI implementation ecosystem for Africans. Move from AI confusion to AI confidence through practical learning, continuous updates, community and real-world application.">
+  <meta property="og:title" content="AIKASA — AI that works">
+  <meta property="og:description" content="A guided AI implementation ecosystem for African professionals and entrepreneurs.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* Landing-specific composition */
+    .hero {
+      max-width: var(--container);
+      margin: var(--s-12) auto 0;
+      padding: var(--s-16) var(--s-6) var(--s-24);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--s-16);
+      align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-6);
+      display: inline-flex; align-items: center; gap: var(--s-3);
+    }
+    .hero-eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: var(--text-faint);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: var(--text-display);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-6);
+    }
+    .hero-headline .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-subhead {
+      font-size: var(--text-body-lg);
+      line-height: 1.55;
+      color: var(--text-secondary);
+      max-width: 32rem;
+      margin-bottom: var(--s-10);
+    }
+    .hero-cta-row { display: flex; gap: var(--s-5); align-items: center; flex-wrap: wrap; }
+    .hero-meta {
+      display: flex; gap: var(--s-2); align-items: center;
+      color: var(--text-muted);
+      font-size: var(--text-body-sm);
+    }
+    .hero-meta::before {
+      content: ""; width: 8px; height: 8px; background: var(--brand-green); border-radius: 50%;
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: linear-gradient(140deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+      box-shadow: var(--shadow-blue-lg);
+    }
+    .hero-visual-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    .hero-visual-orb {
+      position: absolute;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.7;
+    }
+    .hero-visual-orb-1 {
+      top: -80px; right: -80px;
+      background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%);
+    }
+    .hero-visual-orb-2 {
+      bottom: -60px; left: -40px;
+      background: radial-gradient(circle, var(--brand-blue-400) 0%, transparent 70%);
+    }
+    .hero-visual-card {
+      position: absolute;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: var(--s-4);
+      color: white;
+    }
+    .hero-card-1 {
+      top: var(--s-8); left: var(--s-8); right: var(--s-8);
+      display: flex; gap: var(--s-3); align-items: center;
+    }
+    .hero-card-1-icon {
+      width: 40px; height: 40px;
+      background: rgba(46, 204, 113, 0.18);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-green);
+    }
+    .hero-card-1-text { font-size: var(--text-body-sm); flex: 1; }
+    .hero-card-1-text strong { display: block; font-weight: 600; }
+    .hero-card-1-text span { color: rgba(255,255,255,0.6); font-size: var(--text-caption); }
+
+    .hero-card-2 {
+      bottom: var(--s-8); left: var(--s-8); right: var(--s-8);
+    }
+    .hero-card-2-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: var(--s-3);
+    }
+    .hero-card-2-rows { display: flex; flex-direction: column; gap: var(--s-3); }
+    .hero-card-2-row { display: flex; align-items: center; gap: var(--s-3); }
+    .hero-card-2-progress { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 999px; overflow: hidden; }
+    .hero-card-2-fill { height: 100%; background: var(--brand-green); border-radius: 999px; }
+    .hero-card-2-text { font-size: var(--text-body-sm); flex: 1; }
+    .hero-card-2-pct { font-family: var(--font-mono); font-size: var(--text-caption); color: rgba(255,255,255,0.65); }
+
+    .hero-watermark {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 6rem;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.04em;
+      pointer-events: none;
+    }
+
+    /* Trust strip */
+    .trust {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: var(--s-10) var(--s-6);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .trust-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-10); flex-wrap: wrap;
+    }
+    .trust-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .trust-stats { display: flex; gap: var(--s-10); }
+    .trust-stat-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .trust-stat-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-top: var(--s-1);
+    }
+
+    /* Founding banner */
+    .founding-banner {
+      max-width: var(--container);
+      margin: var(--s-16) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .founding-banner-inner {
+      background: linear-gradient(105deg, var(--brand-blue) 0%, #001f3d 100%);
+      color: white;
+      border-radius: var(--radius-xl);
+      padding: var(--s-8) var(--s-10);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--s-8);
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-blue-lg);
+    }
+    .founding-banner-inner::before {
+      content: "";
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.3) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .founding-banner-badge {
+      position: relative;
+      padding: var(--s-2) var(--s-4);
+      background: rgba(46, 204, 113, 0.2);
+      border: 1px solid rgba(46, 204, 113, 0.5);
+      color: var(--brand-green);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .founding-banner-text {
+      position: relative;
+    }
+    .founding-banner-text h3 {
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: white;
+      margin-bottom: var(--s-1);
+    }
+    .founding-banner-text p {
+      color: rgba(255,255,255,0.75);
+      font-size: var(--text-body-sm);
+    }
+    .founding-banner-cta {
+      position: relative;
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-3) var(--s-5);
+      background: white;
+      color: var(--brand-blue);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: var(--text-body-sm);
+      transition: transform var(--t-smooth) var(--ease-glass);
+    }
+    .founding-banner-cta:hover { transform: translateY(-1px); }
+
+    /* Pillars */
+    .pillars {
+      max-width: var(--container);
+      margin: var(--s-24) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-4);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      max-width: 38rem;
+      margin-bottom: var(--s-3);
+    }
+    .section-lede {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 38rem;
+      margin-bottom: var(--s-16);
+    }
+    .pillar-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-10);
+    }
+    .pillar {
+      display: flex; flex-direction: column; gap: var(--s-4);
+      padding: var(--s-8);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: border-color var(--t-smooth) var(--ease-glass), transform var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass);
+    }
+    .pillar:hover {
+      border-color: var(--brand-blue-200);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      color: var(--brand-green-large);
+      font-weight: 500;
+    }
+    .pillar h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+    }
+    .pillar-body { color: var(--text-secondary); line-height: 1.6; flex: 1; }
+    .pillar-target {
+      padding-top: var(--s-4);
+      border-top: 1px solid var(--border-soft);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* How it works */
+    .how {
+      max-width: var(--container);
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: var(--s-16);
+      align-items: start;
+    }
+    .how-left { position: sticky; top: var(--s-10); }
+    .how-loop {
+      display: grid;
+      gap: var(--s-2);
+    }
+    .how-step {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: var(--s-5);
+      padding: var(--s-5);
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      transition: background var(--t-smooth) var(--ease-glass);
+    }
+    .how-step:hover { background: var(--bg-soft-2); }
+    .how-step-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .how-step-num::before {
+      content: "0";
+    }
+    .how-step h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--s-1);
+    }
+    .how-step p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+    }
+
+    /* Africon credibility */
+    .credibility {
+      max-width: var(--container);
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .credibility-inner {
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      padding: var(--s-16);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-16);
+      align-items: center;
+    }
+    .credibility h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-5);
+    }
+    .credibility-body {
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: var(--text-body-lg);
+      margin-bottom: var(--s-8);
+    }
+    .credibility-signature {
+      display: flex; gap: var(--s-4); align-items: center;
+      padding-top: var(--s-6);
+      border-top: 1px solid var(--border);
+    }
+    .credibility-signature-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+    .credibility-signature-text strong {
+      display: block;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .credibility-signature-text span {
+      font-size: var(--text-body-sm);
+      color: var(--text-muted);
+    }
+    .credibility-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-6);
+    }
+    .cred-stat {
+      padding: var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .cred-stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      margin-bottom: var(--s-2);
+      letter-spacing: -0.02em;
+    }
+    .cred-stat-label {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .cred-clients {
+      grid-column: 1 / -1;
+      padding: var(--s-5) var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .cred-clients-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .cred-clients-list {
+      display: flex; flex-wrap: wrap; gap: var(--s-4) var(--s-6);
+    }
+    .cred-clients-list span {
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+    }
+
+    /* 90-day journey */
+    .journey {
+      max-width: var(--container);
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .journey-rail {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: var(--s-10);
+      position: relative;
+    }
+    .journey-rail::before {
+      content: "";
+      position: absolute;
+      top: 2.5rem; left: 2rem; right: 2rem;
+      height: 1px;
+      background: var(--border);
+    }
+    .journey-step { padding: 0 var(--s-3); position: relative; }
+    .journey-step-marker {
+      width: 56px; height: 56px;
+      background: white;
+      border: 2px solid var(--brand-blue);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+      margin-bottom: var(--s-6);
+      position: relative;
+      z-index: 1;
+    }
+    .journey-step:nth-child(1) .journey-step-marker { background: var(--brand-blue); color: white; }
+    .journey-step h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-2);
+    }
+    .journey-step .journey-day {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-2);
+      display: block;
+    }
+    .journey-step p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+    }
+
+    /* Benefits */
+    .benefits {
+      max-width: var(--container);
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .benefits-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--s-16);
+      align-items: start;
+    }
+    .benefits-list { display: grid; gap: var(--s-4); }
+    .benefit {
+      display: grid;
+      grid-template-columns: 1.75rem 1fr;
+      gap: var(--s-4);
+      padding: var(--s-5);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color var(--t-smooth) var(--ease-glass);
+    }
+    .benefit:hover { border-color: var(--brand-blue-200); }
+    .benefit-check {
+      width: 1.75rem; height: 1.75rem;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .benefit-check svg { width: 14px; height: 14px; }
+    .benefit-text strong {
+      display: block;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .benefit-text span {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      max-width: var(--container);
+      margin: var(--s-32) auto var(--s-20);
+      padding: 0 var(--s-6);
+    }
+    .final-cta-inner {
+      padding: var(--s-20) var(--s-16);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%; transform: translate(-50%, -40%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .final-cta-inner h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: white;
+      margin-bottom: var(--s-5);
+      position: relative;
+    }
+    .final-cta-inner p {
+      font-size: var(--text-body-lg);
+      color: rgba(255,255,255,0.8);
+      max-width: 36rem;
+      margin: 0 auto var(--s-10);
+      position: relative;
+    }
+    .final-cta-row {
+      display: inline-flex;
+      gap: var(--s-4);
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+    }
+    .final-cta-row .btn { background: white; color: var(--brand-blue); border-color: white; }
+    .final-cta-row .btn:hover { background: var(--brand-green); border-color: var(--brand-green); color: var(--brand-blue); }
+    .final-cta-secondary {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+      font-size: var(--text-body-sm);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="nav-shell">
+    <nav class="nav-public" aria-label="Primary">
+      <a href="landing-desktop.html" class="wordmark">AIKASA</a>
+      <div class="nav-public-right">
+        <div class="nav-public-links">
+          <a href="pricing-desktop.html" aria-current="page">Pricing</a>
+          <a href="login-desktop.html">Sign in</a>
+        </div>
+        <a href="join-desktop.html" class="btn">Become a Founding Member</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <span class="hero-eyebrow">An Africon project · Launching August 2026</span>
+        <h1 class="hero-headline">
+          AI that <span class="accent">works.</span><br>
+          Built for African work.
+        </h1>
+        <p class="hero-subhead">
+          AIKASA is a guided AI implementation ecosystem for African professionals and entrepreneurs. Move from AI confusion to AI confidence through practical learning, continuous updates, real community, and weekly application to your actual work.
+        </p>
+        <div class="hero-cta-row">
+          <a href="join-desktop.html" class="btn btn-lg">
+            Become a Founding Member
+            <svg class="icon" width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a href="pricing-desktop.html" class="btn btn-secondary btn-lg">View Pricing</a>
+          <span class="hero-meta">Founding window closes June 2026</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-visual-grid"></div>
+        <div class="hero-visual-orb hero-visual-orb-1"></div>
+        <div class="hero-visual-orb hero-visual-orb-2"></div>
+        <div class="hero-watermark">AI</div>
+        <div class="hero-visual-card hero-card-1">
+          <div class="hero-card-1-icon">
+            <svg width="20" height="20"><use href="#i-bolt"/></svg>
+          </div>
+          <div class="hero-card-1-text">
+            <strong>Lesson 1 complete</strong>
+            <span>Save 4 hours this week</span>
+          </div>
+        </div>
+        <div class="hero-visual-card hero-card-2">
+          <div class="hero-card-2-label">90-day journey</div>
+          <div class="hero-card-2-rows">
+            <div class="hero-card-2-row">
+              <span class="hero-card-2-text">Quick Win</span>
+              <div class="hero-card-2-progress"><div class="hero-card-2-fill" style="width:100%"></div></div>
+              <span class="hero-card-2-pct">100%</span>
+            </div>
+            <div class="hero-card-2-row">
+              <span class="hero-card-2-text">Confidence</span>
+              <div class="hero-card-2-progress"><div class="hero-card-2-fill" style="width:68%"></div></div>
+              <span class="hero-card-2-pct">68%</span>
+            </div>
+            <div class="hero-card-2-row">
+              <span class="hero-card-2-text">Habit</span>
+              <div class="hero-card-2-progress"><div class="hero-card-2-fill" style="width:34%"></div></div>
+              <span class="hero-card-2-pct">34%</span>
+            </div>
+            <div class="hero-card-2-row">
+              <span class="hero-card-2-text">Transformation</span>
+              <div class="hero-card-2-progress"><div class="hero-card-2-fill" style="width:0%"></div></div>
+              <span class="hero-card-2-pct">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <section class="trust">
+      <div class="trust-inner">
+        <span class="trust-label">Africon-anchored · 2024</span>
+        <div class="trust-stats">
+          <div>
+            <div class="trust-stat-num">150+</div>
+            <div class="trust-stat-label">Professionals trained</div>
+          </div>
+          <div>
+            <div class="trust-stat-num">100%</div>
+            <div class="trust-stat-label">Client satisfaction</div>
+          </div>
+          <div>
+            <div class="trust-stat-num">1,000+</div>
+            <div class="trust-stat-label">AI-interest contacts</div>
+          </div>
+          <div>
+            <div class="trust-stat-num">5+</div>
+            <div class="trust-stat-label">Facilitators</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founding banner -->
+    <section class="founding-banner">
+      <div class="founding-banner-inner">
+        <span class="founding-banner-badge">Founding window open</span>
+        <div class="founding-banner-text">
+          <h3>Prepay before launch. Secure your seat at founder pricing.</h3>
+          <p>3-Month Founding Access from GHS 399. Annual from GHS 999. Access begins at official launch.</p>
+        </div>
+        <a href="join-desktop.html" class="founding-banner-cta">
+          Claim your seat
+          <svg width="14" height="14"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Pillars -->
+    <section class="pillars">
+      <span class="section-eyebrow">The three launch pillars</span>
+      <h2 class="section-title">Three practical paths. One simple promise: AI that works.</h2>
+      <p class="section-lede">Every lesson, prompt and live session sits inside one of these. No marathon syllabus. No buzzwords. Just the skills African professionals and entrepreneurs need.</p>
+
+      <div class="pillar-list">
+        <article class="pillar">
+          <span class="pillar-num">01 / Productivity</span>
+          <h3>AI for Productivity</h3>
+          <p class="pillar-body">Save time, write, research, plan, summarise and communicate better. Use AI to handle the work that drains your week so the work that matters gets your full attention.</p>
+          <div class="pillar-target">For professionals</div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar-num">02 / Business</span>
+          <h3>AI for Business and Entrepreneurship</h3>
+          <p class="pillar-body">Sales, marketing, customer service, proposals, operations and growth. AI workflows that move your numbers, written for African SMEs and the realities they trade in.</p>
+          <div class="pillar-target">For entrepreneurs and SMEs</div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar-num">03 / Navigation</span>
+          <h3>AI Navigation and Clarity</h3>
+          <p class="pillar-body">Updates, tool guidance, what changed, why it matters. A continuous filter on a noisy field — so you know what is signal, what is hype, and what to try this week.</p>
+          <div class="pillar-target">A continuous filter for everyone</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how">
+      <div class="how-grid">
+        <div class="how-left">
+          <span class="section-eyebrow">How it works</span>
+          <h2 class="section-title">A small, repeating weekly loop. Built to compound.</h2>
+          <p class="section-lede">No bootcamp drama. No certificate trophy. Just one loop, every week, that turns watching into doing into results you can point at.</p>
+        </div>
+
+        <div class="how-loop">
+          <div class="how-step">
+            <div class="how-step-num">1</div>
+            <div>
+              <h4>Watch a short, practical video</h4>
+              <p>Five to twelve minutes, recorded, designed to be useful before it is over.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">2</div>
+            <div>
+              <h4>Download the prompt, template or guide</h4>
+              <p>A real artefact you can paste, edit and run today — not abstract advice.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">3</div>
+            <div>
+              <h4>Apply it to a real work or business task</h4>
+              <p>You finish the lesson with one output: a real document, plan or message you can ship.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">4</div>
+            <div>
+              <h4>Attend a live session for clarity</h4>
+              <p>Weekly facilitator-led troubleshooting and feedback. Bring the work, leave with the fix.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">5</div>
+            <div>
+              <h4>Post a win, question or challenge</h4>
+              <p>Community is the accountability layer. Other members see your work. You see theirs.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">6</div>
+            <div>
+              <h4>Complete the weekly challenge</h4>
+              <p>One small structured exercise. Tracked. Visible. Building toward your 90-day transformation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Africon credibility -->
+    <section class="credibility">
+      <div class="credibility-inner">
+        <div>
+          <span class="section-eyebrow">Who is behind AIKASA</span>
+          <h2>Africon. Africa-first AI for nearly two years.</h2>
+          <p class="credibility-body">
+            AIKASA is built by the team behind Africon — Africa AI Consult — operating from the AI Training and Innovation Centre in Ghana. Africon has trained corporate teams across Ghana, run the Africa AI Club, and delivered AI consultancy since 2024.
+          </p>
+          <p class="credibility-body">
+            AIKASA is the natural next step: take what we already do for companies, and make it accessible to individuals — month by month, lesson by lesson, with the community already in place.
+          </p>
+          <div class="credibility-signature">
+            <div class="credibility-signature-avatar">GA</div>
+            <div class="credibility-signature-text">
+              <strong>Gideon Asare</strong>
+              <span>Founder &amp; CEO, Africon</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="credibility-stats">
+          <div class="cred-stat">
+            <div class="cred-stat-num">70</div>
+            <div class="cred-stat-label">Adansi Travels staff trained on AI for operations and sales</div>
+          </div>
+          <div class="cred-stat">
+            <div class="cred-stat-num">80</div>
+            <div class="cred-stat-label">Multimedia Group team members trained across newsrooms</div>
+          </div>
+          <div class="cred-clients">
+            <div class="cred-clients-label">Plus partners and clients including</div>
+            <div class="cred-clients-list">
+              <span>Stem Robo</span>
+              <span>Africa AI Club</span>
+              <span>Vaurse</span>
+              <span>Gamma AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 90-day journey -->
+    <section class="journey">
+      <span class="section-eyebrow">The 90-day journey</span>
+      <h2 class="section-title">From confusion to confidence in 90 days. No theatrics.</h2>
+      <p class="section-lede">Members run on this rhythm. It is not a course you finish; it is a habit you build.</p>
+
+      <div class="journey-rail">
+        <div class="journey-step">
+          <div class="journey-step-marker">01</div>
+          <span class="journey-day">Day 1–7</span>
+          <h4>Quick Win</h4>
+          <p>Set up your tools. Complete one real task better or faster than before. The first proof that AI works for your work.</p>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-marker">02</div>
+          <span class="journey-day">Day 8–30</span>
+          <h4>Confidence</h4>
+          <p>Complete beginner modules, attend a live session, post in community. You stop asking <em>"can AI do this?"</em> and start saying <em>"AI is doing this."</em></p>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-marker">03</div>
+          <span class="journey-day">Day 31–60</span>
+          <h4>Habit</h4>
+          <p>Use AI weekly or daily. Build one repeatable workflow for your role or business. The micro-loop becomes muscle memory.</p>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-marker">04</div>
+          <span class="journey-day">Day 61–90</span>
+          <h4>Transformation</h4>
+          <p>Complete one small productivity or business project. Document the value. You are no longer learning AI — you are deploying it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founding benefits -->
+    <section class="benefits">
+      <div class="benefits-inner">
+        <div>
+          <span class="section-eyebrow">Founding Member benefits</span>
+          <h2 class="section-title">Eight reasons to lock in before launch.</h2>
+          <p class="section-lede">Founding Members fund the build and shape the product. In return, we hold open access, pricing and a direct line to the team.</p>
+          <a href="join-desktop.html" class="btn btn-lg">
+            Become a Founding Member
+            <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="benefits-list">
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Tier 2 / all-tier access</strong>
+              <span>Founding Members receive AI Transformation tier access for the full subscription term — every pillar, every lesson, no upsells.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Founding Member 2026 digital badge</strong>
+              <span>A permanent mark on your AIKASA profile, dashboard and community presence. Visible in every cohort thereafter.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Launch discount pricing</strong>
+              <span>Lock in the lowest price we will ever offer for AIKASA, paid before launch — and kept for the whole founding term.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Up to 25% discount on renewal</strong>
+              <span>When the founding term ends, you renew at standard pricing minus a 25% loyalty discount. Forever a Founding Member.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Early access content</strong>
+              <span>One preview video and one downloadable prompt pack delivered before official launch — so you start saving time the day you join.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Periodic build updates by email</strong>
+              <span>Between sign-up and launch, you see the build progress, design decisions and content drops as they happen — not after.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>Direct feedback channel</strong>
+              <span>Founding Members shape the product. A dedicated channel where your feedback lands with the people who decide what we build next.</span>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="benefit-check"><svg><use href="#i-check"/></svg></div>
+            <div class="benefit-text">
+              <strong>One-time launch-day welcome</strong>
+              <span>On the day AIKASA goes live, you get the one-time founding welcome — your moment of "the wait is over."</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <div class="final-cta-inner">
+        <h2>AI is happening. With or without your work.</h2>
+        <p>Join the Founding Cohort. Help us build the AI ecosystem African work actually needs.</p>
+        <div class="final-cta-row">
+          <a href="join-desktop.html" class="btn btn-lg">
+            Become a Founding Member
+            <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a href="pricing-desktop.html" class="final-cta-secondary">See pricing tiers</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="wordmark" style="font-size: 1.5rem; margin-bottom: var(--s-3);">AIKASA</div>
+          <p style="color: var(--text-secondary); font-size: var(--text-body-sm); line-height: 1.55; max-width: 22rem;">AI that works. A guided AI implementation ecosystem built for African professionals and entrepreneurs.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Product</h4>
+          <div class="footer-list">
+            <a href="pricing-desktop.html">Pricing</a>
+            <a href="join-desktop.html">Become a Founding Member</a>
+            <a href="login-desktop.html">Sign in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Pillars</h4>
+          <div class="footer-list">
+            <a href="#">AI for Productivity</a>
+            <a href="#">AI for Business</a>
+            <a href="#">AI Navigation &amp; Clarity</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Africon</h4>
+          <div class="footer-list">
+            <a href="https://africon.ai">africon.ai</a>
+            <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a>
+            <a href="#">Accra, Ghana</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-endorsement">An Africon project &middot; &copy; 2026 Africa AI Consult</span>
+        <span>aikasa.ai</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

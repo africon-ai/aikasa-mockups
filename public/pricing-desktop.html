@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Pricing — AIKASA</title>
+  <meta name="description" content="Pricing built for the African journey. Founding Member access, AI-Ready and AI Transformation tiers — for Ghana and global members.">
+  <meta property="og:title" content="Pricing — AIKASA">
+  <meta property="og:description" content="Founding Member access and two tiers built for African work.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* Pricing-specific composition */
+    .pricing-head {
+      max-width: var(--container);
+      margin: var(--s-12) auto 0;
+      padding: var(--s-16) var(--s-6) var(--s-10);
+      text-align: center;
+    }
+    .pricing-head .eyebrow {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-5);
+    }
+    .pricing-head .eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: var(--brand-green-large);
+    }
+    .pricing-head h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--brand-blue);
+      line-height: 1.1;
+      max-width: 36rem;
+      margin: 0 auto var(--s-5);
+    }
+    .pricing-head h1 .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .pricing-head p {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 38rem;
+      margin: 0 auto;
+    }
+
+    /* Sticky toggle row */
+    .toggle-row {
+      position: sticky; top: 84px;
+      z-index: 30;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--s-6);
+    }
+    .toggle-inner {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-pill);
+      padding: var(--s-2);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4);
+      box-shadow: var(--glass-shadow);
+    }
+    .toggle-group {
+      display: flex; gap: 2px;
+      background: var(--bg-soft-2);
+      border-radius: var(--radius-pill);
+      padding: 4px;
+    }
+    .toggle-group input { position: absolute; opacity: 0; pointer-events: none; }
+    .toggle-pill {
+      padding: var(--s-2) var(--s-5);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass);
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      text-transform: uppercase;
+    }
+    .toggle-group input:checked + .toggle-pill {
+      background: white;
+      color: var(--brand-blue);
+      box-shadow: var(--shadow-blue-sm);
+    }
+    .toggle-pill:hover { color: var(--brand-blue); }
+    .toggle-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 var(--s-3);
+    }
+    .toggle-save {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--brand-green-large);
+      letter-spacing: 0.04em;
+      margin-left: var(--s-1);
+      font-weight: 600;
+    }
+
+    /* Founding Member featured */
+    .founding-featured {
+      max-width: var(--container);
+      margin: var(--s-10) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .founding-card {
+      position: relative;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--s-10);
+      color: white;
+      overflow: hidden;
+      box-shadow: var(--shadow-blue-lg);
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: var(--s-12);
+      align-items: center;
+    }
+    .founding-card::before {
+      content: "";
+      position: absolute;
+      top: -30%; right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .founding-card-left { position: relative; }
+    .founding-limit-badge {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-4);
+      background: rgba(46, 204, 113, 0.2);
+      border: 1px solid rgba(46, 204, 113, 0.5);
+      color: var(--brand-green);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-5);
+    }
+    .founding-limit-badge::before {
+      content: ""; width: 8px; height: 8px; background: var(--brand-green); border-radius: 50%;
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .founding-card h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: var(--s-4);
+    }
+    .founding-card .founding-lede {
+      color: rgba(255,255,255,0.75);
+      font-size: var(--text-body);
+      line-height: 1.55;
+      margin-bottom: var(--s-6);
+    }
+    .founding-card-meta {
+      display: flex; flex-direction: column; gap: var(--s-2);
+      padding-top: var(--s-4);
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .founding-card-meta-row {
+      display: flex; align-items: center; gap: var(--s-2);
+      font-size: var(--text-body-sm);
+      color: rgba(255,255,255,0.8);
+    }
+    .founding-card-meta-row svg { color: var(--brand-green); width: 16px; height: 16px; flex-shrink: 0; }
+
+    .founding-options { position: relative; display: grid; gap: var(--s-4); }
+    .founding-option {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6) var(--s-7);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--s-4);
+      align-items: center;
+      transition: border-color var(--t-smooth) var(--ease-glass), background var(--t-smooth) var(--ease-glass);
+    }
+    .founding-option:hover {
+      border-color: rgba(46, 204, 113, 0.5);
+      background: rgba(255,255,255,0.1);
+    }
+    .founding-option.recommended {
+      border-color: rgba(46, 204, 113, 0.5);
+      background: rgba(46, 204, 113, 0.08);
+    }
+    .founding-option-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: var(--s-1);
+    }
+    .founding-option h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: white;
+      margin-bottom: var(--s-1);
+    }
+    .founding-option-sub {
+      font-size: var(--text-body-sm);
+      color: rgba(255,255,255,0.65);
+    }
+    .founding-option-price {
+      text-align: right;
+      font-family: var(--font-display);
+    }
+    .founding-option-price .price {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+      display: block;
+      letter-spacing: -0.01em;
+    }
+    .founding-option-price .alt {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: rgba(255,255,255,0.55);
+      margin-top: var(--s-1);
+      display: block;
+    }
+    .founding-option-best {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      padding: 2px var(--s-2);
+      background: var(--brand-green);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-left: var(--s-2);
+    }
+    .founding-cta-row {
+      grid-column: 1 / -1;
+      display: flex; gap: var(--s-3); align-items: center;
+      padding-top: var(--s-2);
+    }
+    .founding-cta-row .btn {
+      background: white; color: var(--brand-blue); border-color: white;
+    }
+    .founding-cta-row .btn:hover {
+      background: var(--brand-green); border-color: var(--brand-green); color: var(--brand-blue);
+    }
+    .founding-cta-meta {
+      color: rgba(255,255,255,0.65);
+      font-size: var(--text-caption);
+      font-family: var(--font-caption);
+    }
+
+    /* Regular tiers */
+    .tiers {
+      max-width: var(--container);
+      margin: var(--s-24) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .tiers-head {
+      text-align: center;
+      margin-bottom: var(--s-12);
+    }
+    .tiers-head .eyebrow {
+      display: inline-block;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-3);
+    }
+    .tiers-head h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      max-width: 32rem;
+      margin: 0 auto var(--s-3);
+      line-height: 1.15;
+    }
+    .tiers-head p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-lg);
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-8);
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .tier {
+      position: relative;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--s-10);
+      display: flex; flex-direction: column;
+      transition: border-color var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass), transform var(--t-smooth) var(--ease-glass);
+    }
+    .tier:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-lg);
+    }
+    .tier-2 {
+      border-color: var(--brand-blue);
+      box-shadow: var(--shadow-blue);
+    }
+    .tier-2:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-blue-lg);
+      border-color: var(--brand-blue);
+    }
+    .tier-ribbon {
+      position: absolute;
+      top: var(--s-6); right: var(--s-6);
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      padding: var(--s-1) var(--s-3);
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border: 1px solid var(--brand-green-200);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .tier-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: var(--s-2);
+    }
+    .tier h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .tier-tagline {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+      margin-bottom: var(--s-8);
+      min-height: 3em;
+    }
+    .tier-price-row {
+      display: flex; align-items: baseline; gap: var(--s-3);
+      margin-bottom: var(--s-1);
+    }
+    .tier-price-main {
+      font-family: var(--font-display);
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .tier-price-cycle {
+      color: var(--text-muted);
+      font-size: var(--text-body-sm);
+    }
+    .tier-price-strike {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-faint);
+      text-decoration: line-through;
+      margin-bottom: var(--s-2);
+      display: block;
+    }
+    .tier-price-note {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-8);
+      letter-spacing: 0.04em;
+    }
+    .tier-cta {
+      margin-bottom: var(--s-8);
+    }
+    .tier-cta .btn { width: 100%; justify-content: center; }
+    .tier-features {
+      display: flex; flex-direction: column; gap: var(--s-3);
+      padding-top: var(--s-6);
+      border-top: 1px solid var(--border-soft);
+    }
+    .tier-features-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-2);
+    }
+    .tier-feature {
+      display: grid;
+      grid-template-columns: 1.25rem 1fr;
+      gap: var(--s-3);
+      align-items: start;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .tier-feature svg {
+      width: 18px; height: 18px;
+      color: var(--brand-green-large);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Comparison table */
+    .compare {
+      max-width: var(--container);
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .compare h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.015em;
+      text-align: center;
+      max-width: 32rem;
+      margin: 0 auto var(--s-3);
+    }
+    .compare-sub {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: var(--text-body-lg);
+      max-width: 36rem;
+      margin: 0 auto var(--s-12);
+    }
+    .compare-table {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      align-items: center;
+      padding: var(--s-5) var(--s-6);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row-header {
+      background: var(--bg-soft);
+      padding: var(--s-6);
+      font-family: var(--font-display);
+    }
+    .compare-row-header .compare-th-tier {
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-body-lg);
+      text-align: center;
+    }
+    .compare-row-header .compare-th-tier span {
+      display: block;
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .compare-feature {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .compare-value {
+      text-align: center;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+    .compare-check {
+      display: inline-flex; width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      align-items: center; justify-content: center;
+    }
+    .compare-check svg { width: 14px; height: 14px; }
+    .compare-dash {
+      display: inline-block;
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+      font-size: var(--text-body-sm);
+    }
+    .compare-text {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .compare-text.green {
+      color: var(--brand-green-700);
+    }
+
+    /* FAQ */
+    .faq {
+      max-width: 820px;
+      margin: var(--s-32) auto 0;
+      padding: 0 var(--s-6);
+    }
+    .faq-head {
+      text-align: center;
+      margin-bottom: var(--s-12);
+    }
+    .faq-head .eyebrow {
+      display: inline-block;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-3);
+    }
+    .faq-head h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.015em;
+    }
+    .faq-list {
+      display: grid; gap: var(--s-3);
+    }
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6) var(--s-7);
+      transition: border-color var(--t-smooth) var(--ease-glass);
+    }
+    .faq-item:hover { border-color: var(--brand-blue-200); }
+    .faq-item summary {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-body-lg);
+      color: var(--text-primary);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "";
+      width: 14px; height: 14px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      margin-left: var(--s-4);
+      transition: transform var(--t-smooth) var(--ease-glass);
+    }
+    .faq-item[open] summary::after { transform: rotate(-135deg); margin-top: 6px; }
+    .faq-item-body {
+      padding-top: var(--s-4);
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-size: var(--text-body-sm);
+    }
+    .faq-item-body p + p { margin-top: var(--s-3); }
+
+    /* CTA banner */
+    .cta-banner {
+      max-width: var(--container);
+      margin: var(--s-32) auto var(--s-20);
+      padding: 0 var(--s-6);
+    }
+    .cta-banner-inner {
+      padding: var(--s-16) var(--s-16);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%; transform: translate(-50%, -40%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .cta-banner-inner h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: white;
+      margin-bottom: var(--s-4);
+      position: relative;
+    }
+    .cta-banner-inner > p {
+      font-size: var(--text-body-lg);
+      color: rgba(255,255,255,0.8);
+      max-width: 36rem;
+      margin: 0 auto var(--s-8);
+      position: relative;
+    }
+    .cta-banner-options {
+      position: relative;
+      display: inline-flex;
+      gap: var(--s-4);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: var(--s-6);
+    }
+    .cta-banner-option {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius-lg);
+      padding: var(--s-4) var(--s-6);
+      text-align: left;
+      min-width: 220px;
+    }
+    .cta-banner-option-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: var(--s-1);
+    }
+    .cta-banner-option-price {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 700;
+      color: white;
+    }
+    .cta-banner-row {
+      position: relative;
+      display: inline-flex; gap: var(--s-4); align-items: center;
+    }
+    .cta-banner-row .btn {
+      background: white; color: var(--brand-blue); border-color: white;
+    }
+    .cta-banner-row .btn:hover {
+      background: var(--brand-green); border-color: var(--brand-green); color: var(--brand-blue);
+    }
+    .cta-banner-secondary {
+      color: rgba(255,255,255,0.85);
+      font-weight: 500;
+      font-size: var(--text-body-sm);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- AIKASA inline SVG icon sprite. Copy this <svg> block into every page once,
+       then reference icons via <svg class="icon"><use href="#icon-name"></use></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="nav-shell">
+    <nav class="nav-public" aria-label="Primary">
+      <a href="landing-desktop.html" class="wordmark">AIKASA</a>
+      <div class="nav-public-right">
+        <div class="nav-public-links">
+          <a href="pricing-desktop.html" aria-current="page" style="color: var(--brand-blue); font-weight: 600;">Pricing</a>
+          <a href="login-desktop.html">Sign in</a>
+        </div>
+        <a href="join-desktop.html" class="btn">Become a Founding Member</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Pricing head -->
+    <section class="pricing-head">
+      <span class="eyebrow">Pricing &middot; Founding window open</span>
+      <h1>Pricing built for the <span class="accent">African journey.</span></h1>
+      <p>One simple promise: AI that works. Choose your tier, choose your region. Lock in founder pricing before launch.</p>
+    </section>
+
+    <!-- Sticky toggle row -->
+    <section class="toggle-row" aria-label="Region and billing cycle">
+      <div class="toggle-inner">
+        <div class="row gap-3" style="align-items: center;">
+          <span class="toggle-label">Region</span>
+          <div class="toggle-group" role="radiogroup" aria-label="Region">
+            <input type="radio" id="region-ghana" name="region" checked>
+            <label for="region-ghana" class="toggle-pill">
+              <svg width="14" height="14"><use href="#i-globe"/></svg>
+              Ghana &middot; GHS
+            </label>
+            <input type="radio" id="region-global" name="region">
+            <label for="region-global" class="toggle-pill">
+              Global &middot; USD
+            </label>
+          </div>
+        </div>
+        <div class="row gap-3" style="align-items: center;">
+          <span class="toggle-label">Billing</span>
+          <div class="toggle-group" role="radiogroup" aria-label="Billing cycle">
+            <input type="radio" id="cycle-monthly" name="cycle" checked>
+            <label for="cycle-monthly" class="toggle-pill">Monthly</label>
+            <input type="radio" id="cycle-annual" name="cycle">
+            <label for="cycle-annual" class="toggle-pill">
+              Annual <span class="toggle-save">save ~17%</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founding Member featured -->
+    <section class="founding-featured" aria-label="Founding Member offer">
+      <div class="founding-card">
+        <div class="founding-card-left">
+          <span class="founding-limit-badge">Limited &middot; June 2026</span>
+          <h2>Founding Member Access</h2>
+          <p class="founding-lede">Prepay before launch. Lock in founder pricing. Help shape the platform you'll use. Access starts on official AIKASA launch day in August/September 2026.</p>
+          <div class="founding-card-meta">
+            <div class="founding-card-meta-row">
+              <svg><use href="#i-check"/></svg>
+              Tier 2 (AI Transformation) access for the full term
+            </div>
+            <div class="founding-card-meta-row">
+              <svg><use href="#i-check"/></svg>
+              Founding Member 2026 digital badge
+            </div>
+            <div class="founding-card-meta-row">
+              <svg><use href="#i-check"/></svg>
+              Up to 25% renewal discount after expiry
+            </div>
+          </div>
+        </div>
+
+        <div class="founding-options">
+          <div class="founding-option">
+            <div>
+              <div class="founding-option-label">3-Month Founding Access</div>
+              <h3>Minimum founding commitment</h3>
+              <div class="founding-option-sub">A short prepaid window to lock in your seat.</div>
+            </div>
+            <div class="founding-option-price">
+              <span class="price">GHS 399</span>
+              <span class="alt">or $25 global</span>
+            </div>
+          </div>
+
+          <div class="founding-option recommended">
+            <div>
+              <div class="founding-option-label">Annual Founding Access <span class="founding-option-best">Best value</span></div>
+              <h3>Best founding value &amp; seed capital driver</h3>
+              <div class="founding-option-sub">Fund the build. Carry your founder pricing through year one.</div>
+            </div>
+            <div class="founding-option-price">
+              <span class="price">GHS 999</span>
+              <span class="alt">or $89 global</span>
+            </div>
+          </div>
+
+          <div class="founding-cta-row">
+            <a href="join-desktop.html" class="btn btn-lg">
+              Become a Founding Member
+              <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+            </a>
+            <span class="cta-banner-secondary" style="border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.85);">Prepaid &middot; Access at launch (Aug/Sept 2026)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Regular tiers -->
+    <section class="tiers" aria-label="Standard pricing tiers">
+      <div class="tiers-head">
+        <span class="eyebrow">After launch &middot; Standard tiers</span>
+        <h2>Two tiers. One simple promise.</h2>
+        <p>Launch promo pricing shown below. Regular pricing applies after the launch promotion ends.</p>
+      </div>
+
+      <div class="tier-grid">
+        <!-- Tier 1 -->
+        <article class="tier" aria-labelledby="tier-1-name">
+          <span class="tier-tag">Tier 01</span>
+          <h3 id="tier-1-name">AI-Ready</h3>
+          <p class="tier-tagline">Core learning and support. For African professionals starting to make AI part of their week.</p>
+
+          <div class="tier-price-row">
+            <span class="tier-price-main">GHS 175</span>
+            <span class="tier-price-cycle">/ month</span>
+          </div>
+          <span class="tier-price-strike">After launch promo: GHS 200 / mo</span>
+          <p class="tier-price-note">or GHS 1,650/yr (after promo GHS 2,000/yr)</p>
+
+          <div class="tier-cta">
+            <a href="join-desktop.html" class="btn btn-secondary btn-lg">
+              Choose AI-Ready
+              <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+            </a>
+          </div>
+
+          <div class="tier-features">
+            <div class="tier-features-label">Included</div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Recorded video library across all three launch pillars</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly live group session</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly challenges and structured exercises</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Community access</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>AIKASA Toolbox: prompt packs, templates, guides</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>AI Updates &mdash; what changed, what matters</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tier 2 (Recommended) -->
+        <article class="tier tier-2" aria-labelledby="tier-2-name">
+          <span class="tier-ribbon">Recommended</span>
+          <span class="tier-tag">Tier 02</span>
+          <h3 id="tier-2-name">AI Transformation</h3>
+          <p class="tier-tagline">Deeper implementation and premium access. For professionals and SMEs ready to deploy AI to real outputs.</p>
+
+          <div class="tier-price-row">
+            <span class="tier-price-main">GHS 399</span>
+            <span class="tier-price-cycle">/ month</span>
+          </div>
+          <span class="tier-price-strike">After launch promo: GHS 600 / mo</span>
+          <p class="tier-price-note">or GHS 4,500/yr (after promo GHS 6,000/yr)</p>
+
+          <div class="tier-cta">
+            <a href="join-desktop.html" class="btn btn-lg">
+              Choose AI Transformation
+              <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+            </a>
+          </div>
+
+          <div class="tier-features">
+            <div class="tier-features-label">Everything in AI-Ready, plus</div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly implementation clinic for live troubleshooting</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Tier-specific deeper sessions and case studies</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Priority support from the facilitator team</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Advanced AIKASA Toolbox: business workflows, sector packs</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Direct feedback channel into the product team</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Founding Member status if you upgrade from a founding plan</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Comparison table -->
+    <section class="compare" aria-label="Tier comparison">
+      <span class="eyebrow" style="display: block; text-align: center; color: var(--brand-green-large); margin-bottom: var(--s-3);">Side-by-side</span>
+      <h2>Compare what's inside each tier.</h2>
+      <p class="compare-sub">A clear, calm read on where Tier 1 ends and Tier 2 begins.</p>
+
+      <div class="compare-table">
+        <div class="compare-row compare-row-header">
+          <div class="compare-feature" style="color: var(--text-muted); font-family: var(--font-caption); text-transform: uppercase; letter-spacing: 0.08em; font-size: var(--text-caption); font-weight: 600;">Feature</div>
+          <div class="compare-th-tier">AI-Ready <span>Tier 1</span></div>
+          <div class="compare-th-tier">AI Transformation <span>Tier 2</span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Recorded video library</div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Weekly live group sessions</div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Weekly implementation clinic</div>
+          <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Weekly challenges</div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Community access</div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">AIKASA Toolbox</div>
+          <div class="compare-value compare-text">Core</div>
+          <div class="compare-value compare-text green">Core + Advanced</div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">AI Updates feed</div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Tier-specific deeper sessions</div>
+          <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Priority support</div>
+          <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+          <div class="compare-value"><span class="compare-check"><svg><use href="#i-check"/></svg></span></div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-feature">Founding Member status (if upgrading)</div>
+          <div class="compare-value compare-text">By upgrade</div>
+          <div class="compare-value compare-text green">Carried forward</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" aria-label="Frequently asked questions">
+      <div class="faq-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Answers, calmly.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How long is the founding offer open?</summary>
+          <div class="faq-item-body">
+            <p>The Founding Member window runs through June 2026. After it closes, AIKASA opens to public subscriptions at standard pricing &mdash; with launch promo discounts for the first few weeks.</p>
+            <p>Founding pricing is only available before official launch in August/September 2026.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What happens if my payment fails?</summary>
+          <div class="faq-item-body">
+            <p>If a renewal payment fails, you keep access for a 3 to 7 day grace period while we send automatic reminders. As soon as the payment goes through, access is restored automatically &mdash; nothing to chase, nothing to email.</p>
+            <p>If the grace period passes without payment, the account moves to read-only until you renew.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I cancel anytime?</summary>
+          <div class="faq-item-body">
+            <p>Yes. Monthly plans cancel at the end of the current billing month. Annual plans run for the year you paid for. Founding Member access runs for the prepaid 3-month or annual term, then renews at standard pricing minus your loyalty discount.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What's the difference between Tier 1 and Tier 2?</summary>
+          <div class="faq-item-body">
+            <p><strong>Tier 1: AI-Ready</strong> is core learning &mdash; recorded videos, weekly live group sessions, weekly challenges, the AIKASA Toolbox, community and AI Updates. The full learning surface.</p>
+            <p><strong>Tier 2: AI Transformation</strong> adds the weekly implementation clinic, tier-specific deeper sessions, priority support, advanced Toolbox content and a direct feedback channel into the product team. Built for members ready to deploy AI to real outputs.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What if I pay in GHS but live abroad?</summary>
+          <div class="faq-item-body">
+            <p>Founding pricing is shown in both GHS and USD. Pay in whichever currency suits you &mdash; Paystack handles cards and mobile money. Your access does not depend on which currency you used.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is there a refund policy?</summary>
+          <div class="faq-item-body">
+            <p>Founding payments fund the build. They are non-refundable once the founding window closes, but you keep your founding access for the full prepaid term &mdash; with the loyalty discount on renewal afterwards.</p>
+            <p>Standard subscriptions are pay-as-you-go &mdash; cancel anytime and you simply stop being billed at the end of the cycle.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA banner -->
+    <section class="cta-banner">
+      <div class="cta-banner-inner">
+        <h2>Ready? Become a Founding Member.</h2>
+        <p>Two prepaid options. One simple goal: lock in founder pricing and help us build the AI ecosystem African work actually needs.</p>
+        <div class="cta-banner-options">
+          <div class="cta-banner-option">
+            <div class="cta-banner-option-label">3-Month Founding</div>
+            <div class="cta-banner-option-price">GHS 399 / $25</div>
+          </div>
+          <div class="cta-banner-option">
+            <div class="cta-banner-option-label">Annual Founding</div>
+            <div class="cta-banner-option-price">GHS 999 / $89</div>
+          </div>
+        </div>
+        <div class="cta-banner-row">
+          <a href="join-desktop.html" class="btn btn-lg">
+            Become a Founding Member
+            <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a href="login-desktop.html" class="cta-banner-secondary">Already a member? Sign in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="wordmark" style="font-size: 1.5rem; margin-bottom: var(--s-3);">AIKASA</div>
+          <p style="color: var(--text-secondary); font-size: var(--text-body-sm); line-height: 1.55; max-width: 22rem;">AI that works. A guided AI implementation ecosystem built for African professionals and entrepreneurs.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Product</h4>
+          <div class="footer-list">
+            <a href="pricing-desktop.html">Pricing</a>
+            <a href="join-desktop.html">Become a Founding Member</a>
+            <a href="login-desktop.html">Sign in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Pillars</h4>
+          <div class="footer-list">
+            <a href="#">AI for Productivity</a>
+            <a href="#">AI for Business</a>
+            <a href="#">AI Navigation &amp; Clarity</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Africon</h4>
+          <div class="footer-list">
+            <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a>
+            <a href="#">No. 2, 2nd Nii Kokonya Road,<br>East Legon, Accra &mdash; Ghana</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-endorsement">An Africon project &middot; &copy; 2026 Africa AI Consult</span>
+        <span>aikasa.ai</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

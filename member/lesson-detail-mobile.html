@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>How to refine a Gamma deck — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* Mobile lesson */
+    body { background: var(--bg); }
+
+    .lesson-back-row {
+      display: flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-3) 0 var(--s-4);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .lesson-back-row svg { width: 16px; height: 16px; }
+    .lesson-back-row a { color: var(--text-secondary); font-weight: 500; }
+
+    .lesson-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-2);
+    }
+    .lesson-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-2);
+      line-height: 1.2;
+    }
+    .lesson-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      display: flex; align-items: center; gap: var(--s-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--s-4);
+    }
+    .lesson-sub-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-faint); }
+
+    /* Video player */
+    .video-wrap {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(135deg, #0F172A 0%, var(--brand-blue) 70%, #001f3d 100%);
+      box-shadow: var(--shadow);
+      margin: 0 calc(var(--s-4) * -1) var(--s-4);
+    }
+    .video-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .video-orb {
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .video-orb-1 { top: -80px; right: -60px; background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%); }
+    .video-orb-2 { bottom: -80px; left: -60px; background: radial-gradient(circle, var(--brand-blue-400) 0%, transparent 70%); }
+
+    .video-watermark {
+      position: absolute;
+      top: var(--s-3); left: var(--s-4);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.6);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .video-watermark-sub {
+      font-family: var(--font-caption);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      border: 2px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 51, 102, 0.5), 0 0 0 8px rgba(255,255,255,0.05);
+      color: white;
+    }
+    .video-play-btn svg { width: 28px; height: 28px; margin-left: 3px; }
+
+    .video-timeline {
+      position: absolute;
+      bottom: 44px; left: var(--s-3); right: var(--s-3);
+      display: flex; align-items: center; gap: var(--s-2);
+      z-index: 2;
+    }
+    .video-progress {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .video-progress-fill {
+      width: 35%;
+      height: 100%;
+      background: var(--brand-blue-400);
+      border-radius: 999px;
+      position: relative;
+    }
+    .video-progress-fill::after {
+      content: ""; position: absolute; right: -5px; top: 50%; transform: translateY(-50%);
+      width: 10px; height: 10px;
+      background: white;
+      border-radius: 50%;
+    }
+    .video-time {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
+    .video-controls {
+      position: absolute;
+      bottom: var(--s-3); left: var(--s-3); right: var(--s-3);
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 2;
+    }
+    .video-controls-left, .video-controls-right {
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .video-ctrl-btn {
+      width: 28px; height: 28px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.85);
+      border-radius: var(--radius-sm);
+    }
+    .video-ctrl-btn svg { width: 16px; height: 16px; }
+
+    /* Sections */
+    .lesson-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-5);
+      margin-bottom: var(--s-3);
+    }
+    .lesson-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-3);
+      letter-spacing: -0.005em;
+    }
+    .lesson-section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-1);
+      display: block;
+    }
+
+    .outcome-list { display: flex; flex-direction: column; gap: var(--s-2); }
+    .outcome-item {
+      display: flex; gap: var(--s-3);
+      padding: var(--s-3);
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      align-items: flex-start;
+    }
+    .outcome-check {
+      width: 22px; height: 22px;
+      min-width: 22px;
+      border-radius: 50%;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .outcome-check svg { width: 12px; height: 12px; }
+    .outcome-text { color: var(--text-secondary); font-size: var(--text-body-sm); line-height: 1.5; }
+
+    .prompt-list {
+      display: flex; flex-direction: column; gap: var(--s-2);
+      counter-reset: prompt;
+    }
+    .prompt-item {
+      display: flex; gap: var(--s-3);
+      padding: var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      counter-increment: prompt;
+    }
+    .prompt-item::before {
+      content: counter(prompt, decimal-leading-zero);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--brand-blue);
+      background: white;
+      width: 28px; height: 28px;
+      min-width: 28px;
+      border-radius: var(--radius-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+    }
+    .prompt-text {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-primary);
+      line-height: 1.55;
+    }
+
+    .next-line {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      padding: var(--s-3);
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+    }
+    .next-line svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Collapsible rail */
+    .collapsible {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--s-3);
+      overflow: hidden;
+    }
+    .collapsible summary {
+      list-style: none;
+      cursor: pointer;
+      padding: var(--s-4) var(--s-5);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .collapsible summary::-webkit-details-marker { display: none; }
+    .collapsible summary::after {
+      content: "";
+      width: 10px; height: 10px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      transition: transform var(--t-smooth) var(--ease-glass);
+    }
+    .collapsible[open] summary::after { transform: rotate(-135deg); }
+    .collapsible-body { padding: 0 var(--s-5) var(--s-5); }
+
+    .resources-list { display: flex; flex-direction: column; gap: var(--s-2); }
+    .resource-item {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-soft);
+      background: var(--bg-soft);
+    }
+    .resource-icon {
+      width: 32px; height: 32px; min-width: 32px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .resource-icon svg { width: 16px; height: 16px; }
+    .resource-meta { flex: 1; min-width: 0; }
+    .resource-name {
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .resource-size {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    .resource-btn {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--brand-blue);
+      padding: var(--s-2) var(--s-3);
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Next lesson card */
+    .next-lesson { display: flex; flex-direction: column; gap: var(--s-3); }
+    .next-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      overflow: hidden;
+    }
+    .next-thumb-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .next-thumb-play svg { width: 20px; height: 20px; margin-left: 2px; }
+    .next-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+      line-height: 1.35;
+    }
+    .next-meta {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    /* Notes */
+    .notes-wrap {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-5);
+      margin-bottom: var(--s-3);
+    }
+    .notes-textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      color: var(--text-primary);
+      resize: vertical;
+    }
+    .notes-textarea:focus {
+      outline: none; background: white;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px var(--brand-blue-100);
+    }
+    .notes-textarea::placeholder { color: var(--text-faint); }
+    .notes-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      margin-top: var(--s-3);
+    }
+    .notes-private {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      display: inline-flex; align-items: center; gap: var(--s-1);
+    }
+    .notes-private svg { width: 12px; height: 12px; }
+    .notes-save { font-size: var(--text-body-sm); font-weight: 600; color: var(--brand-blue); }
+
+    .stuck-link {
+      padding: var(--s-4); margin-bottom: var(--s-3);
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+    .stuck-link a { color: var(--brand-blue); font-weight: 600; }
+
+    /* Sticky mark-complete */
+    .sticky-cta {
+      position: sticky;
+      bottom: calc(72px + var(--mobile-safe-bottom));
+      z-index: 30;
+      padding: var(--s-3) 0;
+    }
+    .sticky-cta-inner {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: var(--s-2);
+      box-shadow: var(--glass-shadow);
+    }
+
+    /* Bottom safe-area for floating tab bar */
+    .member-content { padding-bottom: calc(100px + var(--mobile-safe-bottom)) !important; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7-11-7Z"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6V5Zm8 0h4v14h-4V5Z"/></symbol>
+      <symbol id="i-skip-back" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5v14h2V5H6Zm14 0L9 12l11 7V5Z"/></symbol>
+      <symbol id="i-skip-fwd" viewBox="0 0 24 24" fill="currentColor"><path d="M4 5v14l11-7L4 5Zm12 0v14h2V5h-2Z"/></symbol>
+      <symbol id="i-cc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 11a2 2 0 0 0-3 2 2 2 0 0 0 3 2"/><path d="M15 11a2 2 0 0 0-3 2 2 2 0 0 0 3 2"/></symbol>
+      <symbol id="i-fullscreen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5"/><path d="M20 9V4h-5"/><path d="M4 15v5h5"/><path d="M20 15v5h-5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Mobile topbar -->
+  <header class="mobile-topbar">
+    <a href="lessons-mobile.html" aria-label="Back" style="display:inline-flex;align-items:center;gap:var(--s-2);color:var(--text-secondary);font-weight:500;font-size:var(--text-body-sm);">
+      <svg class="icon" width="20" height="20"><use href="#i-arrow-left"/></svg>
+      Back
+    </a>
+    <span class="mobile-topbar-title">Lesson 3 of 6</span>
+    <div style="display:flex;gap:var(--s-2);align-items:center;">
+      <button class="btn-icon" aria-label="Notifications" style="color:var(--text-secondary);">
+        <svg class="icon" width="20" height="20"><use href="#i-bell"/></svg>
+      </button>
+      <span class="avatar" aria-label="Yaa Mensah">YM</span>
+    </div>
+  </header>
+
+  <main id="main" class="member-content">
+    <!-- Lesson context strip -->
+    <div class="lesson-back-row">
+      <span style="color:var(--brand-green-large);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Pillar 2</span>
+      <span>·</span>
+      <span>Presentations with Gamma</span>
+    </div>
+
+    <!-- Lesson title -->
+    <h1 class="lesson-title">How to refine a Gamma deck</h1>
+    <div class="lesson-sub">
+      <span><svg class="icon" width="14" height="14" style="vertical-align:-2px;margin-right:4px;color:var(--text-muted)"><use href="#i-clock"/></svg>9 min</span>
+      <span class="lesson-sub-dot"></span>
+      <span>with Kojo Asante</span>
+      <span class="badge badge-blue" style="margin-left:auto;">In progress</span>
+    </div>
+
+    <!-- Video player -->
+    <div class="video-wrap" role="img" aria-label="Video: How to refine a Gamma deck">
+      <div class="video-grid"></div>
+      <div class="video-orb video-orb-1"></div>
+      <div class="video-orb video-orb-2"></div>
+      <div class="video-watermark">
+        AIKASA
+        <span class="video-watermark-sub">AI that works</span>
+      </div>
+      <button class="video-play-btn" aria-label="Play video">
+        <svg aria-hidden="true"><use href="#i-play"/></svg>
+      </button>
+      <div class="video-timeline">
+        <div class="video-progress"><div class="video-progress-fill"></div></div>
+        <span class="video-time">03:08 / 09:00</span>
+      </div>
+      <div class="video-controls">
+        <div class="video-controls-left">
+          <button class="video-ctrl-btn" aria-label="Pause"><svg aria-hidden="true"><use href="#i-pause"/></svg></button>
+          <button class="video-ctrl-btn" aria-label="Skip back"><svg aria-hidden="true"><use href="#i-skip-back"/></svg></button>
+          <button class="video-ctrl-btn" aria-label="Skip forward"><svg aria-hidden="true"><use href="#i-skip-fwd"/></svg></button>
+        </div>
+        <div class="video-controls-right">
+          <button class="video-ctrl-btn" aria-label="Captions"><svg aria-hidden="true"><use href="#i-cc"/></svg></button>
+          <button class="video-ctrl-btn" aria-label="Fullscreen"><svg aria-hidden="true"><use href="#i-fullscreen"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- What you'll do -->
+    <section class="lesson-section">
+      <span class="lesson-section-eyebrow">Section 1</span>
+      <h2 class="lesson-section-title">What you'll do</h2>
+      <ul class="outcome-list">
+        <li class="outcome-item">
+          <span class="outcome-check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+          <span class="outcome-text">Take a raw, AI-generated Gamma deck and apply five targeted refinement prompts that tighten the structure without losing your voice.</span>
+        </li>
+        <li class="outcome-item">
+          <span class="outcome-check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+          <span class="outcome-text">Cut every slide's word count by roughly 60% while keeping the story intact — the test is whether a stranger can still follow.</span>
+        </li>
+        <li class="outcome-item">
+          <span class="outcome-check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+          <span class="outcome-text">Save your five favourite prompts as a personal playbook you'll reuse for every Gamma deck after this one.</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 5 prompts -->
+    <section class="lesson-section">
+      <span class="lesson-section-eyebrow">Section 2</span>
+      <h2 class="lesson-section-title">The 5 prompts you'll use</h2>
+      <ol class="prompt-list">
+        <li class="prompt-item">
+          <p class="prompt-text">Refine slide 3 — make it 70% less wordy. Keep the structure. Audience is a Ghanaian SME owner who skims, not reads.</p>
+        </li>
+        <li class="prompt-item">
+          <p class="prompt-text">Rewrite the headline on each slide as a single, punchy sentence under 9 words. No buzzwords. No "leverage" or "synergy". Plain language.</p>
+        </li>
+        <li class="prompt-item">
+          <p class="prompt-text">For slides 5 to 8, replace every bullet list longer than 3 items with one strong sentence + one number. Keep the number specific.</p>
+        </li>
+        <li class="prompt-item">
+          <p class="prompt-text">Audit the deck for tone consistency. Flag any slide that sounds like a different person wrote it, and tell me which slide is the odd one out and why.</p>
+        </li>
+        <li class="prompt-item">
+          <p class="prompt-text">Suggest one "objection slide" I'm missing — the thing a sceptical investor would ask after slide 4 — and draft both the question and a 40-word answer.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- After watching -->
+    <section class="lesson-section">
+      <span class="lesson-section-eyebrow">Section 3</span>
+      <h2 class="lesson-section-title">After watching</h2>
+      <div class="next-line">
+        <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        <span>Open your own messiest Gamma deck and run prompt 1 against slide 3. Save the result. We'll compare in Thursday's clinic.</span>
+      </div>
+    </section>
+
+    <!-- Resources (collapsible) -->
+    <details class="collapsible" open>
+      <summary>Resources <span class="badge badge-blue" style="margin-left:auto;font-size:0.625rem;">3</span></summary>
+      <div class="collapsible-body">
+        <div class="resources-list">
+          <div class="resource-item">
+            <div class="resource-icon"><svg aria-hidden="true"><use href="#i-download"/></svg></div>
+            <div class="resource-meta">
+              <div class="resource-name">Gamma refine prompt pack.md</div>
+              <div class="resource-size">8 KB · Markdown</div>
+            </div>
+            <a href="#" class="resource-btn">Get</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon"><svg aria-hidden="true"><use href="#i-download"/></svg></div>
+            <div class="resource-meta">
+              <div class="resource-name">Slide refinement checklist.pdf</div>
+              <div class="resource-size">124 KB · PDF</div>
+            </div>
+            <a href="#" class="resource-btn">Get</a>
+          </div>
+          <div class="resource-item">
+            <div class="resource-icon"><svg aria-hidden="true"><use href="#i-download"/></svg></div>
+            <div class="resource-meta">
+              <div class="resource-name">Sample before/after deck.pdf</div>
+              <div class="resource-size">1.2 MB · PDF</div>
+            </div>
+            <a href="#" class="resource-btn">Get</a>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Up next (collapsible) -->
+    <details class="collapsible">
+      <summary>Up next</summary>
+      <div class="collapsible-body">
+        <div class="next-lesson">
+          <div class="next-thumb">
+            <span class="next-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+          </div>
+          <div>
+            <div class="next-title">How to use ChatGPT with Gamma</div>
+            <div class="next-meta">11 min · Kojo Asante · Lesson 4 of 6</div>
+          </div>
+          <a href="#" class="btn btn-secondary btn-block btn-sm">
+            Continue to Lesson 4
+            <svg class="icon" width="14" height="14"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Notes -->
+    <section class="notes-wrap" aria-label="Your notes">
+      <h2 class="lesson-section-title" style="margin-bottom:var(--s-1);">Your notes</h2>
+      <p class="text-muted" style="font-size:var(--text-caption);margin-bottom:var(--s-3);">Private. Only you can see these.</p>
+      <textarea class="notes-textarea" placeholder="Write what you tried, what worked, what to revisit."></textarea>
+      <div class="notes-row">
+        <span class="notes-private">
+          <svg aria-hidden="true"><use href="#i-lock"/></svg>
+          Private · Auto-saves
+        </span>
+        <a href="#" class="notes-save">Save</a>
+      </div>
+    </section>
+
+    <!-- Stuck link -->
+    <div class="stuck-link">
+      Got stuck? Bring it to <a href="live-sessions-mobile.html">Thursday's Implementation Clinic →</a>
+    </div>
+
+    <!-- Sticky mark complete -->
+    <div class="sticky-cta">
+      <div class="sticky-cta-inner">
+        <a href="#" class="btn btn-block btn-lg">
+          <svg class="icon" width="18" height="18"><use href="#i-check"/></svg>
+          Mark lesson complete
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tab-bar" aria-label="Main navigation">
+    <a href="dashboard-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-home"/></svg></span>
+      Home
+    </a>
+    <a href="lessons-mobile.html" class="tab-item active" aria-current="page">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-book"/></svg></span>
+      Lessons
+    </a>
+    <a href="live-sessions-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-video"/></svg></span>
+      Live
+    </a>
+    <a href="challenges-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-target"/></svg></span>
+      Challenges
+    </a>
+    <a href="profile-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-user"/></svg></span>
+      Profile
+    </a>
+  </nav>
+</body>
+</html>

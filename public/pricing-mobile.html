@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Pricing — AIKASA</title>
+  <meta name="description" content="Pricing built for the African journey. Founding Member access and tiers for Ghana and global members.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { max-width: 414px; margin: 0 auto; background: var(--bg); position: relative; padding-bottom: calc(var(--s-20) + var(--mobile-safe-bottom)); }
+
+    .mob-nav {
+      position: sticky; top: 0; z-index: 50;
+      padding: var(--s-3) var(--s-4);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mob-nav .wordmark { font-size: 1.125rem; }
+    .mob-nav-actions { display: flex; gap: var(--s-2); align-items: center; }
+    .mob-nav-actions .btn-sm { padding: var(--s-2) var(--s-3); min-height: 36px; font-size: var(--text-caption); }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--text-primary);
+      border-radius: var(--radius);
+    }
+
+    /* Header */
+    .price-head {
+      padding: var(--s-8) var(--s-4) var(--s-6);
+    }
+    .price-head .eyebrow-row {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-3);
+      display: inline-flex; align-items: center; gap: var(--s-2);
+    }
+    .price-head .eyebrow-row::before {
+      content: ""; width: 1.5rem; height: 1px; background: var(--brand-green-large);
+    }
+    .price-head h1 {
+      font-family: var(--font-display);
+      font-size: 2.125rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--brand-blue);
+      line-height: 1.05;
+      margin-bottom: var(--s-3);
+    }
+    .price-head h1 .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .price-head p {
+      color: var(--text-secondary);
+      font-size: var(--text-body);
+      line-height: 1.55;
+    }
+
+    /* Sticky toggle chips */
+    .toggle-sticky {
+      position: sticky; top: 60px;
+      z-index: 30;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border-soft);
+      padding: var(--s-3) var(--s-4);
+    }
+    .toggle-scroll {
+      display: flex; gap: var(--s-2);
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+      scroll-snap-type: x mandatory;
+    }
+    .toggle-scroll::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: var(--s-2) var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      cursor: pointer;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+    .chip.active {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .chip-divider {
+      width: 1px; height: 24px;
+      background: var(--border);
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    /* Founding featured */
+    .founding-section {
+      padding: var(--s-6) var(--s-4) 0;
+    }
+    .founding-card {
+      position: relative;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--s-7) var(--s-6);
+      color: white;
+      overflow: hidden;
+      box-shadow: var(--shadow-blue-lg);
+    }
+    .founding-card::before {
+      content: "";
+      position: absolute;
+      top: -30%; right: -20%;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .founding-limit-badge {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-1) var(--s-3);
+      background: rgba(46, 204, 113, 0.2);
+      border: 1px solid rgba(46, 204, 113, 0.5);
+      color: var(--brand-green);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-4);
+      position: relative;
+    }
+    .founding-limit-badge::before {
+      content: ""; width: 6px; height: 6px; background: var(--brand-green); border-radius: 50%;
+    }
+    .founding-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      margin-bottom: var(--s-3);
+      position: relative;
+    }
+    .founding-lede {
+      color: rgba(255,255,255,0.75);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-5);
+      position: relative;
+    }
+    .founding-options { display: grid; gap: var(--s-3); position: relative; }
+    .founding-option {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+    }
+    .founding-option.recommended {
+      border-color: rgba(46, 204, 113, 0.5);
+      background: rgba(46, 204, 113, 0.08);
+    }
+    .founding-option-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: var(--s-1);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+    }
+    .founding-option-best {
+      display: inline-flex; padding: 2px var(--s-2);
+      background: var(--brand-green);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .founding-option-price {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: var(--s-1);
+    }
+    .founding-option-alt {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: rgba(255,255,255,0.55);
+    }
+    .founding-cta {
+      margin-top: var(--s-5);
+      position: relative;
+    }
+    .founding-cta .btn {
+      background: white; color: var(--brand-blue); border-color: white;
+      width: 100%; justify-content: center;
+    }
+    .founding-meta {
+      margin-top: var(--s-4);
+      padding-top: var(--s-4);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      display: grid; gap: var(--s-2);
+      position: relative;
+    }
+    .founding-meta-row {
+      display: flex; align-items: center; gap: var(--s-2);
+      font-size: var(--text-caption);
+      color: rgba(255,255,255,0.8);
+    }
+    .founding-meta-row svg { color: var(--brand-green); width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* Standard tiers */
+    .tiers-section {
+      padding: var(--s-10) var(--s-4) 0;
+    }
+    .section-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-3);
+    }
+    .section-h2 {
+      font-family: var(--font-display);
+      font-size: 1.625rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-3);
+      line-height: 1.15;
+    }
+    .section-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-6);
+    }
+    .tier-list {
+      display: grid; gap: var(--s-5);
+    }
+    .tier {
+      position: relative;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6);
+    }
+    .tier-2 {
+      border-color: var(--brand-blue);
+      box-shadow: var(--shadow-blue-sm);
+    }
+    .tier-ribbon {
+      position: absolute;
+      top: var(--s-4); right: var(--s-4);
+      padding: 2px var(--s-2);
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border: 1px solid var(--brand-green-200);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .tier-tag {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: var(--s-2);
+    }
+    .tier h3 {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .tier-tagline {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+      margin-bottom: var(--s-5);
+    }
+    .tier-price-row {
+      display: flex; align-items: baseline; gap: var(--s-2);
+      margin-bottom: var(--s-1);
+    }
+    .tier-price-main {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .tier-price-cycle {
+      color: var(--text-muted);
+      font-size: var(--text-body-sm);
+    }
+    .tier-price-strike {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-faint);
+      text-decoration: line-through;
+      margin-bottom: var(--s-2);
+      display: block;
+    }
+    .tier-price-note {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-green-large);
+      margin-bottom: var(--s-5);
+      letter-spacing: 0.04em;
+    }
+    .tier-cta {
+      margin-bottom: var(--s-5);
+    }
+    .tier-cta .btn { width: 100%; justify-content: center; }
+    .tier-features {
+      display: flex; flex-direction: column; gap: var(--s-3);
+      padding-top: var(--s-5);
+      border-top: 1px solid var(--border-soft);
+    }
+    .tier-features-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .tier-feature {
+      display: grid;
+      grid-template-columns: 1.1rem 1fr;
+      gap: var(--s-2);
+      align-items: start;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .tier-feature svg {
+      width: 16px; height: 16px;
+      color: var(--brand-green-large);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Compare table — accordion */
+    .compare-section {
+      padding: var(--s-10) var(--s-4) 0;
+    }
+    .compare-toggle {
+      padding: var(--s-5) var(--s-6);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      list-style: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .compare-toggle::-webkit-details-marker { display: none; }
+    .compare-toggle::after {
+      content: ""; width: 10px; height: 10px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      transition: transform var(--t-smooth) var(--ease-glass);
+    }
+    .compare-details[open] .compare-toggle::after { transform: rotate(-135deg); margin-top: 4px; }
+    .compare-details[open] .compare-toggle {
+      border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+      border-bottom-color: transparent;
+    }
+    .compare-table {
+      background: white;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      padding: var(--s-2);
+    }
+    .compare-row {
+      padding: var(--s-3) var(--s-4);
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: var(--s-2);
+      align-items: center;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: var(--text-caption);
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row-header {
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      font-family: var(--font-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      font-weight: 700;
+      font-size: 0.7rem;
+    }
+    .compare-row-header .compare-th { text-align: center; }
+    .compare-feature {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      font-weight: 500;
+    }
+    .compare-value { text-align: center; color: var(--text-secondary); }
+    .compare-check-mini {
+      display: inline-flex; width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      align-items: center; justify-content: center;
+    }
+    .compare-check-mini svg { width: 12px; height: 12px; }
+    .compare-dash {
+      color: var(--text-faint);
+      font-family: var(--font-mono);
+    }
+    .compare-text {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .compare-text.green { color: var(--brand-green-700); }
+
+    /* FAQ */
+    .faq-section { padding: var(--s-10) var(--s-4) 0; }
+    .faq-list { display: grid; gap: var(--s-3); }
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-5);
+    }
+    .faq-item summary {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; list-style: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-body);
+      color: var(--text-primary);
+      gap: var(--s-3);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: ""; width: 12px; height: 12px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      transition: transform var(--t-smooth) var(--ease-glass);
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
+    .faq-item-body {
+      padding-top: var(--s-3);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-size: var(--text-body-sm);
+    }
+    .faq-item-body p + p { margin-top: var(--s-2); }
+
+    /* CTA banner */
+    .cta-section { padding: var(--s-10) var(--s-4); }
+    .cta-banner {
+      padding: var(--s-8) var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: "";
+      position: absolute;
+      top: -40%; left: 50%; transform: translateX(-50%);
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+    }
+    .cta-banner h2 {
+      font-family: var(--font-display);
+      font-size: 1.625rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: white;
+      margin-bottom: var(--s-3);
+      position: relative;
+      line-height: 1.15;
+    }
+    .cta-banner p {
+      color: rgba(255,255,255,0.8);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-5);
+      position: relative;
+    }
+    .cta-banner-options {
+      display: grid; gap: var(--s-2);
+      margin-bottom: var(--s-5);
+      position: relative;
+    }
+    .cta-banner-option {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius);
+      padding: var(--s-3) var(--s-4);
+      text-align: left;
+      display: flex; justify-content: space-between; align-items: center; gap: var(--s-3);
+    }
+    .cta-banner-option-label {
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2px;
+    }
+    .cta-banner-option-price {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 700;
+      color: white;
+    }
+    .cta-banner .btn {
+      width: 100%; justify-content: center;
+      background: white; color: var(--brand-blue); border-color: white;
+      position: relative;
+    }
+
+    /* Footer */
+    .footer-mob {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: var(--s-10) var(--s-4) var(--s-6);
+      margin-top: var(--s-10);
+    }
+    .footer-mob .wordmark { font-size: 1.25rem; margin-bottom: var(--s-3); }
+    .footer-mob p {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      margin-bottom: var(--s-6);
+    }
+    .footer-mob-section { margin-bottom: var(--s-5); }
+    .footer-mob-title {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-primary);
+      margin-bottom: var(--s-2);
+    }
+    .footer-mob-list { display: flex; flex-direction: column; gap: var(--s-2); }
+    .footer-mob-list a {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+    }
+    .footer-mob-bottom {
+      padding-top: var(--s-5);
+      border-top: 1px solid var(--border);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- AIKASA inline SVG icon sprite. Copy this <svg> block into every page once,
+       then reference icons via <svg class="icon"><use href="#icon-name"></use></svg> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="mob-nav" role="banner">
+    <a href="landing-mobile.html" class="wordmark">AIKASA</a>
+    <div class="mob-nav-actions">
+      <a href="login-mobile.html" class="icon-btn" aria-label="Sign in">
+        <svg width="20" height="20"><use href="#i-user"/></svg>
+      </a>
+      <a href="join-mobile.html" class="btn btn-sm">Join</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="price-head">
+      <span class="eyebrow-row">Pricing &middot; Founding open</span>
+      <h1>Pricing built for the <span class="accent">African journey.</span></h1>
+      <p>One simple promise: AI that works. Lock in founder pricing before launch.</p>
+    </section>
+
+    <!-- Sticky toggle chips -->
+    <section class="toggle-sticky" aria-label="Region and billing">
+      <div class="toggle-scroll" role="tablist">
+        <button class="chip active" role="tab" aria-selected="true">
+          <svg width="12" height="12"><use href="#i-globe"/></svg>
+          Ghana &middot; GHS
+        </button>
+        <button class="chip" role="tab">Global &middot; USD</button>
+        <span class="chip-divider" aria-hidden="true"></span>
+        <button class="chip active" role="tab" aria-selected="true">Monthly</button>
+        <button class="chip" role="tab">Annual &middot; save ~17%</button>
+      </div>
+    </section>
+
+    <!-- Founding featured -->
+    <section class="founding-section" aria-label="Founding Member offer">
+      <div class="founding-card">
+        <span class="founding-limit-badge">Limited &middot; June 2026</span>
+        <h2>Founding Member Access</h2>
+        <p class="founding-lede">Prepay before launch. Lock in founder pricing. Access starts at official AIKASA launch (Aug/Sept 2026).</p>
+
+        <div class="founding-options">
+          <div class="founding-option">
+            <div class="founding-option-label">3-Month Founding</div>
+            <div class="founding-option-price">GHS 399</div>
+            <div class="founding-option-alt">or $25 global &middot; minimum founding commitment</div>
+          </div>
+          <div class="founding-option recommended">
+            <div class="founding-option-label">Annual Founding <span class="founding-option-best">Best</span></div>
+            <div class="founding-option-price">GHS 999</div>
+            <div class="founding-option-alt">or $89 global &middot; best founding value</div>
+          </div>
+        </div>
+
+        <div class="founding-cta">
+          <a href="join-mobile.html" class="btn btn-lg">
+            Become a Founding Member
+            <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+
+        <div class="founding-meta">
+          <div class="founding-meta-row">
+            <svg><use href="#i-check"/></svg>
+            Tier 2 access for the full term
+          </div>
+          <div class="founding-meta-row">
+            <svg><use href="#i-check"/></svg>
+            Founding Member 2026 digital badge
+          </div>
+          <div class="founding-meta-row">
+            <svg><use href="#i-check"/></svg>
+            Up to 25% renewal discount
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Standard tiers -->
+    <section class="tiers-section" aria-label="Standard pricing tiers">
+      <span class="section-eyebrow">After launch &middot; Standard tiers</span>
+      <h2 class="section-h2">Two tiers. One simple promise.</h2>
+      <p class="section-sub">Launch promo pricing shown. Regular pricing applies after the launch window ends.</p>
+
+      <div class="tier-list">
+        <article class="tier" aria-labelledby="tier-1-name">
+          <span class="tier-tag">Tier 01</span>
+          <h3 id="tier-1-name">AI-Ready</h3>
+          <p class="tier-tagline">Core learning and support. For African professionals starting to make AI part of their week.</p>
+
+          <div class="tier-price-row">
+            <span class="tier-price-main">GHS 175</span>
+            <span class="tier-price-cycle">/ month</span>
+          </div>
+          <span class="tier-price-strike">After launch promo: GHS 200 / mo</span>
+          <p class="tier-price-note">or GHS 1,650/yr (after promo GHS 2,000/yr)</p>
+
+          <div class="tier-cta">
+            <a href="join-mobile.html" class="btn btn-secondary btn-lg">Choose AI-Ready</a>
+          </div>
+
+          <div class="tier-features">
+            <div class="tier-features-label">Included</div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Recorded video library</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly live group session</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly challenges</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Community access</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>AIKASA Toolbox (core)</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>AI Updates feed</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="tier tier-2" aria-labelledby="tier-2-name">
+          <span class="tier-ribbon">Recommended</span>
+          <span class="tier-tag">Tier 02</span>
+          <h3 id="tier-2-name">AI Transformation</h3>
+          <p class="tier-tagline">Deeper implementation and premium access. Ready to deploy AI to real outputs.</p>
+
+          <div class="tier-price-row">
+            <span class="tier-price-main">GHS 399</span>
+            <span class="tier-price-cycle">/ month</span>
+          </div>
+          <span class="tier-price-strike">After launch promo: GHS 600 / mo</span>
+          <p class="tier-price-note">or GHS 4,500/yr (after promo GHS 6,000/yr)</p>
+
+          <div class="tier-cta">
+            <a href="join-mobile.html" class="btn btn-lg">Choose AI Transformation</a>
+          </div>
+
+          <div class="tier-features">
+            <div class="tier-features-label">Everything in Tier 1, plus</div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Weekly implementation clinic</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Tier-specific deeper sessions</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Priority support</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Advanced Toolbox (workflows, sector packs)</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Direct feedback channel</span>
+            </div>
+            <div class="tier-feature">
+              <svg><use href="#i-check"/></svg>
+              <span>Founding status if upgrading</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Compare table (collapsible) -->
+    <section class="compare-section" aria-label="Tier comparison">
+      <details class="compare-details">
+        <summary class="compare-toggle">See full comparison</summary>
+        <div class="compare-table">
+          <div class="compare-row compare-row-header">
+            <div>Feature</div>
+            <div class="compare-th">Tier 1</div>
+            <div class="compare-th">Tier 2</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Recorded videos</div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Weekly live sessions</div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Implementation clinic</div>
+            <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Weekly challenges</div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Community access</div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">AIKASA Toolbox</div>
+            <div class="compare-value compare-text">Core</div>
+            <div class="compare-value compare-text green">Advanced</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">AI Updates</div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Deeper sessions</div>
+            <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Priority support</div>
+            <div class="compare-value"><span class="compare-dash">&mdash;</span></div>
+            <div class="compare-value"><span class="compare-check-mini"><svg><use href="#i-check"/></svg></span></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feature">Founding status</div>
+            <div class="compare-value compare-text">By upgrade</div>
+            <div class="compare-value compare-text green">Carried fwd</div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" aria-label="Frequently asked questions">
+      <span class="section-eyebrow">FAQ</span>
+      <h2 class="section-h2">Answers, calmly.</h2>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>How long is the founding offer open?</summary>
+          <div class="faq-item-body">
+            <p>The Founding Member window runs through June 2026. After it closes, AIKASA opens to public subscriptions at standard pricing &mdash; with launch promo discounts for the first few weeks.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>What happens if my payment fails?</summary>
+          <div class="faq-item-body">
+            <p>You keep access for a 3 to 7 day grace period while we send automatic reminders. As soon as the payment goes through, access is restored automatically.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I cancel anytime?</summary>
+          <div class="faq-item-body">
+            <p>Yes. Monthly plans cancel at the end of the billing month. Annual plans run for the year you paid for. Founding access runs for the prepaid term, then renews at standard pricing minus your loyalty discount.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Tier 1 vs Tier 2 &mdash; what's different?</summary>
+          <div class="faq-item-body">
+            <p><strong>Tier 1: AI-Ready</strong> is core learning, weekly group sessions, community and Toolbox.</p>
+            <p><strong>Tier 2: AI Transformation</strong> adds the implementation clinic, deeper sessions, priority support, advanced Toolbox and a direct feedback channel.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>GHS or USD &mdash; does it matter?</summary>
+          <div class="faq-item-body">
+            <p>No. Founding pricing is shown in both. Pay in whichever suits you &mdash; Paystack handles cards and mobile money.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA banner -->
+    <section class="cta-section">
+      <div class="cta-banner">
+        <h2>Become a Founding Member.</h2>
+        <p>Two prepaid options. Lock in founder pricing.</p>
+        <div class="cta-banner-options">
+          <div class="cta-banner-option">
+            <div>
+              <div class="cta-banner-option-label">3-Month</div>
+              <div class="cta-banner-option-price">GHS 399</div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-caption); color: rgba(255,255,255,0.55);">$25</div>
+          </div>
+          <div class="cta-banner-option">
+            <div>
+              <div class="cta-banner-option-label">Annual &middot; Best</div>
+              <div class="cta-banner-option-price">GHS 999</div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: var(--text-caption); color: rgba(255,255,255,0.55);">$89</div>
+          </div>
+        </div>
+        <a href="join-mobile.html" class="btn btn-lg">
+          Become a Founding Member
+          <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-mob">
+    <div class="wordmark">AIKASA</div>
+    <p>AI that works. A guided AI implementation ecosystem for African professionals and entrepreneurs.</p>
+
+    <div class="footer-mob-section">
+      <div class="footer-mob-title">Product</div>
+      <div class="footer-mob-list">
+        <a href="pricing-mobile.html">Pricing</a>
+        <a href="join-mobile.html">Become a Founding Member</a>
+        <a href="login-mobile.html">Sign in</a>
+      </div>
+    </div>
+
+    <div class="footer-mob-section">
+      <div class="footer-mob-title">Africon</div>
+      <div class="footer-mob-list">
+        <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a>
+        <span style="color: var(--text-secondary); font-size: var(--text-body-sm);">No. 2, 2nd Nii Kokonya Road,<br>East Legon, Accra &mdash; Ghana</span>
+      </div>
+    </div>
+
+    <div class="footer-mob-bottom">
+      An Africon project &middot; &copy; 2026 Africa AI Consult
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Members — AIKASA Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+
+    /* Hide desktop sidebar on mobile (it's already hidden via design-system, but make sure) */
+    .sidebar { display: none; }
+    .app-shell { grid-template-columns: 1fr; }
+
+    /* Mobile top bar */
+    .admin-topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: var(--s-3) var(--s-4);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+    }
+    .admin-topbar-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+    }
+    .admin-badge {
+      display: inline-block;
+      background: var(--bg-soft-2);
+      color: var(--brand-blue);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      margin-left: var(--s-2);
+      vertical-align: middle;
+      font-weight: 600;
+    }
+    .hamburger-btn {
+      width: var(--touch-target); height: var(--touch-target);
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      color: var(--brand-blue);
+    }
+    .hamburger-btn .icon { width: 20px; height: 20px; }
+    .avatar-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      color: white;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-caption);
+    }
+    .nav-hint {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      padding: var(--s-2) var(--s-4);
+      background: var(--bg-soft-2);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .nav-hint::before {
+      content: "›";
+      color: var(--brand-blue);
+      font-weight: 700;
+    }
+
+    .admin-content {
+      padding: var(--s-4);
+      padding-bottom: calc(var(--s-12) + var(--mobile-safe-bottom));
+    }
+
+    /* Toast */
+    .toast {
+      display: flex; align-items: flex-start; gap: var(--s-2);
+      background: var(--brand-green-100);
+      border: 1px solid var(--brand-green-200);
+      color: var(--brand-green-700);
+      padding: var(--s-3);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-4);
+      font-size: var(--text-caption);
+      line-height: 1.4;
+    }
+    .toast-icon {
+      width: 22px; height: 22px;
+      background: var(--brand-green);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .toast-icon .icon { width: 13px; height: 13px; }
+    .toast-body { flex: 1; }
+    .toast-body strong { display: block; margin-bottom: 2px; }
+    .toast-close {
+      width: 22px; height: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--brand-green-700);
+      flex-shrink: 0;
+    }
+    .toast-close .icon { width: 12px; height: 12px; }
+
+    .page-header { margin-bottom: var(--s-4); }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      line-height: 1.1;
+    }
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--text-caption);
+      margin-top: var(--s-1);
+    }
+
+    /* Stats strip 2x2 */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-2);
+      margin-bottom: var(--s-4);
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3);
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .stat-card-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .stat-card-value {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .stat-card-detail {
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .pill-mini {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      margin-right: 2px;
+    }
+    .pill-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .pill-amber { background: #fef3c7; color: #92400e; }
+    .pill-red   { background: #fee2e2; color: #991b1b; }
+
+    /* Search & filter row */
+    .search-row {
+      display: flex; gap: var(--s-2);
+      margin-bottom: var(--s-3);
+    }
+    .search-wrap {
+      flex: 1;
+      position: relative;
+    }
+    .search-wrap .icon-prefix {
+      position: absolute; left: var(--s-3); top: 50%;
+      transform: translateY(-50%);
+      width: 16px; height: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-wrap .input {
+      padding-left: calc(var(--s-3) + 16px + var(--s-2));
+      min-height: 40px;
+      font-size: var(--text-body-sm);
+    }
+    .filter-btn {
+      padding: 0 var(--s-3);
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--brand-blue);
+      display: inline-flex; align-items: center; gap: 4px;
+      min-height: 40px;
+      white-space: nowrap;
+    }
+    .filter-btn .icon { width: 14px; height: 14px; }
+    .filter-badge {
+      background: var(--brand-blue);
+      color: white;
+      padding: 1px 5px;
+      border-radius: var(--radius-pill);
+      font-size: 0.625rem;
+      margin-left: 2px;
+    }
+
+    /* Chips horizontal scroll */
+    .chip-scroll {
+      display: flex; gap: var(--s-2);
+      overflow-x: auto;
+      padding-bottom: var(--s-2);
+      margin-bottom: var(--s-4);
+      scrollbar-width: none;
+    }
+    .chip-scroll::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: var(--s-1) var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chip.active { background: var(--brand-blue); color: white; border-color: var(--brand-blue); }
+
+    /* Member cards */
+    .results-count {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-bottom: var(--s-2);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .member-list {
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .member-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3);
+      display: flex; flex-direction: column; gap: var(--s-2);
+    }
+    .member-card-top {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+    }
+    .member-card .avatar {
+      width: 40px; height: 40px;
+      font-size: 0.875rem;
+      background: var(--brand-blue-100);
+      color: var(--brand-blue);
+      flex-shrink: 0;
+    }
+    .member-card .avatar.alt-1 { background: #fef3c7; color: #92400e; }
+    .member-card .avatar.alt-2 { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .member-card .avatar.alt-3 { background: #fce7f3; color: #9d174d; }
+    .member-card .avatar.alt-4 { background: #ede9fe; color: #5b21b6; }
+    .member-card-info { flex: 1; min-width: 0; }
+    .member-card-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      line-height: 1.2;
+    }
+    .member-card-email {
+      color: var(--text-muted);
+      font-size: var(--text-caption);
+      line-height: 1.3;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+    .member-card-pills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tier-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .tier-1 { background: var(--brand-blue-50); color: var(--brand-blue); border: 1px solid var(--brand-blue-100); }
+    .tier-2 { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+    .founding-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .status-pill::before {
+      content: "";
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .status-active { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .status-active::before { background: var(--brand-green); }
+    .status-grace  { background: #fef3c7; color: #92400e; }
+    .status-grace::before { background: var(--color-warning); }
+    .status-expired{ background: #fee2e2; color: #991b1b; }
+    .status-expired::before { background: var(--color-danger); }
+
+    .member-card-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: var(--s-2);
+      border-top: 1px solid var(--border-soft);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .member-card-meta strong { color: var(--text-primary); font-weight: 600; }
+    .view-link {
+      color: var(--brand-blue);
+      font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .view-link .icon { width: 12px; height: 12px; }
+
+    /* Pagination */
+    .pagination-mobile {
+      margin-top: var(--s-4);
+      padding: var(--s-3);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+    }
+    .pagination-mobile button {
+      padding: var(--s-1) var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--brand-blue);
+    }
+    .pagination-mobile button[disabled] { opacity: 0.4; }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"/><path d="M6 18 18 6"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Top bar with hamburger -->
+  <header class="admin-topbar">
+    <button class="hamburger-btn" aria-label="Open navigation menu">
+      <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+    <div class="admin-topbar-title">AIKASA <span class="admin-badge">Admin</span></div>
+    <div class="avatar-btn" aria-label="Albert Mensah — Admin">AM</div>
+  </header>
+  <div class="nav-hint">Tap menu to navigate · Members</div>
+
+  <main id="main" role="main">
+    <div class="admin-content">
+
+      <!-- Toast -->
+      <div class="toast" role="status">
+        <span class="toast-icon" aria-hidden="true">
+          <svg class="icon"><use href="#i-check"/></svg>
+        </span>
+        <div class="toast-body">
+          <strong>Re-synced Yaa Mensah from Paystack.</strong>
+          Status: Active · Annual Founding · last payment 24 May 2026.
+        </div>
+        <button class="toast-close" aria-label="Dismiss"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+
+      <!-- Page header -->
+      <header class="page-header">
+        <h1 class="page-title">Members</h1>
+        <p class="page-subtitle">All AIKASA members. Sortable, searchable, exportable.</p>
+      </header>
+
+      <!-- Stats 2x2 -->
+      <section class="stats-strip" aria-label="Member overview stats">
+        <div class="stat-card">
+          <span class="stat-card-label">Total</span>
+          <span class="stat-card-value">247</span>
+          <span class="stat-card-detail">+12 this week</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card-label">By status</span>
+          <span class="stat-card-value">218</span>
+          <span class="stat-card-detail">
+            <span class="pill-mini pill-green">218</span>
+            <span class="pill-mini pill-amber">14</span>
+            <span class="pill-mini pill-red">15</span>
+          </span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card-label">Founding</span>
+          <span class="stat-card-value">89</span>
+          <span class="stat-card-detail">36% of total</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card-label">This week</span>
+          <span class="stat-card-value">12</span>
+          <span class="stat-card-detail">4 founding</span>
+        </div>
+      </section>
+
+      <!-- Search + Filters button -->
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg class="icon icon-prefix" aria-hidden="true"><use href="#i-search"/></svg>
+          <input type="search" class="input" placeholder="Search name, email, reference" aria-label="Search members">
+        </div>
+        <button class="filter-btn" aria-label="Open filters">
+          <svg class="icon" aria-hidden="true"><use href="#i-filter"/></svg>
+          Filters
+          <span class="filter-badge">2</span>
+        </button>
+      </div>
+
+      <!-- Chip row -->
+      <div class="chip-scroll" role="group" aria-label="Status filter">
+        <button class="chip active">All · 247</button>
+        <button class="chip">Active · 218</button>
+        <button class="chip">Grace · 14</button>
+        <button class="chip">Expired · 15</button>
+        <button class="chip">Founding · 89</button>
+      </div>
+
+      <div class="results-count">
+        <span>Showing 1–10 of 247</span>
+        <a href="#" class="view-link">Export CSV</a>
+      </div>
+
+      <!-- Member cards -->
+      <section class="member-list" aria-label="Members list">
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar">YM</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Yaa Mensah</div>
+              <div class="member-card-email">yaa.mensah@example.com · Ghana</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-2">AI Transformation</span>
+            <span class="founding-tag">Founding</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 999</strong> / annual · Joined 24 May 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-1">KB</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Kwame Boateng</div>
+              <div class="member-card-email">kwame@boateng.dev · Ghana</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-1">AI-Ready</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 200</strong> / month · Joined 8 Mar 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-2">AA</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Adwoa Asante</div>
+              <div class="member-card-email">adwoa.asante@kosi.gh · Ghana</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-2">AI Transformation</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 6,000</strong> / year · Joined 15 Feb 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-3">JD</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Joseph Diallo</div>
+              <div class="member-card-email">jdiallo@example.sn · Senegal</div>
+            </div>
+            <span class="status-pill status-grace">Grace</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-1">AI-Ready</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>$15</strong> / month · Joined 20 Apr 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-4">AO</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Akua Oforiwaa</div>
+              <div class="member-card-email">akua.o@oforiwaa.co · Ghana</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-2">AI Transformation</span>
+            <span class="founding-tag">Founding</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 999</strong> / annual · Joined 1 May 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar">DM</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Daniel Mwangi</div>
+              <div class="member-card-email">daniel@mwangi.co.ke · Kenya</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-1">AI-Ready</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>$12</strong> / month (launch) · Joined 12 Apr 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-1">CO</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Christine Okonkwo</div>
+              <div class="member-card-email">christine.o@okonkwo.ng · Nigeria</div>
+            </div>
+            <span class="status-pill status-active">Active</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-2">AI Transformation</span>
+            <span class="founding-tag">Founding</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 999</strong> / annual · Joined 22 May 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+        <article class="member-card">
+          <div class="member-card-top">
+            <div class="avatar alt-2">SA</div>
+            <div class="member-card-info">
+              <div class="member-card-name">Samuel Asare</div>
+              <div class="member-card-email">sam.asare@example.com · Ghana</div>
+            </div>
+            <span class="status-pill status-expired">Expired</span>
+          </div>
+          <div class="member-card-pills">
+            <span class="tier-pill tier-1">AI-Ready</span>
+          </div>
+          <div class="member-card-meta">
+            <span><strong>GHS 175</strong> / mo (launch) · Joined 18 Apr 2026</span>
+            <a href="#" class="view-link">View <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Pagination -->
+      <nav class="pagination-mobile" aria-label="Pagination">
+        <button disabled aria-label="Previous">‹ Prev</button>
+        <span>Page 1 of 25</span>
+        <button aria-label="Next">Next ›</button>
+      </nav>
+
+    </div>
+  </main>
+</body>
+</html>

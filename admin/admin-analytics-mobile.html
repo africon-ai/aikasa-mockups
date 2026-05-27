@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>Analytics — AIKASA Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+    .sidebar { display: none; }
+    .app-shell { grid-template-columns: 1fr; }
+
+    /* Mobile top bar */
+    .admin-topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: var(--s-3) var(--s-4);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+    }
+    .admin-topbar-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--brand-blue);
+    }
+    .admin-badge {
+      display: inline-block;
+      background: var(--bg-soft-2);
+      color: var(--brand-blue);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      margin-left: var(--s-2);
+      vertical-align: middle;
+      font-weight: 600;
+    }
+    .hamburger-btn {
+      width: var(--touch-target); height: var(--touch-target);
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      color: var(--brand-blue);
+    }
+    .hamburger-btn .icon { width: 20px; height: 20px; }
+    .avatar-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      color: white;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-caption);
+    }
+    .nav-hint {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      padding: var(--s-2) var(--s-4);
+      background: var(--bg-soft-2);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .nav-hint::before { content: "›"; color: var(--brand-blue); font-weight: 700; }
+
+    .admin-content {
+      padding: var(--s-4);
+      padding-bottom: calc(var(--s-12) + var(--mobile-safe-bottom));
+    }
+
+    /* Page header */
+    .page-header { margin-bottom: var(--s-4); }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      line-height: 1.1;
+    }
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: var(--text-caption);
+      margin-top: var(--s-1);
+      line-height: 1.45;
+    }
+    .time-range {
+      display: inline-flex; align-items: center;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: var(--s-3);
+    }
+    .time-range button {
+      padding: var(--s-1) var(--s-3);
+      background: white;
+      border: none;
+      font-family: var(--font-body);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-right: 1px solid var(--border);
+    }
+    .time-range button:last-child { border-right: none; }
+    .time-range button.active { background: var(--brand-blue); color: white; }
+
+    /* KPI 2x2 */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-2);
+      margin-bottom: var(--s-4);
+    }
+    .kpi {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .kpi-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .kpi-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .kpi-trend {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--brand-green-large);
+      display: inline-flex; align-items: center; gap: 3px;
+    }
+    .kpi-trend.neutral { color: var(--text-muted); }
+
+    /* Chart card */
+    .card-chart {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-4);
+      margin-bottom: var(--s-3);
+    }
+    .card-chart-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-2);
+      margin-bottom: var(--s-3);
+    }
+    .card-chart-title {
+      font-family: var(--font-display);
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .card-chart-sub {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .card-chart-legend {
+      display: flex; flex-wrap: wrap; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 4px; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+    /* Bar chart */
+    .bar-chart-bars {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      height: 130px;
+      align-items: end;
+      margin-top: var(--s-3);
+    }
+    .bar-col {
+      display: flex; flex-direction: column; gap: 4px;
+      align-items: center; height: 100%;
+    }
+    .bar-fill {
+      width: 100%;
+      background: linear-gradient(180deg, var(--brand-blue-400) 0%, var(--brand-blue) 100%);
+      border-radius: 3px 3px 0 0;
+      position: relative;
+      min-height: 4px;
+    }
+    .bar-value {
+      position: absolute;
+      top: -18px; left: 50%; transform: translateX(-50%);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .bar-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Donut */
+    .donut-wrap {
+      display: flex; align-items: center; gap: var(--s-4);
+    }
+    .donut-svg { width: 120px; height: 120px; flex-shrink: 0; }
+    .donut-legend { flex: 1; display: flex; flex-direction: column; gap: var(--s-3); min-width: 0; }
+    .donut-legend-top {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+    .donut-legend-value {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .donut-legend-sub {
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Line chart */
+    .line-chart-wrap { margin-top: var(--s-2); }
+    .line-chart-svg {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+    .line-chart-x {
+      display: flex; justify-content: space-between;
+      margin-top: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Funnel */
+    .funnel { display: flex; flex-direction: column; gap: var(--s-2); margin-top: var(--s-3); }
+    .funnel-row { display: flex; flex-direction: column; gap: 3px; }
+    .funnel-label-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 0.6875rem;
+    }
+    .funnel-label-row strong {
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: var(--text-caption);
+    }
+    .funnel-conv { font-family: var(--font-caption); font-weight: 500; color: var(--brand-green-large); }
+    .funnel-conv.first { color: var(--text-muted); }
+    .funnel-bar {
+      height: 22px;
+      background: var(--bg-soft-2);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .funnel-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-blue-400) 100%);
+      display: flex; align-items: center; padding-left: var(--s-2);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 600;
+    }
+
+    /* Events list */
+    .event-list {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: var(--s-3);
+    }
+    .event-list-head {
+      padding: var(--s-3) var(--s-4);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .event-list-head h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-body-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .event-row {
+      padding: var(--s-3) var(--s-4);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-row-top {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: var(--s-2);
+      margin-bottom: 4px;
+    }
+    .event-name { font-weight: 600; color: var(--text-primary); font-size: var(--text-body-sm); }
+    .event-time {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    .event-row-mid {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 4px;
+    }
+    .event-type {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-soft-2);
+      color: var(--text-secondary);
+    }
+    .event-type.success { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .event-type.warn { background: #fef3c7; color: #92400e; }
+    .event-type.info { background: var(--brand-blue-50); color: var(--brand-blue); }
+    .event-amount { font-weight: 600; color: var(--text-primary); font-size: var(--text-caption); }
+    .event-ref {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+    .event-status {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--font-caption);
+      font-weight: 600;
+      font-size: 0.6875rem;
+    }
+    .event-status.ok { color: var(--brand-green-700); }
+    .event-status.warn { color: #92400e; }
+    .event-status.info { color: var(--brand-blue); }
+    .event-status .icon { width: 12px; height: 12px; }
+
+    /* Health */
+    .health-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-2);
+      margin-bottom: var(--s-4);
+    }
+    .health-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--s-3);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .health-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .health-value {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .health-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-green { background: var(--brand-green); }
+    .health-sub {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .disclosure {
+      padding: var(--s-3);
+      background: var(--bg-soft-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin: var(--s-4) 0 var(--s-3);
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="admin-topbar">
+    <button class="hamburger-btn" aria-label="Open navigation menu">
+      <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+    <div class="admin-topbar-title">AIKASA <span class="admin-badge">Admin</span></div>
+    <div class="avatar-btn" aria-label="Albert Mensah">AM</div>
+  </header>
+  <div class="nav-hint">Tap menu to navigate · Analytics</div>
+
+  <main id="main" role="main">
+    <div class="admin-content">
+
+      <header class="page-header">
+        <h1 class="page-title">Analytics</h1>
+        <p class="page-subtitle">PostHog + Sentry feed product analytics. This dashboard surfaces the launch-week ops view.</p>
+        <div class="time-range" role="group" aria-label="Time range">
+          <button>7d</button>
+          <button class="active">30d</button>
+          <button>90d</button>
+          <button>All</button>
+        </div>
+      </header>
+
+      <!-- KPI 2x2 -->
+      <section class="kpi-grid" aria-label="Key metrics">
+        <div class="kpi">
+          <span class="kpi-label">Total members</span>
+          <span class="kpi-value">247</span>
+          <span class="kpi-trend">
+            <svg class="icon" style="width:10px;height:10px" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+            +12 this week
+          </span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">MRR</span>
+          <span class="kpi-value">GHS 31,250</span>
+          <span class="kpi-trend">
+            <svg class="icon" style="width:10px;height:10px" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+            +8% MoM
+          </span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">Active (7d)</span>
+          <span class="kpi-value">184</span>
+          <span class="kpi-trend neutral">74%</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">Lessons (7d)</span>
+          <span class="kpi-value">412</span>
+          <span class="kpi-trend">
+            <svg class="icon" style="width:10px;height:10px" aria-hidden="true"><use href="#i-arrow-up"/></svg>
+            +24%
+          </span>
+        </div>
+      </section>
+
+      <h2 class="section-heading">Member growth</h2>
+
+      <!-- Line chart -->
+      <article class="card-chart">
+        <div class="card-chart-head">
+          <div>
+            <h3 class="card-chart-title">12-week trend</h3>
+            <div class="card-chart-sub">Mar – May 2026</div>
+          </div>
+          <div class="card-chart-legend">
+            <span class="legend-item"><span class="legend-dot" style="background: var(--brand-blue);"></span>Total</span>
+            <span class="legend-item"><span class="legend-dot" style="background: var(--brand-green-large);"></span>Founding</span>
+          </div>
+        </div>
+        <div class="line-chart-wrap">
+          <svg class="line-chart-svg" viewBox="0 0 320 180" role="img" aria-label="Member growth chart">
+            <defs>
+              <linearGradient id="grad-total-m" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#003366" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#003366" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="grad-founding-m" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#2ECC71" stop-opacity="0.16"/>
+                <stop offset="100%" stop-color="#2ECC71" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g stroke="#E2E8F0" stroke-width="1">
+              <line x1="22" x2="312" y1="150" y2="150"/>
+              <line x1="22" x2="312" y1="110" y2="110"/>
+              <line x1="22" x2="312" y1="70" y2="70"/>
+              <line x1="22" x2="312" y1="30" y2="30"/>
+            </g>
+            <g font-family="Inter" font-size="8" fill="#94A3B8" text-anchor="end">
+              <text x="20" y="153">0</text>
+              <text x="20" y="113">75</text>
+              <text x="20" y="73">150</text>
+              <text x="20" y="33">225</text>
+            </g>
+
+            <!-- Total -->
+            <path d="M 22 80 L 48 78 L 74 74 L 100 71 L 126 67 L 152 63 L 178 58 L 204 51 L 230 44 L 256 37 L 282 33 L 308 30 L 308 150 L 22 150 Z"
+                  fill="url(#grad-total-m)"/>
+            <path d="M 22 80 L 48 78 L 74 74 L 100 71 L 126 67 L 152 63 L 178 58 L 204 51 L 230 44 L 256 37 L 282 33 L 308 30"
+                  fill="none" stroke="#003366" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+
+            <!-- Founding -->
+            <path d="M 22 146 L 48 143 L 74 140 L 100 135 L 126 128 L 152 122 L 178 115 L 204 105 L 230 95 L 256 84 L 282 76 L 308 72 L 308 150 L 22 150 Z"
+                  fill="url(#grad-founding-m)"/>
+            <path d="M 22 146 L 48 143 L 74 140 L 100 135 L 126 128 L 152 122 L 178 115 L 204 105 L 230 95 L 256 84 L 282 76 L 308 72"
+                  fill="none" stroke="#25a05e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+
+            <circle cx="308" cy="30" r="3.5" fill="#003366" stroke="white" stroke-width="1.5"/>
+            <circle cx="308" cy="72" r="3.5" fill="#25a05e" stroke="white" stroke-width="1.5"/>
+            <text x="302" y="20" font-family="Poppins" font-size="10" font-weight="600" fill="#003366" text-anchor="end">247</text>
+            <text x="302" y="88" font-family="Poppins" font-size="10" font-weight="600" fill="#25a05e" text-anchor="end">89</text>
+          </svg>
+          <div class="line-chart-x" aria-hidden="true">
+            <span>W1</span><span>W3</span><span>W6</span><span>W9</span><span>W12</span>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="section-heading">Tier mix</h2>
+
+      <!-- Donut -->
+      <article class="card-chart">
+        <div class="card-chart-head">
+          <div>
+            <h3 class="card-chart-title">By tier</h3>
+            <div class="card-chart-sub">247 total · 89 founding</div>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" viewBox="0 0 100 100" role="img" aria-label="Tier distribution">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#F1F5F9" stroke-width="14"/>
+            <circle cx="50" cy="50" r="40"
+                    fill="none" stroke="#003366" stroke-width="14"
+                    stroke-dasharray="160.8 251.3"
+                    stroke-dashoffset="0"
+                    transform="rotate(-90 50 50)"/>
+            <circle cx="50" cy="50" r="40"
+                    fill="none" stroke="#25a05e" stroke-width="14"
+                    stroke-dasharray="90.5 251.3"
+                    stroke-dashoffset="-160.8"
+                    transform="rotate(-90 50 50)"/>
+            <text x="50" y="49" font-family="Poppins" font-size="12" font-weight="700" fill="#003366" text-anchor="middle">247</text>
+            <text x="50" y="60" font-family="Inter" font-size="5" fill="#64748B" text-anchor="middle" letter-spacing="0.4">MEMBERS</text>
+          </svg>
+          <div class="donut-legend">
+            <div>
+              <div class="donut-legend-top"><span class="legend-dot" style="background: var(--brand-blue);"></span>AI-Ready (T1)</div>
+              <div class="donut-legend-value">158</div>
+              <div class="donut-legend-sub">64% · monthly + annual</div>
+            </div>
+            <div>
+              <div class="donut-legend-top"><span class="legend-dot" style="background: var(--brand-green-large);"></span>AI Transformation (T2)</div>
+              <div class="donut-legend-value">89</div>
+              <div class="donut-legend-sub">36% · all 89 founding</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="section-heading">Daily active</h2>
+
+      <!-- Bar chart -->
+      <article class="card-chart">
+        <div class="card-chart-head">
+          <div>
+            <h3 class="card-chart-title">Last week</h3>
+            <div class="card-chart-sub">Peak: 172 on Thursday</div>
+          </div>
+        </div>
+        <div class="bar-chart-bars" role="img" aria-label="Daily active members bar chart">
+          <div class="bar-col"><div class="bar-fill" style="height: 82.5%"><span class="bar-value">142</span></div><div class="bar-label">M</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 91.8%"><span class="bar-value">158</span></div><div class="bar-label">T</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 93.6%"><span class="bar-value">161</span></div><div class="bar-label">W</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 100%"><span class="bar-value">172</span></div><div class="bar-label">T</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 97.6%"><span class="bar-value">168</span></div><div class="bar-label">F</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 48.8%; background: linear-gradient(180deg, var(--brand-blue-300) 0%, var(--brand-blue-400) 100%);"><span class="bar-value">84</span></div><div class="bar-label">S</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height: 44.2%; background: linear-gradient(180deg, var(--brand-blue-300) 0%, var(--brand-blue-400) 100%);"><span class="bar-value">76</span></div><div class="bar-label">S</div></div>
+        </div>
+      </article>
+
+      <h2 class="section-heading">Sprint 0 funnel</h2>
+
+      <!-- Funnel -->
+      <article class="card-chart">
+        <div class="card-chart-head">
+          <div>
+            <h3 class="card-chart-title">Landing → payment success</h3>
+            <div class="card-chart-sub">Last 30 days · 89 conversions</div>
+          </div>
+        </div>
+        <div class="funnel" role="list">
+          <div class="funnel-row" role="listitem">
+            <div class="funnel-label-row">
+              <strong>Landing visits</strong>
+              <span class="funnel-conv first">8,420</span>
+            </div>
+            <div class="funnel-bar"><div class="funnel-bar-fill" style="width: 100%;">100%</div></div>
+          </div>
+          <div class="funnel-row" role="listitem">
+            <div class="funnel-label-row">
+              <strong>Pricing visits</strong>
+              <span class="funnel-conv">2,140 · 25.4%</span>
+            </div>
+            <div class="funnel-bar"><div class="funnel-bar-fill" style="width: 60%;">2,140</div></div>
+          </div>
+          <div class="funnel-row" role="listitem">
+            <div class="funnel-label-row">
+              <strong>Join started</strong>
+              <span class="funnel-conv">312 · 14.6%</span>
+            </div>
+            <div class="funnel-bar"><div class="funnel-bar-fill" style="width: 36%;">312</div></div>
+          </div>
+          <div class="funnel-row" role="listitem">
+            <div class="funnel-label-row">
+              <strong>Payment initiated</strong>
+              <span class="funnel-conv">187 · 60%</span>
+            </div>
+            <div class="funnel-bar"><div class="funnel-bar-fill" style="width: 22%;">187</div></div>
+          </div>
+          <div class="funnel-row" role="listitem">
+            <div class="funnel-label-row">
+              <strong>Payment success</strong>
+              <span class="funnel-conv">89 · 47.6%</span>
+            </div>
+            <div class="funnel-bar"><div class="funnel-bar-fill" style="width: 14%; background: linear-gradient(90deg, var(--brand-green-large) 0%, var(--brand-green) 100%);">89</div></div>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="section-heading">Recent payment events</h2>
+
+      <!-- Events -->
+      <section class="event-list" aria-label="Recent payment events">
+        <div class="event-list-head">
+          <h3>Last 24 hours</h3>
+          <span style="font-family: var(--font-caption); font-size: 0.6875rem; color: var(--text-muted);">5 of 47</span>
+        </div>
+
+        <div class="event-row">
+          <div class="event-row-top">
+            <span class="event-name">Yaa Mensah</span>
+            <span class="event-time">24 May 14:32</span>
+          </div>
+          <div class="event-row-mid">
+            <span class="event-type success">charge.success</span>
+            <span class="event-amount">GHS 999 / annual</span>
+          </div>
+          <div class="event-ref">PSK_REF_2026_4F9C2A1B</div>
+          <div style="margin-top: 4px;"><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-row-top">
+            <span class="event-name">Kofi Annan-Yeboah</span>
+            <span class="event-time">24 May 11:08</span>
+          </div>
+          <div class="event-row-mid">
+            <span class="event-type warn">invoice.payment_failed</span>
+            <span class="event-amount">GHS 175</span>
+          </div>
+          <div class="event-ref">PSK_REF_2026_3E8B1A0C</div>
+          <div style="margin-top: 4px;"><span class="event-status warn"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> Auto-retry scheduled</span></div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-row-top">
+            <span class="event-name">Akua Oforiwaa</span>
+            <span class="event-time">23 May 19:44</span>
+          </div>
+          <div class="event-row-mid">
+            <span class="event-type info">subscription.create</span>
+            <span class="event-amount">GHS 999</span>
+          </div>
+          <div class="event-ref">PSK_REF_2026_2D7A0089</div>
+          <div style="margin-top: 4px;"><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-row-top">
+            <span class="event-name">Joseph Diallo</span>
+            <span class="event-time">23 May 16:12</span>
+          </div>
+          <div class="event-row-mid">
+            <span class="event-type success">charge.success</span>
+            <span class="event-amount">$15</span>
+          </div>
+          <div class="event-ref">PSK_REF_2026_1C6F9978</div>
+          <div style="margin-top: 4px;"><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-row-top">
+            <span class="event-name">Daniel Mwangi</span>
+            <span class="event-time">23 May 09:50</span>
+          </div>
+          <div class="event-row-mid">
+            <span class="event-type warn">refund.processed</span>
+            <span class="event-amount">$12</span>
+          </div>
+          <div class="event-ref">PSK_REF_2026_0B5E8867</div>
+          <div style="margin-top: 4px;"><span class="event-status info"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg> Refund issued</span></div>
+        </div>
+      </section>
+
+      <h2 class="section-heading">Operational health</h2>
+
+      <!-- Health 2x2 -->
+      <section class="health-grid" aria-label="Operational health">
+        <div class="health-card">
+          <span class="health-label">Webhooks</span>
+          <span class="health-value"><span class="health-dot dot-green" aria-hidden="true"></span>100%</span>
+          <span class="health-sub">last 7 days · 1,284 events</span>
+        </div>
+        <div class="health-card">
+          <span class="health-label">Sentry (24h)</span>
+          <span class="health-value"><span class="health-dot dot-green" aria-hidden="true"></span>0 crit</span>
+          <span class="health-sub">3 low · no action</span>
+        </div>
+        <div class="health-card">
+          <span class="health-label">CF Stream</span>
+          <span class="health-value"><span class="health-dot dot-green" aria-hidden="true"></span>Normal</span>
+          <span class="health-sub">video systems normal</span>
+        </div>
+        <div class="health-card">
+          <span class="health-label">Grace cron</span>
+          <span class="health-value"><span class="health-dot dot-green" aria-hidden="true"></span>1h ago</span>
+          <span class="health-sub">success · 14 in grace</span>
+        </div>
+      </section>
+
+      <p class="disclosure">Detailed product analytics in PostHog. Errors in Sentry. This dashboard surfaces the ops-critical view.</p>
+
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Verifying your payment — AIKASA</title>
+  <meta name="description" content="We're confirming your Founding Member payment. This usually takes 30 seconds or less.">
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* ============================================================
+       Payment callback — mobile
+       Full-screen, vertically centered, generous padding.
+       ============================================================ */
+    body {
+      background:
+        radial-gradient(ellipse 95% 40% at 50% 0%, var(--brand-blue-50), transparent 60%),
+        radial-gradient(ellipse 90% 40% at 50% 110%, rgba(46, 204, 113, 0.06), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+    }
+
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .top-nav {
+      padding: var(--s-4) var(--s-5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: max(var(--s-4), env(safe-area-inset-top, 0px));
+    }
+    .top-nav .wordmark { font-size: 1.125rem; }
+    .top-nav .help-link {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-1);
+    }
+    .top-nav .help-link svg { width: 13px; height: 13px; }
+
+    .verify-shell {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s-6) var(--s-5) var(--s-10);
+    }
+
+    .verify-card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      padding: var(--s-10) var(--s-6) var(--s-8);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .verify-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 50%; transform: translate(-50%, -50%);
+      width: 320px; height: 180px;
+      background: radial-gradient(ellipse, rgba(0, 51, 102, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Spinner */
+    .spinner {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto var(--s-8);
+    }
+    .spinner-track {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 3px solid var(--bg-soft-2);
+    }
+    .spinner-arc {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: var(--brand-blue);
+      border-right-color: var(--brand-blue);
+      animation: spin 1.2s linear infinite;
+    }
+    .spinner-arc-2 {
+      position: absolute; inset: 12px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-bottom-color: var(--brand-green);
+      animation: spin 2s linear infinite reverse;
+      opacity: 0.65;
+    }
+    .spinner-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px;
+      background: var(--brand-blue);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(0, 51, 102, 0.4);
+      animation: corepulse 2s ease-in-out infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes corepulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 51, 102, 0.35); }
+      50%      { box-shadow: 0 0 0 10px rgba(0, 51, 102, 0); }
+    }
+
+    .verify-headline {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--brand-blue);
+      line-height: 1.2;
+      margin-bottom: var(--s-3);
+      position: relative;
+    }
+    .verify-headline .dots {
+      display: inline-block;
+      width: 0.95em;
+      text-align: left;
+    }
+    .verify-headline .dots span {
+      opacity: 0;
+      animation: dotpulse 1.4s infinite ease-in-out;
+    }
+    .verify-headline .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .verify-headline .dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotpulse {
+      0%, 60%, 100% { opacity: 0; }
+      30%           { opacity: 1; }
+    }
+
+    .verify-sub {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: var(--s-6);
+      position: relative;
+    }
+
+    .reference-row {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-2);
+      padding: 6px var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      margin-bottom: var(--s-6);
+      position: relative;
+      max-width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .reference-row .reference-label {
+      font-family: var(--font-caption);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .reference-row .reference-value {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .reassure {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--s-3);
+      padding: var(--s-3) var(--s-4);
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius);
+      text-align: left;
+      margin-bottom: var(--s-5);
+      position: relative;
+    }
+    .reassure-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: white;
+      border: 1px solid var(--brand-blue-200);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-blue);
+    }
+    .reassure-icon svg { width: 14px; height: 14px; }
+    .reassure-text {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: var(--brand-blue);
+    }
+
+    .support-link {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      position: relative;
+      line-height: 1.5;
+    }
+    .support-link a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-decoration-color: var(--border-strong);
+      text-underline-offset: 3px;
+    }
+
+    .progress-stages {
+      max-width: 420px;
+      margin: var(--s-5) auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-2);
+      padding: 0 var(--s-1);
+    }
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s-2);
+      padding: var(--s-2) var(--s-1);
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+    .stage-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--bg-soft-3);
+      flex-shrink: 0;
+    }
+    .stage-label {
+      font-family: var(--font-caption);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.2;
+    }
+    .stage.is-done .stage-dot {
+      background: var(--brand-green);
+      box-shadow: 0 0 0 2px var(--brand-green-100);
+    }
+    .stage.is-done .stage-label { color: var(--brand-green-700); }
+    .stage.is-active .stage-dot {
+      background: var(--brand-blue);
+      box-shadow: 0 0 0 2px var(--brand-blue-100);
+      animation: corepulse 2s ease-in-out infinite;
+    }
+    .stage.is-active .stage-label {
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .endorsement-foot {
+      padding: var(--s-4) var(--s-5) calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+      text-align: center;
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 360px) {
+      .top-nav .help-link span { display: none; }
+      .verify-card { padding: var(--s-8) var(--s-5) var(--s-6); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner-arc, .spinner-arc-2 { animation: none; border-top-color: var(--brand-blue); border-right-color: var(--brand-blue); }
+      .spinner-center { animation: none; }
+      .verify-headline .dots span { animation: none; opacity: 1; }
+      .stage.is-active .stage-dot { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="page">
+    <header class="top-nav" aria-label="Header">
+      <a href="landing-mobile.html" class="wordmark">AIKASA</a>
+      <a href="mailto:hello@aikasa.ai" class="help-link">
+        <svg aria-hidden="true"><use href="#i-message"/></svg>
+        <span>Need help?</span>
+      </a>
+    </header>
+
+    <main id="main" class="verify-shell" role="main">
+      <div>
+        <section class="verify-card" aria-live="polite" aria-busy="true" aria-label="Payment verification">
+          <div class="spinner" aria-hidden="true">
+            <div class="spinner-track"></div>
+            <div class="spinner-arc"></div>
+            <div class="spinner-arc spinner-arc-2"></div>
+            <div class="spinner-center"></div>
+          </div>
+
+          <h1 class="verify-headline">
+            Verifying your payment<span class="dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span>
+          </h1>
+
+          <p class="verify-sub">
+            This can take up to 30 seconds. Please don't close this tab.
+          </p>
+
+          <div class="reference-row">
+            <span class="reference-label">Ref</span>
+            <span class="reference-value">PSK_REF_2026_4F9C2A1B</span>
+          </div>
+
+          <div class="reassure" role="status">
+            <div class="reassure-icon" aria-hidden="true">
+              <svg><use href="#i-shield"/></svg>
+            </div>
+            <p class="reassure-text">
+              <strong>Your card has not been charged twice.</strong> If we need anything, we already have your reference.
+            </p>
+          </div>
+
+          <p class="support-link">
+            Trouble? <a href="mailto:hello@aikasa.ai?subject=Payment%20issue%20-%20PSK_REF_2026_4F9C2A1B">Email hello@aikasa.ai</a> with your reference.
+          </p>
+        </section>
+
+        <div class="progress-stages" role="list" aria-label="Verification progress">
+          <div class="stage is-done" role="listitem">
+            <span class="stage-dot" aria-hidden="true"></span>
+            <span class="stage-label">Paystack confirmed</span>
+          </div>
+          <div class="stage is-active" role="listitem" aria-current="step">
+            <span class="stage-dot" aria-hidden="true"></span>
+            <span class="stage-label">Verifying receipt</span>
+          </div>
+          <div class="stage" role="listitem">
+            <span class="stage-dot" aria-hidden="true"></span>
+            <span class="stage-label">Unlocking access</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="endorsement-foot">
+      An Africon project &middot; aikasa.ai
+    </footer>
+  </div>
+</body>
+</html>

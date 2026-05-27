@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Toolbox — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    .page-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-6);
+      margin-bottom: var(--s-6);
+      flex-wrap: wrap;
+    }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.015em;
+      margin-bottom: var(--s-2);
+    }
+    .page-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body-lg);
+      line-height: 1.5;
+      max-width: 38rem;
+    }
+    .page-foot-disclosure {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-green-700);
+      background: var(--brand-green-100);
+      border: 1px solid var(--brand-green-200);
+      padding: var(--s-2) var(--s-3);
+      border-radius: var(--radius-pill);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .page-foot-disclosure svg { width: 14px; height: 14px; }
+
+    /* Filters */
+    .toolbox-filters {
+      display: flex; align-items: center; gap: var(--s-6);
+      margin-bottom: var(--s-6);
+      flex-wrap: wrap;
+    }
+    .chip-row {
+      display: flex; gap: var(--s-2);
+      flex-wrap: wrap;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-4);
+      border: 1px solid var(--border-strong);
+      background: white;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      transition: all var(--t-instant) var(--ease-glass);
+    }
+    .chip:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
+    .chip.active {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .chip-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 22px; height: 22px;
+      padding: 0 6px;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+    }
+    .chip.active .chip-count { background: rgba(255,255,255,0.18); color: white; }
+
+    .search-input {
+      position: relative;
+      flex: 1; min-width: 280px;
+    }
+    .search-input svg {
+      position: absolute;
+      left: var(--s-4); top: 50%;
+      transform: translateY(-50%);
+      width: 18px; height: 18px;
+      color: var(--text-faint);
+      pointer-events: none;
+    }
+    .search-input input {
+      width: 100%;
+      padding: var(--s-3) var(--s-4) var(--s-3) calc(var(--s-4) + 28px);
+      min-height: var(--touch-target);
+      background: white;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+    }
+    .search-input input:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px var(--brand-blue-100);
+    }
+
+    /* Tools grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-5);
+      margin-bottom: var(--s-12);
+    }
+    @media (max-width: 1279px) {
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    .tool-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6);
+      display: flex; flex-direction: column;
+      gap: var(--s-3);
+      transition: border-color var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass), transform var(--t-smooth) var(--ease-glass);
+      position: relative;
+    }
+    .tool-card:hover {
+      border-color: var(--brand-blue-200);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .tool-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-3);
+    }
+    .tool-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-h4);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .tool-icon {
+      width: 44px; height: 44px;
+      min-width: 44px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--text-body);
+      letter-spacing: -0.02em;
+    }
+    .tool-category {
+      display: inline-flex; align-items: center;
+      padding: 2px var(--s-2);
+      background: var(--bg-soft);
+      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      align-self: flex-start;
+    }
+    .tool-desc {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .tool-affiliate {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-green-700);
+      font-weight: 500;
+    }
+    .tool-affiliate-dot {
+      width: 6px; height: 6px;
+      background: var(--brand-green);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tool-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--border-soft);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+    }
+    .tool-best-for {
+      color: var(--text-muted);
+    }
+    .tool-best-for strong { color: var(--text-secondary); font-weight: 600; }
+    .tool-lessons {
+      color: var(--text-muted);
+    }
+    .tool-lessons a {
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .tool-lessons a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .tool-open-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+      padding: var(--s-3) var(--s-4);
+      min-height: 40px;
+      border: 1px solid var(--border-strong);
+      background: white;
+      color: var(--brand-blue);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--text-body-sm);
+      width: 100%;
+      transition: all var(--t-smooth) var(--ease-glass);
+    }
+    .tool-open-btn:hover {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .tool-open-btn svg { width: 14px; height: 14px; }
+
+    .toolbox-foot {
+      padding: var(--s-6);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .toolbox-foot strong { color: var(--text-primary); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/></symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="app-shell">
+    <!-- Desktop sidebar -->
+    <aside class="sidebar" aria-label="Member navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <div class="wordmark">AIKASA</div>
+          <div class="endorsement">An Africon project</div>
+        </div>
+        <a href="dashboard-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-home"/></svg>
+          Dashboard
+        </a>
+        <a href="lessons-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-book"/></svg>
+          Lessons
+        </a>
+        <a href="live-sessions-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-video"/></svg>
+          Live Sessions
+        </a>
+        <a href="challenges-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-target"/></svg>
+          Challenges
+        </a>
+        <a href="toolbox-desktop.html" class="nav-item active" aria-current="page">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-tools"/></svg>
+          Toolbox
+        </a>
+        <a href="ai-updates-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-newspaper"/></svg>
+          AI Updates
+        </a>
+        <a href="community-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-users"/></svg>
+          Community
+        </a>
+        <a href="profile-desktop.html" class="nav-item">
+          <svg class="nav-item-icon" aria-hidden="true"><use href="#i-user"/></svg>
+          Profile
+        </a>
+        <div class="sidebar-footer">
+          <a href="../public/landing-desktop.html" class="nav-item">
+            <svg class="nav-item-icon" aria-hidden="true"><use href="#i-logout"/></svg>
+            Sign out
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main id="main" class="member-content">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Toolbox</h1>
+          <p class="page-sub">Curated by Africon — not every tool, the ones that work for African workflows.</p>
+        </div>
+        <span class="page-foot-disclosure">
+          <svg aria-hidden="true"><use href="#i-shield"/></svg>
+          14 tools curated · Updated this week
+        </span>
+      </div>
+
+      <!-- Filters -->
+      <div class="toolbox-filters">
+        <div class="chip-row" role="tablist" aria-label="Category filter">
+          <button class="chip active" role="tab" aria-selected="true">All <span class="chip-count">14</span></button>
+          <button class="chip" role="tab">Productivity <span class="chip-count">4</span></button>
+          <button class="chip" role="tab">Research <span class="chip-count">2</span></button>
+          <button class="chip" role="tab">Presentation <span class="chip-count">1</span></button>
+          <button class="chip" role="tab">Design <span class="chip-count">2</span></button>
+          <button class="chip" role="tab">Meetings <span class="chip-count">2</span></button>
+          <button class="chip" role="tab">Business <span class="chip-count">3</span></button>
+        </div>
+        <div class="search-input">
+          <svg aria-hidden="true"><use href="#i-search"/></svg>
+          <input type="search" placeholder="Search tools — try 'meetings' or 'design'" aria-label="Search tools">
+        </div>
+      </div>
+
+      <!-- Tools grid -->
+      <div class="tools-grid">
+        <!-- ChatGPT -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">ChatGPT</h3>
+            <div class="tool-icon" aria-hidden="true">GPT</div>
+          </div>
+          <span class="tool-category">Productivity</span>
+          <p class="tool-desc">The everyday assistant. Best for writing, planning, and quick research.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> writing</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=chatgpt">Used in 18 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Gemini -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Gemini</h3>
+            <div class="tool-icon" aria-hidden="true">GE</div>
+          </div>
+          <span class="tool-category">Productivity</span>
+          <p class="tool-desc">Google's AI with Workspace integration. Strong for Docs and Sheets.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> Google-first teams</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=gemini">Used in 7 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Claude -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Claude</h3>
+            <div class="tool-icon" aria-hidden="true">CL</div>
+          </div>
+          <span class="tool-category">Productivity</span>
+          <p class="tool-desc">Long-context AI from Anthropic. Best for thoughtful drafts and analysis.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> long documents</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=claude">Used in 9 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Copilot -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Copilot</h3>
+            <div class="tool-icon" aria-hidden="true">CP</div>
+          </div>
+          <span class="tool-category">Productivity</span>
+          <p class="tool-desc">Microsoft's AI inside Word, Excel, and Teams. For Microsoft-first teams.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> Microsoft 365</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=copilot">Used in 4 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Perplexity (affiliate) -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Perplexity</h3>
+            <div class="tool-icon" aria-hidden="true">PX</div>
+          </div>
+          <span class="tool-category">Research</span>
+          <p class="tool-desc">Search that explains itself. Cites sources for every answer.</p>
+          <span class="tool-affiliate"><span class="tool-affiliate-dot"></span>Affiliate link available</span>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> research</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=perplexity">Used in 6 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- NotebookLM -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">NotebookLM</h3>
+            <div class="tool-icon" aria-hidden="true">NL</div>
+          </div>
+          <span class="tool-category">Research</span>
+          <p class="tool-desc">Drop in your docs. Ask questions. Gets a short audio briefing.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> reading stacks</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=notebooklm">Used in 5 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Gamma (affiliate) -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Gamma</h3>
+            <div class="tool-icon" aria-hidden="true">GA</div>
+          </div>
+          <span class="tool-category">Presentation</span>
+          <p class="tool-desc">Prompt-to-presentation. Drafts decks fast; refine in minutes.</p>
+          <span class="tool-affiliate"><span class="tool-affiliate-dot"></span>Affiliate link available</span>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> presentations</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=gamma">Used in 6 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Canva -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Canva</h3>
+            <div class="tool-icon" aria-hidden="true">CV</div>
+          </div>
+          <span class="tool-category">Design</span>
+          <p class="tool-desc">Design that doesn't need a designer. Templates + AI assist.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> social + decks</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=canva">Used in 3 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Adobe tools -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Adobe tools</h3>
+            <div class="tool-icon" aria-hidden="true">AD</div>
+          </div>
+          <span class="tool-category">Design</span>
+          <p class="tool-desc">Industry-grade design and editing. Premium output, steeper curve.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> production-grade</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=adobe">Used in 2 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Read AI (affiliate) -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Read AI</h3>
+            <div class="tool-icon" aria-hidden="true">RA</div>
+          </div>
+          <span class="tool-category">Meetings</span>
+          <p class="tool-desc">Meeting notes that summarise and assign actions.</p>
+          <span class="tool-affiliate"><span class="tool-affiliate-dot"></span>Affiliate link available</span>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> action items</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=readai">Used in 3 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- Fireflies (affiliate) -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Fireflies</h3>
+            <div class="tool-icon" aria-hidden="true">FF</div>
+          </div>
+          <span class="tool-category">Meetings</span>
+          <p class="tool-desc">Meeting transcription with searchable highlights.</p>
+          <span class="tool-affiliate"><span class="tool-affiliate-dot"></span>Affiliate link available</span>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> transcripts</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=fireflies">Used in 3 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            Open tool
+            <svg aria-hidden="true"><use href="#i-external"/></svg>
+          </a>
+        </article>
+
+        <!-- CRM -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">CRM</h3>
+            <div class="tool-icon" aria-hidden="true">CRM</div>
+          </div>
+          <span class="tool-category">Business</span>
+          <p class="tool-desc">Customer relationship management tools — pick by team size.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> sales pipelines</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=crm">Used in 4 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            View comparisons
+            <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+        </article>
+
+        <!-- Automation -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Automation</h3>
+            <div class="tool-icon" aria-hidden="true">ZA</div>
+          </div>
+          <span class="tool-category">Business</span>
+          <p class="tool-desc">Zapier-style connectors. Wire AI between your apps.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> workflows</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=automation">Used in 5 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            View options
+            <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+        </article>
+
+        <!-- Customer support -->
+        <article class="tool-card">
+          <div class="tool-head">
+            <h3 class="tool-name">Customer support</h3>
+            <div class="tool-icon" aria-hidden="true">CS</div>
+          </div>
+          <span class="tool-category">Business</span>
+          <p class="tool-desc">AI-assisted help desks. Faster reply times.</p>
+          <div class="tool-meta">
+            <span class="tool-best-for"><strong>Best for:</strong> reply speed</span>
+            <span class="tool-lessons"><a href="lessons-desktop.html?tool=support">Used in 2 lessons →</a></span>
+          </div>
+          <a href="#" class="tool-open-btn">
+            View options
+            <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+        </article>
+      </div>
+
+      <!-- Disclosure footer -->
+      <section class="toolbox-foot" aria-label="Affiliate disclosure">
+        <strong>Affiliate disclosure.</strong> Some tools in this toolbox include affiliate links — marked with a green dot. We only recommend tools Africon's team actually uses or has trained members on. Affiliate income supports content production and stays separate from your membership fee. Tools without affiliate links are still recommended, just without a commercial relationship.
+      </section>
+    </main>
+  </div>
+</body>
+</html>

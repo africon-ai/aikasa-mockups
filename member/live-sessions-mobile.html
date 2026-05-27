@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Live Sessions — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    .page-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-2);
+    }
+    .page-sub {
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      line-height: 1.5;
+      margin-bottom: var(--s-5);
+    }
+
+    /* Next session hero */
+    .next-hero {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+      color: white;
+      overflow: hidden;
+      box-shadow: var(--shadow-blue);
+      margin-bottom: var(--s-8);
+    }
+    .next-hero::before {
+      content: "";
+      position: absolute;
+      top: -80px; right: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.28) 0%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+    }
+    .next-hero-inner { position: relative; }
+    .next-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-1) var(--s-3);
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--brand-green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--s-4);
+    }
+    .pulse-dot {
+      width: 6px; height: 6px;
+      background: var(--brand-green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+    .next-hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: var(--s-4);
+    }
+    .next-hero-when {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      margin-bottom: var(--s-3);
+    }
+    .next-hero-when-day {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.875rem;
+      line-height: 1;
+      color: white;
+    }
+    .next-hero-when-meta {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .next-hero-when-time {
+      font-family: var(--font-mono);
+      font-size: var(--text-body);
+      color: white;
+      margin-top: 2px;
+    }
+    .next-hero-when-tz {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .next-hero-host {
+      font-size: var(--text-body-sm);
+      color: rgba(255,255,255,0.85);
+      margin-bottom: var(--s-3);
+    }
+    .next-hero-signal {
+      display: flex; align-items: center; gap: var(--s-2);
+      margin-bottom: var(--s-4);
+      color: rgba(255,255,255,0.8);
+      font-size: var(--text-caption);
+    }
+    .signal-avatars { display: inline-flex; }
+    .signal-avatar {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--brand-blue-200);
+      color: var(--brand-blue);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.5625rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid var(--brand-blue-700);
+    }
+    .signal-avatar + .signal-avatar { margin-left: -7px; }
+    .signal-avatar.more { background: rgba(255,255,255,0.12); color: white; font-size: 0.5rem; }
+
+    .next-hero-cta {
+      display: flex; flex-direction: column; gap: var(--s-2);
+    }
+    .btn-on-dark { background: white; color: var(--brand-blue); border-color: white; }
+    .btn-outline-light { background: transparent; color: white; border-color: rgba(255,255,255,0.3); }
+    .btn-ghost-light { background: transparent; color: white; border-color: transparent; }
+
+    .next-hero-foot {
+      margin-top: var(--s-4);
+      padding-top: var(--s-4);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.6);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .next-hero-foot svg { width: 14px; height: 14px; }
+
+    /* Section header */
+    .section-title-row {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-3);
+      margin-bottom: var(--s-4);
+    }
+    .section-h {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.005em;
+    }
+    .section-sub {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Schedule list */
+    .schedule-stack {
+      display: flex; flex-direction: column; gap: var(--s-3);
+      margin-bottom: var(--s-8);
+    }
+    .schedule-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-4);
+    }
+    .schedule-card-head {
+      display: flex; align-items: flex-start; gap: var(--s-3);
+      margin-bottom: var(--s-3);
+    }
+    .schedule-date {
+      text-align: center;
+      padding: var(--s-2);
+      background: var(--brand-blue-50);
+      border-radius: var(--radius-sm);
+      min-width: 56px;
+    }
+    .schedule-date-day {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .schedule-date-month {
+      font-family: var(--font-caption);
+      font-size: 0.5625rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      margin-top: 2px;
+    }
+    .schedule-title-block { flex: 1; min-width: 0; }
+    .schedule-title-block .session-type {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .schedule-title-block h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-body-sm);
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .schedule-title-block .session-host {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .schedule-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      padding-top: var(--s-3);
+      border-top: 1px solid var(--border-soft);
+    }
+    .schedule-tier-lock {
+      display: inline-flex; align-items: center; gap: var(--s-1);
+      padding: 2px var(--s-2);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.5625rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .schedule-tier-lock svg { width: 9px; height: 9px; }
+    .schedule-action-link {
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .schedule-time-pill {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+      padding: 2px var(--s-2);
+      background: var(--bg-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Replay */
+    .chip-row {
+      display: flex; gap: var(--s-2);
+      overflow-x: auto;
+      padding-bottom: var(--s-2);
+      margin-bottom: var(--s-3);
+      -webkit-overflow-scrolling: touch;
+    }
+    .chip-row::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-3);
+      border: 1px solid var(--border-strong);
+      background: white;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+    }
+    .chip.active {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+
+    .replay-stack { display: flex; flex-direction: column; gap: var(--s-4); }
+    .replay-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .replay-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      overflow: hidden;
+    }
+    .replay-thumb::after {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+    .replay-thumb-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+    }
+    .replay-thumb-play svg { width: 22px; height: 22px; margin-left: 2px; }
+    .replay-thumb-length {
+      position: absolute;
+      bottom: var(--s-2); right: var(--s-2);
+      padding: 2px var(--s-2);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      z-index: 2;
+    }
+    .replay-body {
+      padding: var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-2);
+    }
+    .replay-date {
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .replay-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--brand-blue);
+      font-size: var(--text-body-sm);
+      line-height: 1.35;
+    }
+    .replay-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-2);
+      padding-top: var(--s-2);
+      border-top: 1px solid var(--border-soft);
+    }
+    .replay-pillar-tag {
+      padding: 2px var(--s-2);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+    }
+    .replay-stats {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      font-family: var(--font-caption);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    .replay-stat { display: inline-flex; align-items: center; gap: 3px; }
+    .replay-stat svg { width: 11px; height: 11px; }
+
+    .member-content { padding-bottom: calc(100px + var(--mobile-safe-bottom)) !important; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7-11-7Z"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Mobile topbar -->
+  <header class="mobile-topbar">
+    <span class="mobile-topbar-title">Live Sessions</span>
+    <div style="display:flex;gap:var(--s-2);align-items:center;">
+      <button class="btn-icon" aria-label="Notifications" style="color:var(--text-secondary);position:relative;">
+        <svg class="icon" width="20" height="20"><use href="#i-bell"/></svg>
+        <span style="position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--brand-green);border-radius:50%;border:2px solid white;"></span>
+      </button>
+      <span class="avatar" aria-label="Yaa Mensah">YM</span>
+    </div>
+  </header>
+
+  <main id="main" class="member-content">
+    <h1 class="page-title">Live Sessions</h1>
+    <p class="page-sub">Reinforcement, troubleshooting, peer learning. Sessions don't teach new concepts — they help you apply them.</p>
+
+    <!-- NEXT SESSION HERO -->
+    <section class="next-hero" aria-label="Next live session">
+      <div class="next-hero-inner">
+        <div class="next-hero-eyebrow">
+          <span class="pulse-dot"></span>
+          Next up · Weekly Clinic
+        </div>
+        <h2 class="next-hero-title">Refining your AI writing system — live Q&amp;A</h2>
+
+        <div class="next-hero-when">
+          <div class="next-hero-when-day">29</div>
+          <div>
+            <div class="next-hero-when-meta">Thursday · May 2026</div>
+            <div class="next-hero-when-time">7:00 PM</div>
+            <div class="next-hero-when-tz">GMT · Accra</div>
+          </div>
+        </div>
+
+        <div class="next-hero-host">Host: Adwoa &amp; Kojo · Africon facilitators</div>
+
+        <div class="next-hero-signal">
+          <div class="signal-avatars">
+            <span class="signal-avatar">YM</span>
+            <span class="signal-avatar">KA</span>
+            <span class="signal-avatar">EN</span>
+            <span class="signal-avatar more">+124</span>
+          </div>
+          <span><strong style="color:white;font-weight:600;">127 confirmed</strong> · All tiers</span>
+        </div>
+
+        <div class="next-hero-cta">
+          <a href="#" class="btn btn-block btn-on-dark">
+            Submit a question
+            <svg class="icon" width="16" height="16"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a href="#" class="btn btn-block btn-outline-light">
+            <svg class="icon" width="16" height="16"><use href="#i-calendar"/></svg>
+            Add to calendar
+          </a>
+          <a href="#" class="btn btn-block btn-ghost-light">
+            <svg class="icon" width="16" height="16"><use href="#i-bell"/></svg>
+            Set reminder
+          </a>
+        </div>
+
+        <div class="next-hero-foot">
+          <svg aria-hidden="true"><use href="#i-globe"/></svg>
+          Google Meet · Link sent 30 min before
+        </div>
+      </div>
+    </section>
+
+    <!-- UPCOMING -->
+    <section aria-label="Upcoming sessions">
+      <div class="section-title-row">
+        <h2 class="section-h">Upcoming</h2>
+        <span class="section-sub">4 this month</span>
+      </div>
+
+      <div class="schedule-stack">
+        <article class="schedule-card">
+          <div class="schedule-card-head">
+            <div class="schedule-date">
+              <div class="schedule-date-day">29</div>
+              <div class="schedule-date-month">May</div>
+            </div>
+            <div class="schedule-title-block">
+              <div class="session-type">Weekly Clinic</div>
+              <h4>Refining your AI writing system</h4>
+              <div class="session-host">Adwoa &amp; Kojo</div>
+            </div>
+          </div>
+          <div class="schedule-foot">
+            <span class="schedule-time-pill">Thu · 7:00 PM</span>
+            <a href="#" class="schedule-action-link">Submit Q →</a>
+          </div>
+          <div style="margin-top:var(--s-2);">
+            <span class="badge badge-blue" style="font-size:0.625rem;">All tiers</span>
+          </div>
+        </article>
+
+        <article class="schedule-card">
+          <div class="schedule-card-head">
+            <div class="schedule-date">
+              <div class="schedule-date-day">04</div>
+              <div class="schedule-date-month">Jun</div>
+            </div>
+            <div class="schedule-title-block">
+              <div class="session-type">Monthly Clinic</div>
+              <h4>Deep work session: building your second-brain with NotebookLM</h4>
+              <div class="session-host">Albert · Africon facilitator</div>
+            </div>
+          </div>
+          <div class="schedule-foot">
+            <span class="schedule-time-pill">Wed · 7:00 PM</span>
+            <a href="#" class="schedule-action-link">Submit Q →</a>
+          </div>
+          <div style="margin-top:var(--s-2);">
+            <span class="schedule-tier-lock"><svg aria-hidden="true"><use href="#i-lock"/></svg>Tier 2 only</span>
+          </div>
+        </article>
+
+        <article class="schedule-card">
+          <div class="schedule-card-head">
+            <div class="schedule-date">
+              <div class="schedule-date-day">05</div>
+              <div class="schedule-date-month">Jun</div>
+            </div>
+            <div class="schedule-title-block">
+              <div class="session-type">Weekly Clinic</div>
+              <h4>Common stuck points from this week's lessons</h4>
+              <div class="session-host">Adwoa · Africon facilitator</div>
+            </div>
+          </div>
+          <div class="schedule-foot">
+            <span class="schedule-time-pill">Thu · 7:00 PM</span>
+            <a href="#" class="schedule-action-link">Submit Q →</a>
+          </div>
+          <div style="margin-top:var(--s-2);">
+            <span class="badge badge-blue" style="font-size:0.625rem;">All tiers</span>
+          </div>
+        </article>
+
+        <article class="schedule-card">
+          <div class="schedule-card-head">
+            <div class="schedule-date">
+              <div class="schedule-date-day">14</div>
+              <div class="schedule-date-month">Jun</div>
+            </div>
+            <div class="schedule-title-block">
+              <div class="session-type">Tier-specific</div>
+              <h4>Business growth roundtable: AI inside small Ghanaian teams</h4>
+              <div class="session-host">Gideon · Africon founder</div>
+            </div>
+          </div>
+          <div class="schedule-foot">
+            <span class="schedule-time-pill">Sat · 11:00 AM</span>
+            <a href="#" class="schedule-action-link">Submit Q →</a>
+          </div>
+          <div style="margin-top:var(--s-2);">
+            <span class="schedule-tier-lock"><svg aria-hidden="true"><use href="#i-lock"/></svg>AI Transformation</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- REPLAYS -->
+    <section aria-label="Session replays">
+      <div class="section-title-row">
+        <h2 class="section-h">Replay library</h2>
+        <span class="section-sub">Past sessions</span>
+      </div>
+
+      <div class="chip-row" role="tablist">
+        <button class="chip active">All</button>
+        <button class="chip">Pillar 1</button>
+        <button class="chip">Pillar 2</button>
+        <button class="chip">Pillar 3</button>
+      </div>
+
+      <div class="replay-stack">
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">62 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Thu 22 May 2026</div>
+            <h3 class="replay-title">How to draft a board memo with ChatGPT</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 1</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>112</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>248</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">47 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Sat 17 May 2026</div>
+            <h3 class="replay-title">Sales prospecting in 12 minutes — a weekly system</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 2</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>87</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>192</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">54 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Thu 15 May 2026</div>
+            <h3 class="replay-title">Picking the right summariser for your inbox</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 3</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>94</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>156</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">71 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Thu 8 May 2026</div>
+            <h3 class="replay-title">Three weekly rituals that compound your AI use</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 1</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>136</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>318</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">58 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Thu 1 May 2026</div>
+            <h3 class="replay-title">Gamma for proposals — first draft to sent in 90 min</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 2</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>104</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>271</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="replay-card">
+          <div class="replay-thumb">
+            <span class="replay-thumb-play"><svg aria-hidden="true"><use href="#i-play"/></svg></span>
+            <span class="replay-thumb-length">39 min</span>
+          </div>
+          <div class="replay-body">
+            <div class="replay-date">Sat 26 Apr 2026</div>
+            <h3 class="replay-title">What changed in AI: week 20 — only what matters</h3>
+            <div class="replay-meta">
+              <span class="replay-pillar-tag">Pillar 3</span>
+              <span class="replay-stats">
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-users"/></svg>76</span>
+                <span class="replay-stat"><svg aria-hidden="true"><use href="#i-eye"/></svg>132</span>
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tab-bar" aria-label="Main navigation">
+    <a href="dashboard-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-home"/></svg></span>
+      Home
+    </a>
+    <a href="lessons-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-book"/></svg></span>
+      Lessons
+    </a>
+    <a href="live-sessions-mobile.html" class="tab-item active" aria-current="page">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-video"/></svg></span>
+      Live
+    </a>
+    <a href="challenges-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-target"/></svg></span>
+      Challenges
+    </a>
+    <a href="profile-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg width="22" height="22" aria-hidden="true"><use href="#i-user"/></svg></span>
+      Profile
+    </a>
+  </nav>
+</body>
+</html>

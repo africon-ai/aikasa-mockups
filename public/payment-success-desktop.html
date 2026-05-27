@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>You're in — AIKASA Founding Member</title>
+  <meta name="description" content="Welcome to AIKASA's founding circle. Your Founding Member 2026 access is confirmed.">
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    /* ============================================================
+       Payment success — desktop
+       Celebratory but grounded. Welcome-into-the-circle tone.
+       ============================================================ */
+    body {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -5%, rgba(46, 204, 113, 0.10), transparent 60%),
+        radial-gradient(ellipse 70% 60% at 90% 100%, var(--brand-blue-50), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+    }
+
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      padding: var(--s-6) var(--s-8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-4);
+    }
+    .top-nav .help-link {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-2);
+    }
+    .top-nav .help-link:hover { color: var(--brand-blue); }
+    .top-nav .help-link svg { width: 14px; height: 14px; }
+
+    main {
+      flex: 1;
+      padding: var(--s-8) var(--s-6) var(--s-16);
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      padding: var(--s-10) 0 var(--s-12);
+    }
+    .check-medallion {
+      width: 96px; height: 96px;
+      margin: 0 auto var(--s-6);
+      background: var(--brand-green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      box-shadow:
+        0 0 0 8px var(--brand-green-100),
+        0 0 0 16px rgba(46, 204, 113, 0.08),
+        0 12px 32px rgba(46, 204, 113, 0.30);
+      position: relative;
+      animation: medal-pop 0.6s var(--ease-out) both;
+    }
+    .check-medallion svg {
+      width: 48px; height: 48px;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      animation: check-draw 0.5s var(--ease-out) 0.3s forwards;
+    }
+    @keyframes medal-pop {
+      0%   { transform: scale(0.4); opacity: 0; }
+      60%  { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    @keyframes check-draw {
+      from { stroke-dashoffset: 30; }
+      to   { stroke-dashoffset: 0; }
+    }
+
+    .hero-badge {
+      margin-bottom: var(--s-6);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--brand-blue);
+      line-height: 1.05;
+      margin-bottom: var(--s-4);
+    }
+    .hero-headline .accent {
+      color: var(--brand-green-large);
+      font-style: italic;
+      font-weight: 600;
+    }
+    .hero-sub {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 36rem;
+      margin: 0 auto;
+    }
+
+    /* RECEIPT CARD */
+    .receipt {
+      max-width: 720px;
+      margin: 0 auto var(--s-16);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .receipt-head {
+      padding: var(--s-5) var(--s-8);
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4);
+    }
+    .receipt-head-title {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .receipt-head-meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+    }
+    .receipt-body {
+      padding: var(--s-8);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-8) var(--s-10);
+    }
+    .receipt-row { display: flex; flex-direction: column; gap: var(--s-2); }
+    .receipt-row-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .receipt-row-value {
+      font-family: var(--font-display);
+      font-size: var(--text-body-lg);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .receipt-row-value.mono {
+      font-family: var(--font-mono);
+      font-size: var(--text-body);
+      letter-spacing: 0.02em;
+    }
+    .receipt-row-value.amount {
+      font-size: var(--text-h3);
+      color: var(--brand-blue);
+    }
+    .receipt-row-sub {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .receipt-foot {
+      padding: var(--s-4) var(--s-8);
+      background: var(--brand-green-100);
+      border-top: 1px solid var(--brand-green-200);
+      display: flex; align-items: center; gap: var(--s-3);
+      font-size: var(--text-body-sm);
+      color: var(--brand-green-700);
+    }
+    .receipt-foot svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* WHAT HAPPENS NEXT */
+    .next-section {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .next-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-3);
+      display: flex; justify-content: center; align-items: center; gap: var(--s-3);
+    }
+    .next-eyebrow::before, .next-eyebrow::after {
+      content: ""; width: 2rem; height: 1px; background: var(--border-strong);
+    }
+    .next-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--brand-blue);
+      text-align: center;
+      margin-bottom: var(--s-3);
+    }
+    .next-lede {
+      text-align: center;
+      max-width: 36rem;
+      margin: 0 auto var(--s-12);
+      color: var(--text-secondary);
+      font-size: var(--text-body-lg);
+      line-height: 1.55;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-6);
+      position: relative;
+      margin-bottom: var(--s-16);
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 26px;
+      left: calc(100% / 6);
+      right: calc(100% / 6);
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--border-strong) 0,
+        var(--border-strong) 6px,
+        transparent 6px,
+        transparent 12px
+      );
+      z-index: 0;
+    }
+    .step {
+      position: relative;
+      z-index: 1;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6);
+      display: flex; flex-direction: column;
+      transition: transform var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass);
+    }
+    .step:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .step-marker {
+      width: 52px; height: 52px;
+      background: white;
+      border: 2px solid var(--brand-blue-100);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-blue);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--text-body-lg);
+      margin: -42px auto var(--s-5);
+      box-shadow: 0 4px 12px rgba(0, 51, 102, 0.08);
+    }
+    .step:first-child .step-marker {
+      background: var(--brand-green);
+      border-color: var(--brand-green);
+      color: white;
+    }
+    .step:first-child .step-marker svg { width: 24px; height: 24px; }
+    .step-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      text-align: center;
+      margin-bottom: var(--s-2);
+    }
+    .step h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: var(--s-3);
+      line-height: 1.25;
+    }
+    .step p {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      text-align: center;
+    }
+    .step ul {
+      margin-top: var(--s-3);
+      display: flex; flex-direction: column; gap: var(--s-2);
+      font-size: var(--text-body-sm);
+    }
+    .step ul li {
+      display: flex; align-items: flex-start; gap: var(--s-2);
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .step ul li svg {
+      width: 14px; height: 14px;
+      color: var(--brand-green);
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    /* TIER CALLOUT */
+    .tier-callout {
+      max-width: 1100px;
+      margin: 0 auto var(--s-16);
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--s-10) var(--s-12);
+      color: white;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: var(--s-8);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-blue-lg);
+    }
+    .tier-callout::before {
+      content: "";
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(46, 204, 113, 0.20) 0%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .tier-icon {
+      width: 72px; height: 72px;
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid rgba(46, 204, 113, 0.35);
+      border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-green);
+      position: relative;
+    }
+    .tier-icon svg { width: 36px; height: 36px; }
+    .tier-text { position: relative; }
+    .tier-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: var(--s-2);
+    }
+    .tier-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: var(--s-2);
+    }
+    .tier-detail {
+      font-size: var(--text-body-sm);
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.55;
+    }
+    .tier-pill {
+      padding: var(--s-2) var(--s-4);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: white;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    /* CTAs */
+    .cta-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      padding: var(--s-4) var(--s-6);
+    }
+    .cta-shell .btn { padding: var(--s-4) var(--s-8); font-size: var(--text-body); min-height: 56px; }
+    .cta-shell .btn svg { width: 16px; height: 16px; }
+    .cta-secondary {
+      display: block;
+      margin-top: var(--s-5);
+      color: var(--text-secondary);
+      font-size: var(--text-body-sm);
+      text-decoration: underline;
+      text-decoration-color: var(--border-strong);
+      text-underline-offset: 4px;
+    }
+    .cta-secondary:hover {
+      color: var(--brand-blue);
+      text-decoration-color: var(--brand-blue);
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: var(--s-10) 0 var(--s-8);
+      margin-top: var(--s-16);
+    }
+    .footer-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--s-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-6);
+      flex-wrap: wrap;
+    }
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: var(--s-4);
+    }
+    .footer-left .wordmark { font-size: 1.125rem; }
+    .footer-divider {
+      width: 1px; height: 18px;
+      background: var(--border-strong);
+    }
+    .footer-end {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .footer-meta {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .footer-meta a { color: var(--text-secondary); }
+    .footer-meta a:hover { color: var(--brand-blue); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .check-medallion { animation: none; }
+      .check-medallion svg { animation: none; stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="page">
+    <header class="top-nav" aria-label="Header">
+      <a href="landing-desktop.html" class="wordmark">AIKASA</a>
+      <a href="mailto:hello@aikasa.ai" class="help-link">
+        <svg aria-hidden="true"><use href="#i-message"/></svg>
+        Need help? hello@aikasa.ai
+      </a>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="check-medallion" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <div class="hero-badge">
+          <span class="founding-badge">Founding Member 2026</span>
+        </div>
+        <h1 class="hero-headline">You're in, <span class="accent">Yaa.</span></h1>
+        <p class="hero-sub">Welcome to AIKASA's founding circle. The wait is worth it — and you've just locked in the founding pricing, the badge, and the line straight to the team.</p>
+      </section>
+
+      <!-- RECEIPT -->
+      <section class="receipt" aria-label="Payment receipt">
+        <div class="receipt-head">
+          <span class="receipt-head-title">Receipt &middot; Confirmed</span>
+          <span class="receipt-head-meta">PSK_REF_2026_4F9C2A1B</span>
+        </div>
+        <div class="receipt-body">
+          <div class="receipt-row">
+            <span class="receipt-row-label">Plan</span>
+            <span class="receipt-row-value">Annual Founding Access</span>
+            <span class="receipt-row-sub">12 months access from launch day &middot; AI Transformation tier</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-row-label">Amount paid</span>
+            <span class="receipt-row-value amount">GHS 999</span>
+            <span class="receipt-row-sub">One-time founding price &middot; no recurring charge</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-row-label">Date</span>
+            <span class="receipt-row-value">24 May 2026</span>
+            <span class="receipt-row-sub">14:32 GMT &middot; Africa/Accra</span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-row-label">Confirmation sent to</span>
+            <span class="receipt-row-value mono">yaa.mensah@example.com</span>
+            <span class="receipt-row-sub">Check your inbox in the next minute. Subject line: "You're in, Yaa."</span>
+          </div>
+        </div>
+        <div class="receipt-foot">
+          <svg aria-hidden="true"><use href="#i-shield"/></svg>
+          <span>Paid via Paystack &middot; transaction verified &middot; no further action needed.</span>
+        </div>
+      </section>
+
+      <!-- WHAT HAPPENS NEXT -->
+      <section class="next-section" aria-labelledby="next-title">
+        <p class="next-eyebrow">What happens next</p>
+        <h2 id="next-title" class="next-title">The next 90 days, in plain English.</h2>
+        <p class="next-lede">No silence between today and launch day. Here's the cadence — Founding Members see the product get built in real time.</p>
+
+        <ol class="timeline" role="list">
+          <li class="step">
+            <div class="step-marker" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="step-eyebrow">Today</span>
+            <h4>Confirmation in your inbox</h4>
+            <p>Your Founding Member 2026 badge is already unlocked on your account.</p>
+            <ul>
+              <li><svg><use href="#i-check"/></svg> Welcome email &amp; WhatsApp confirmation</li>
+              <li><svg><use href="#i-check"/></svg> Founding Member 2026 digital badge</li>
+              <li><svg><use href="#i-check"/></svg> Direct feedback channel opened</li>
+            </ul>
+          </li>
+
+          <li class="step">
+            <div class="step-marker" aria-hidden="true">2</div>
+            <span class="step-eyebrow">Between now and launch</span>
+            <h4>Build updates, previews &amp; prompts</h4>
+            <p>Monthly or bi-weekly notes from the team. One preview video and one downloadable prompt pack before launch day.</p>
+            <ul>
+              <li><svg><use href="#i-bell"/></svg> Periodic build updates by email</li>
+              <li><svg><use href="#i-video"/></svg> One early preview video</li>
+              <li><svg><use href="#i-download"/></svg> One downloadable prompt pack</li>
+            </ul>
+          </li>
+
+          <li class="step">
+            <div class="step-marker" aria-hidden="true">3</div>
+            <span class="step-eyebrow">August / September 2026 &middot; Launch day</span>
+            <h4>Your AIKASA access opens</h4>
+            <p>The platform goes live with your one-time founding welcome from the team.</p>
+            <ul>
+              <li><svg><use href="#i-bolt"/></svg> Full pillar access unlocks</li>
+              <li><svg><use href="#i-star"/></svg> One-time launch-day welcome</li>
+              <li><svg><use href="#i-calendar"/></svg> 90-day journey begins</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <!-- TIER CALLOUT -->
+      <section class="tier-callout" aria-label="Your tier on launch day">
+        <div class="tier-icon" aria-hidden="true">
+          <svg><use href="#i-trophy"/></svg>
+        </div>
+        <div class="tier-text">
+          <p class="tier-eyebrow">Your tier on launch day</p>
+          <h3 class="tier-title">AI Transformation &middot; Tier 2</h3>
+          <p class="tier-detail">All-tier access included with founding membership. Every pillar, every lesson, every live session — no upsells for the full term.</p>
+        </div>
+        <span class="tier-pill">Included</span>
+      </section>
+
+      <!-- CTAs -->
+      <section class="cta-shell">
+        <a href="dashboard-desktop.html" class="btn btn-lg">
+          Go to your dashboard
+          <svg aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+        <a href="#" class="cta-secondary">Share with someone who'd benefit from AIKASA</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="wordmark">AIKASA</span>
+          <span class="footer-divider" aria-hidden="true"></span>
+          <span class="footer-end">An Africon project &middot; &copy; 2026 Africa AI Consult</span>
+        </div>
+        <div class="footer-meta">
+          <a href="mailto:hello@aikasa.ai">hello@aikasa.ai</a> &middot; aikasa.ai &middot; Accra, Ghana
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

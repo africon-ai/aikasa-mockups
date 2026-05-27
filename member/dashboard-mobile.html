@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Dashboard — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+    .tab-item-icon .icon { width: 22px; height: 22px; }
+
+    .mobile-topbar { gap: var(--s-3); }
+    .mobile-topbar-left { display: flex; flex-direction: column; line-height: 1.1; }
+    .mobile-topbar-eyebrow {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .mobile-topbar-right { display: flex; align-items: center; gap: var(--s-2); }
+    .topbar-icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      color: var(--text-secondary);
+      background: var(--bg-soft-2);
+      position: relative;
+    }
+    .topbar-icon-btn .icon { width: 18px; height: 18px; }
+    .topbar-icon-btn .badge-dot {
+      position: absolute; top: 8px; right: 9px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--brand-green);
+      border: 2px solid white;
+    }
+
+    /* Greeting */
+    .greeting-block {
+      padding: var(--s-2) 0 var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .greeting-block h1 {
+      font-size: 1.625rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+    .greeting-block p {
+      font-size: var(--text-body);
+      color: var(--text-secondary);
+    }
+    .greeting-block .progress-inline {
+      font-weight: 600; color: var(--brand-green-large);
+    }
+
+    /* Level tile */
+    .level-tile {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3) var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .level-dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .level-tile-text { flex: 1; min-width: 0; }
+    .level-tile-text .label {
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .level-tile-text .progress { margin-top: 4px; height: 4px; }
+    .level-tile-pct {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    /* Section heads */
+    .m-section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      margin: var(--s-6) 0 var(--s-3);
+    }
+    .m-section-head h2 {
+      font-family: var(--font-display);
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+    }
+    .m-section-head a {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+
+    /* Continue card (mobile) */
+    .continue-card-m {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .lesson-thumb-m {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+    }
+    .lesson-thumb-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .lesson-thumb-orb {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      filter: blur(48px);
+      background: radial-gradient(circle, var(--brand-green) 0%, transparent 70%);
+      opacity: 0.55;
+      top: -40px; right: -40px;
+    }
+    .lesson-thumb-play {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-blue);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .lesson-thumb-play .icon { width: 22px; height: 22px; margin-left: 3px; }
+    .lesson-thumb-time {
+      position: absolute;
+      top: var(--s-3); right: var(--s-3);
+      padding: 4px 10px;
+      background: rgba(0,0,0,0.55);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: white;
+      letter-spacing: 0.04em;
+    }
+    .lesson-thumb-watermark {
+      position: absolute;
+      bottom: var(--s-3); left: var(--s-3);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .continue-body-m {
+      padding: var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .continue-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-micro);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--brand-blue);
+    }
+    .continue-title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+      line-height: 1.3;
+    }
+    .continue-meta-m {
+      display: flex; flex-wrap: wrap;
+      gap: var(--s-1) var(--s-2);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .continue-meta-m .dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--text-faint);
+      display: inline-block;
+      align-self: center;
+    }
+    .continue-pillar-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .continue-progress-m {
+      display: flex; align-items: center; gap: var(--s-3);
+    }
+    .continue-progress-m .progress { flex: 1; }
+    .continue-progress-pct {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Info cards (mobile) */
+    .info-card-m {
+      padding: var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .info-card-m + .info-card-m { margin-top: var(--s-3); }
+    .info-card-head-m {
+      display: flex; align-items: center; gap: var(--s-3);
+    }
+    .info-card-icon-m {
+      width: 36px; height: 36px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .info-card-icon-m .icon { width: 18px; height: 18px; }
+    .info-card-icon-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .info-card-title-m {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .info-card-rows-m {
+      display: flex; flex-direction: column; gap: var(--s-2);
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+    }
+    .info-card-row { display: flex; align-items: center; gap: var(--s-2); }
+    .info-card-row .icon { width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0; }
+    .info-card-actions-m { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+    .info-card-actions-m .btn { flex: 1; justify-content: center; }
+
+    .challenge-meta-m {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3);
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+    }
+    .challenge-meta-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      line-height: 1;
+    }
+    .challenge-meta-label {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Stats grid 2x2 on mobile */
+    .stats-grid-m {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-3);
+    }
+    .stat {
+      padding: var(--s-3);
+    }
+    .stat-icon-wrap {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-1);
+    }
+    .stat-icon {
+      width: 28px; height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .stat-icon .icon { width: 14px; height: 14px; }
+    .stat-icon-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .stat-trend {
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      color: var(--brand-green-700);
+      font-weight: 600;
+    }
+    .stat-value { font-size: 1.5rem; }
+    .stat-label { font-size: 0.625rem; }
+
+    /* Discover horizontal scroll */
+    .discover-scroll {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 78%;
+      gap: var(--s-3);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: var(--s-3);
+      margin: 0 calc(var(--s-4) * -1);
+      padding-left: var(--s-4); padding-right: var(--s-4);
+      scrollbar-width: none;
+    }
+    .discover-scroll::-webkit-scrollbar { display: none; }
+    .discover-card {
+      scroll-snap-align: start;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-4);
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; gap: var(--s-2);
+      min-height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+    .discover-card-icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .discover-card-icon .icon { width: 18px; height: 18px; }
+    .discover-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .discover-card p {
+      font-size: var(--text-body-sm);
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .discover-card-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .discover-card-cta .icon { width: 12px; height: 12px; }
+
+    /* Hide desktop sidebar on this file */
+    .sidebar { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Mobile topbar -->
+  <header class="mobile-topbar" role="banner">
+    <div class="mobile-topbar-left">
+      <span class="mobile-topbar-eyebrow">AIKASA</span>
+      <span class="mobile-topbar-title">Dashboard</span>
+    </div>
+    <div class="mobile-topbar-right">
+      <button class="topbar-icon-btn" aria-label="Notifications (1 unread)">
+        <svg class="icon" aria-hidden="true"><use href="#i-bell"/></svg>
+        <span class="badge-dot" aria-hidden="true"></span>
+      </button>
+      <div class="avatar" aria-label="Yaa Mensah">YM</div>
+    </div>
+  </header>
+
+  <main id="main" class="member-content" role="main">
+    <!-- Greeting -->
+    <section class="greeting-block" aria-labelledby="greeting-heading">
+      <h1 id="greeting-heading">Good morning, Yaa.</h1>
+      <p>You're on Foundation (Level 2). Keep going — you're <span class="progress-inline">60% to Intermediate</span>.</p>
+      <span class="founding-badge" style="align-self:flex-start">Founding Member 2026</span>
+    </section>
+
+    <!-- Level tile -->
+    <div class="level-tile">
+      <span class="level-dot" aria-hidden="true">2</span>
+      <div class="level-tile-text">
+        <div class="label">Foundation · Level 2 of 5</div>
+        <div class="progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Progress to Intermediate"><div class="progress-bar progress-bar-green" style="width:60%"></div></div>
+      </div>
+      <span class="level-tile-pct">60%</span>
+    </div>
+
+    <!-- Continue your next lesson -->
+    <div class="m-section-head">
+      <h2>Continue your lesson</h2>
+      <a href="lesson-library-mobile.html">All lessons <svg class="icon" style="width:12px;height:12px" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+    </div>
+    <article class="continue-card-m">
+      <div class="lesson-thumb-m">
+        <div class="lesson-thumb-grid" aria-hidden="true"></div>
+        <div class="lesson-thumb-orb" aria-hidden="true"></div>
+        <span class="lesson-thumb-time">9:00</span>
+        <span class="lesson-thumb-watermark">AIKASA · Module 03</span>
+        <span class="lesson-thumb-play" aria-hidden="true">
+          <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
+        </span>
+      </div>
+      <div class="continue-body-m">
+        <div class="continue-eyebrow">Resume where you left off</div>
+        <h3 class="continue-title">How to refine a Gamma deck</h3>
+        <div>
+          <span class="continue-pillar-tag">AI for Business and Entrepreneurship</span>
+        </div>
+        <div class="continue-meta-m">
+          <span>Presentations with Gamma</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Lesson 3 of 6</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span><svg class="icon" style="width:12px;height:12px;vertical-align:-1px" aria-hidden="true"><use href="#i-clock"/></svg> 9 min</span>
+        </div>
+        <div class="continue-progress-m">
+          <div class="progress" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress">
+            <div class="progress-bar" style="width:35%"></div>
+          </div>
+          <span class="continue-progress-pct">35%</span>
+        </div>
+        <a href="#" class="btn btn-block">
+          Resume lesson
+          <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Live session -->
+    <div class="m-section-head">
+      <h2>This week</h2>
+    </div>
+    <article class="info-card-m">
+      <div class="info-card-head-m">
+        <div class="info-card-icon-m">
+          <svg class="icon" aria-hidden="true"><use href="#i-video"/></svg>
+        </div>
+        <div style="flex:1">
+          <span class="badge badge-blue" style="font-size:0.625rem">Upcoming · Live</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="info-card-title-m">Weekly Implementation Clinic</h3>
+        <p style="font-size:var(--text-body-sm);color:var(--text-secondary);margin-top:var(--s-1)">Bring your stuck point. Leave with a working prompt.</p>
+      </div>
+      <div class="info-card-rows-m">
+        <div class="info-card-row">
+          <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+          <span>Thursday, 29 May · 7:00 PM GMT</span>
+        </div>
+        <div class="info-card-row">
+          <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+          <span>Facilitated by Adwoa (Africon)</span>
+        </div>
+        <div class="info-card-row">
+          <svg class="icon" aria-hidden="true"><use href="#i-message"/></svg>
+          <span>12 questions submitted so far</span>
+        </div>
+      </div>
+      <div class="info-card-actions-m">
+        <a href="#" class="btn btn-secondary btn-sm" style="min-height:40px">Submit a question</a>
+        <a href="#" class="btn btn-ghost btn-sm" style="min-height:40px">
+          <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-calendar"/></svg>
+          Add to calendar
+        </a>
+      </div>
+    </article>
+
+    <!-- Weekly challenge -->
+    <article class="info-card-m">
+      <div class="info-card-head-m">
+        <div class="info-card-icon-m info-card-icon-green">
+          <svg class="icon" aria-hidden="true"><use href="#i-target"/></svg>
+        </div>
+        <div style="flex:1">
+          <span class="eyebrow" style="font-size:0.625rem">Week 21 Challenge</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="info-card-title-m">Build a 5-prompt productivity playbook for your role</h3>
+        <p style="font-size:var(--text-body-sm);color:var(--text-secondary);margin-top:var(--s-1)">Pick one repetitive task. Design 5 prompts that handle it end-to-end. Post your playbook in the community.</p>
+      </div>
+      <div class="challenge-meta-m">
+        <div>
+          <div class="challenge-meta-num">47</div>
+          <div class="challenge-meta-label">Submissions</div>
+        </div>
+        <div style="width:1px;height:32px;background:var(--border)"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;color:var(--text-primary);font-size:var(--text-body-sm)">Submit by Sun 1 Jun</div>
+          <div style="font-size:var(--text-caption);color:var(--text-muted)">You haven't submitted yet.</div>
+        </div>
+      </div>
+      <a href="#" class="btn btn-block">
+        Submit your playbook
+        <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+      </a>
+    </article>
+
+    <!-- Stats -->
+    <div class="m-section-head">
+      <h2>Your progress</h2>
+    </div>
+    <section class="stats-grid-m" aria-label="Member stats">
+      <div class="stat">
+        <div class="stat-icon-wrap">
+          <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+          <span class="stat-trend">+2</span>
+        </div>
+        <span class="stat-value">7<span style="font-size:0.75rem;color:var(--text-muted);font-weight:500"> / 24</span></span>
+        <span class="stat-label">Lessons done</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon-wrap">
+          <span class="stat-icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+          <span class="stat-trend">+45m</span>
+        </div>
+        <span class="stat-value">2h 40m</span>
+        <span class="stat-label">Practiced</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon-wrap">
+          <span class="stat-icon stat-icon-green"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+          <span class="stat-trend">3/5</span>
+        </div>
+        <span class="stat-value">3</span>
+        <span class="stat-label">Challenges</span>
+      </div>
+      <div class="stat">
+        <div class="stat-icon-wrap">
+          <span class="stat-icon stat-icon-green"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg></span>
+          <span class="stat-trend">Keep going</span>
+        </div>
+        <span class="stat-value">5 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:500">days</span></span>
+        <span class="stat-label">Streak</span>
+      </div>
+    </section>
+
+    <!-- Discover -->
+    <div class="m-section-head">
+      <h2>Discover</h2>
+    </div>
+    <div class="discover-scroll" role="list" aria-label="Discover more">
+      <a href="#" class="discover-card" role="listitem">
+        <div class="discover-card-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-tools"/></svg>
+        </div>
+        <h3>Toolbox</h3>
+        <p>Prompt templates, decision frameworks, and ready-to-use AI tools.</p>
+        <span class="discover-card-cta">Open Toolbox <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+      </a>
+      <a href="#" class="discover-card" role="listitem">
+        <div class="discover-card-icon" style="background:var(--brand-green-100);color:var(--brand-green-700)">
+          <svg class="icon" aria-hidden="true"><use href="#i-newspaper"/></svg>
+        </div>
+        <h3>AI Updates</h3>
+        <p>What changed this week and why it matters for your work.</p>
+        <span class="discover-card-cta">Read the latest <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+      </a>
+      <a href="#" class="discover-card" role="listitem">
+        <div class="discover-card-icon" style="background:#fef3c7;color:#92400e">
+          <svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>
+        </div>
+        <h3>Community</h3>
+        <p>Share your playbook, ask for feedback, learn from other members.</p>
+        <span class="discover-card-cta">Join the conversation <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tab-bar" aria-label="Primary mobile navigation">
+    <a href="dashboard-mobile.html" class="tab-item active" aria-current="page">
+      <span class="tab-item-icon"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg></span>
+      Home
+    </a>
+    <a href="lesson-library-mobile.html" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+      Lessons
+    </a>
+    <a href="#" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg></span>
+      Live
+    </a>
+    <a href="#" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg></span>
+      Challenges
+    </a>
+    <a href="#" class="tab-item">
+      <span class="tab-item-icon"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>
+      Profile
+    </a>
+  </nav>
+</body>
+</html>

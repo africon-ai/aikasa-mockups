@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <title>AIKASA — Stakeholder Mockup Tour</title>
+  <meta name="description" content="AIKASA MVP — mobile + desktop mockups for stakeholder review.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="shared/design-system.css">
+
+  <style>
+    body {
+      background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 30%);
+      min-height: 100vh;
+    }
+
+    /* ============================================================
+       Header
+       ============================================================ */
+    .tour-header {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: var(--s-12) var(--s-6) var(--s-8);
+    }
+    .tour-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-3);
+      display: inline-flex; align-items: center; gap: var(--s-3);
+    }
+    .tour-eyebrow::before {
+      content: ""; width: 2rem; height: 1px; background: var(--text-faint);
+    }
+    .tour-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h1);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--brand-blue);
+      line-height: 1.08;
+      margin-bottom: var(--s-4);
+    }
+    .tour-sub {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 60ch;
+    }
+    .tour-meta {
+      display: flex; align-items: center; gap: var(--s-6);
+      flex-wrap: wrap;
+      margin-top: var(--s-8);
+      padding-top: var(--s-6);
+      border-top: 1px solid var(--border);
+    }
+    .tour-meta-item {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .tour-meta-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .tour-meta-value {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       Section nav
+       ============================================================ */
+    .tour-section-nav {
+      position: sticky; top: 0;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: var(--s-3) 0;
+    }
+    .tour-section-nav-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--s-6);
+      display: flex; align-items: center; gap: var(--s-2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tour-section-link {
+      padding: var(--s-2) var(--s-4);
+      font-size: var(--text-body-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+      transition: background var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass);
+    }
+    .tour-section-link:hover { background: var(--bg-soft); color: var(--brand-blue); }
+    .tour-section-link.active { background: var(--brand-blue-50); color: var(--brand-blue); font-weight: 600; }
+
+    /* ============================================================
+       Section block
+       ============================================================ */
+    .tour-section {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: var(--s-12) var(--s-6);
+    }
+    .tour-section-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-4); margin-bottom: var(--s-8);
+      flex-wrap: wrap;
+    }
+    .tour-section-head h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-h2);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+      margin-bottom: var(--s-1);
+    }
+    .tour-section-head p {
+      color: var(--text-secondary);
+      font-size: var(--text-body);
+    }
+    .tour-section-count {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      padding: var(--s-1) var(--s-3);
+      background: var(--bg-soft-2);
+      border-radius: var(--radius-pill);
+    }
+
+    /* ============================================================
+       Screen card
+       ============================================================ */
+    .screen-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-8);
+    }
+    @media (min-width: 768px) {
+      .screen-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .screen-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--t-smooth) var(--ease-glass),
+                  box-shadow var(--t-smooth) var(--ease-glass),
+                  transform var(--t-smooth) var(--ease-glass);
+    }
+    .screen-card:hover {
+      border-color: var(--brand-blue-200);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .screen-card-head {
+      padding: var(--s-5) var(--s-6);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: var(--s-4);
+    }
+    .screen-card-meta {
+      display: flex; flex-direction: column; gap: var(--s-1);
+    }
+    .screen-card-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .screen-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .screen-card-desc {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-top: var(--s-2);
+    }
+    .screen-card-flag {
+      flex-shrink: 0;
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      padding: var(--s-1) var(--s-3);
+      background: var(--brand-blue-50);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+    .screen-card-flag.dark {
+      background: #0F172A;
+      color: white;
+      border-color: #1E293B;
+    }
+
+    /* Frames */
+    .frame-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-6);
+      padding: var(--s-6);
+      align-items: start;
+    }
+    @media (min-width: 540px) {
+      .frame-row { grid-template-columns: 220px 1fr; }
+    }
+
+    .frame-mobile {
+      width: 220px;
+      max-width: 100%;
+      aspect-ratio: 9 / 19.5;
+      border-radius: 26px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .frame-mobile iframe {
+      width: 414px;
+      height: 897px;
+      border: 0;
+      transform: scale(0.531);
+      transform-origin: 0 0;
+      pointer-events: none;
+    }
+    .frame-desktop {
+      aspect-ratio: 16 / 10;
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .frame-desktop iframe {
+      width: 1440px;
+      height: 900px;
+      border: 0;
+      transform: scale(0.42);
+      transform-origin: 0 0;
+      pointer-events: none;
+    }
+    @media (min-width: 1024px) {
+      .frame-desktop iframe { transform: scale(0.46); }
+    }
+
+    /* Frame labels */
+    .frame-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: var(--s-2);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .frame-label::before {
+      content: ""; width: 8px; height: 8px;
+      background: var(--brand-green); border-radius: 50%;
+    }
+
+    /* Footer of each card */
+    .screen-card-actions {
+      padding: var(--s-3) var(--s-6) var(--s-5);
+      border-top: 1px solid var(--border-soft);
+      display: flex; gap: var(--s-3);
+      flex-wrap: wrap;
+    }
+    .open-link {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-4);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: var(--text-body-sm);
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: border-color var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass), background var(--t-instant) var(--ease-glass);
+    }
+    .open-link:hover {
+      border-color: var(--brand-blue);
+      color: var(--brand-blue);
+      background: white;
+    }
+    .open-link svg {
+      width: 14px; height: 14px;
+      stroke-width: 2;
+    }
+
+    /* Status pill for missing pages */
+    .status-pending {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-3);
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius);
+      font-size: var(--text-caption);
+      font-family: var(--font-caption);
+    }
+
+    /* ============================================================
+       Footer
+       ============================================================ */
+    .tour-footer {
+      max-width: var(--container);
+      margin: var(--s-16) auto 0;
+      padding: var(--s-8) var(--s-6) var(--s-12);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4);
+      flex-wrap: wrap;
+    }
+    .tour-footer-text {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       Quick legend at the top
+       ============================================================ */
+    .tour-legend {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--s-6) var(--s-8);
+    }
+    .tour-legend-inner {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--s-6);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-4);
+    }
+    @media (min-width: 768px) {
+      .tour-legend-inner { grid-template-columns: repeat(4, 1fr); }
+    }
+    .legend-item {
+      display: flex; flex-direction: column; gap: var(--s-1);
+    }
+    .legend-label {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .legend-value {
+      color: var(--text-primary);
+      font-size: var(--text-body-sm);
+      line-height: 1.55;
+    }
+    .legend-value strong {
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to mockups</a>
+
+<header class="tour-header">
+  <div class="tour-eyebrow">AIKASA · MVP Mockup Tour</div>
+  <h1 class="tour-title">All 19 user-facing surfaces. Mobile and desktop.</h1>
+  <p class="tour-sub">
+    Production-quality stakeholder mockups for AIKASA — Africon's guided AI implementation
+    ecosystem. Every screen is in two viewports: mobile (PWA shell) and desktop. Built
+    against the locked design system in §10 of the engineering plan.
+  </p>
+
+  <div class="tour-meta">
+    <div class="tour-meta-item">
+      <span class="tour-meta-label">Project</span>
+      <span class="tour-meta-value">Africon AIKASA</span>
+    </div>
+    <div class="tour-meta-item">
+      <span class="tour-meta-label">Tagline</span>
+      <span class="tour-meta-value">AI that works</span>
+    </div>
+    <div class="tour-meta-item">
+      <span class="tour-meta-label">Direction</span>
+      <span class="tour-meta-value">Learning Editorial</span>
+    </div>
+    <div class="tour-meta-item">
+      <span class="tour-meta-label">Surfaces</span>
+      <span class="tour-meta-value">19 screens · 38 mockups</span>
+    </div>
+    <div class="tour-meta-item">
+      <span class="tour-meta-label">Date</span>
+      <span class="tour-meta-value">24 May 2026</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tour-section-nav" aria-label="Section navigation">
+  <div class="tour-section-nav-inner">
+    <a class="tour-section-link active" href="#public">Public (7)</a>
+    <a class="tour-section-link" href="#member">Member portal (9)</a>
+    <a class="tour-section-link" href="#admin">Admin (3)</a>
+    <a class="tour-section-link" href="#system">Design system</a>
+  </div>
+</nav>
+
+<section class="tour-legend">
+  <div class="tour-legend-inner">
+    <div class="legend-item">
+      <span class="legend-label">Primary colour</span>
+      <span class="legend-value"><strong>Brand Blue</strong> · #003366</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-label">Accent</span>
+      <span class="legend-value"><strong>Brand Green</strong> · #2ECC71 (accent only)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-label">Type</span>
+      <span class="legend-value">Poppins · Inter · JetBrains Mono</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-label">Theme</span>
+      <span class="legend-value">Light primary · countdown is the one dark surface</span>
+    </div>
+  </div>
+</section>
+
+<main id="main">
+
+  <!-- ============================================================
+       PUBLIC FLOW
+       ============================================================ -->
+  <section class="tour-section" id="public">
+    <div class="tour-section-head">
+      <div>
+        <h2>Public flow</h2>
+        <p>What a prospective member sees before paying — landing through payment confirmation, ending in the dark countdown screen.</p>
+      </div>
+      <span class="tour-section-count">7 screens · 14 mockups</span>
+    </div>
+
+    <div class="screen-grid">
+      <!-- 1. Landing -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">01 / Public</span>
+            <h3 class="screen-card-title">Landing</h3>
+            <p class="screen-card-desc">The first impression. Tagline-led hero, 3 pillars, how it works, Africon credibility, founding member offer, final CTA.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/landing-mobile.html" title="Landing mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/landing-desktop.html" title="Landing desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/landing-mobile.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg>
+            Open mobile
+          </a>
+          <a class="open-link" href="public/landing-desktop.html" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg>
+            Open desktop
+          </a>
+        </footer>
+      </article>
+
+      <!-- 2. Pricing -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">02 / Public</span>
+            <h3 class="screen-card-title">Pricing</h3>
+            <p class="screen-card-desc">Founding offer pinned · region/cycle toggle · Tier 1 vs Tier 2 comparison · refund &amp; grace FAQ.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/pricing-mobile.html" title="Pricing mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/pricing-desktop.html" title="Pricing desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/pricing-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/pricing-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- 3. Join -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">03 / Public</span>
+            <h3 class="screen-card-title">Join (sign-up)</h3>
+            <p class="screen-card-desc">Founding member application form · Ghana +233 default · plan radio cards · canonical benefits side rail.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/join-mobile.html" title="Join mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/join-desktop.html" title="Join desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/join-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/join-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- 4. Login -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">04 / Public</span>
+            <h3 class="screen-card-title">Login</h3>
+            <p class="screen-card-desc">Calm two-field login · forgot-password link · pillar reminder rail (desktop) · founding member nudge.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/login-mobile.html" title="Login mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/login-desktop.html" title="Login desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/login-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/login-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- 5. Payment Callback -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">05 / Public</span>
+            <h3 class="screen-card-title">Payment callback</h3>
+            <p class="screen-card-desc">The verifying state. Screen <em>is</em> the loading state. Reassures users that they were not double-charged.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/payment-callback-mobile.html" title="Payment callback mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/payment-callback-desktop.html" title="Payment callback desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/payment-callback-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/payment-callback-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- 6. Payment Success -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">06 / Public</span>
+            <h3 class="screen-card-title">Payment success</h3>
+            <p class="screen-card-desc">"You're in, and we're glad." Receipt, founding badge, what-happens-next timeline. Calm celebration.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/payment-success-mobile.html" title="Payment success mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/payment-success-desktop.html" title="Payment success desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/payment-success-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/payment-success-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- 7. Countdown -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">07 / Public</span>
+            <h3 class="screen-card-title">Pre-launch countdown</h3>
+            <p class="screen-card-desc">The one intentional dark surface. Founding members see this on /dashboard until launch day. Premium, restrained, anticipatory.</p>
+          </div>
+          <span class="screen-card-flag dark">Dark</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="public/countdown-mobile.html" title="Countdown mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="public/countdown-desktop.html" title="Countdown desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="public/countdown-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="public/countdown-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MEMBER PORTAL
+       ============================================================ -->
+  <section class="tour-section" id="member">
+    <div class="tour-section-head">
+      <div>
+        <h2>Member portal</h2>
+        <p>What a paid member sees. Desktop = floating glass sidebar. Mobile = bottom tab bar (5 tabs). PWA shell.</p>
+      </div>
+      <span class="tour-section-count">9 screens · 18 mockups</span>
+    </div>
+
+    <div class="screen-grid">
+      <!-- Dashboard -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">08 / Member</span>
+            <h3 class="screen-card-title">Dashboard</h3>
+            <p class="screen-card-desc">Greeting · Continue next lesson · Upcoming live session · Active weekly challenge · 4 stat tiles · Mobile discover row.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/dashboard-mobile.html" title="Dashboard mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/dashboard-desktop.html" title="Dashboard desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/dashboard-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/dashboard-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Lesson library -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">09 / Member</span>
+            <h3 class="screen-card-title">Lesson library</h3>
+            <p class="screen-card-desc">3 pillars · modules · lesson cards with progress &amp; tier locks. Mobile: pillar chips + accordion modules.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/lesson-library-mobile.html" title="Lesson library mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/lesson-library-desktop.html" title="Lesson library desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/lesson-library-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/lesson-library-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Lesson detail -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">10 / Member</span>
+            <h3 class="screen-card-title">Lesson detail</h3>
+            <p class="screen-card-desc">Branded Cloudflare Stream wrapper · lesson outline · resources · next lesson up-next card.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/lesson-detail-mobile.html" title="Lesson detail mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/lesson-detail-desktop.html" title="Lesson detail desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/lesson-detail-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/lesson-detail-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Live sessions -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">11 / Member</span>
+            <h3 class="screen-card-title">Live sessions</h3>
+            <p class="screen-card-desc">Next session hero · upcoming schedule · replay library · question submission flow.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/live-sessions-mobile.html" title="Live sessions mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/live-sessions-desktop.html" title="Live sessions desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/live-sessions-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/live-sessions-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Challenges -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">12 / Member</span>
+            <h3 class="screen-card-title">Weekly challenges</h3>
+            <p class="screen-card-desc">Current week hero with submission form · progress strip · past challenges with community thread links. No complex gamification.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/challenges-mobile.html" title="Challenges mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/challenges-desktop.html" title="Challenges desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/challenges-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/challenges-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Toolbox -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">13 / Member</span>
+            <h3 class="screen-card-title">Toolbox</h3>
+            <p class="screen-card-desc">Curated tools by 6 categories · affiliate disclosure · "used in N lessons" cross-links.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/toolbox-mobile.html" title="Toolbox mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/toolbox-desktop.html" title="Toolbox desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/toolbox-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/toolbox-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- AI Updates -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">14 / Member</span>
+            <h3 class="screen-card-title">AI Updates</h3>
+            <p class="screen-card-desc">Pillar 3 delivered as a weekly feed. Tool changes · workflow tips · Africa-specific guidance. Curated by Africon team.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/ai-updates-mobile.html" title="AI Updates mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/ai-updates-desktop.html" title="AI Updates desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/ai-updates-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/ai-updates-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Community -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">15 / Member</span>
+            <h3 class="screen-card-title">Community</h3>
+            <p class="screen-card-desc">WhatsApp connect CTA (real green) · today's prompt · 6 active threads · member spotlight. Hybrid platform + WhatsApp.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/community-mobile.html" title="Community mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/community-desktop.html" title="Community desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/community-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/community-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Profile -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">16 / Member</span>
+            <h3 class="screen-card-title">Profile</h3>
+            <p class="screen-card-desc">Member header with founding badge · progress · profile fields · subscription billing · notifications · Discover row (mobile) · sign out.</p>
+          </div>
+          <span class="screen-card-flag">Light</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="member/profile-mobile.html" title="Profile mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="member/profile-desktop.html" title="Profile desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="member/profile-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="member/profile-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ADMIN
+       ============================================================ -->
+  <section class="tour-section" id="admin">
+    <div class="tour-section-head">
+      <div>
+        <h2>Admin</h2>
+        <p>Utility-focused, denser sidebar, less glass. Desktop-primary. Mobile collapses to hamburger drawer.</p>
+      </div>
+      <span class="tour-section-count">3 screens · 6 mockups</span>
+    </div>
+
+    <div class="screen-grid">
+      <!-- Admin members -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">17 / Admin</span>
+            <h3 class="screen-card-title">Admin · Members</h3>
+            <p class="screen-card-desc">Member table with re-sync-from-Paystack action · filters · CSV export · bulk actions. Launch-week ops view.</p>
+          </div>
+          <span class="screen-card-flag">Admin</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="admin/admin-members-mobile.html" title="Admin members mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="admin/admin-members-desktop.html" title="Admin members desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="admin/admin-members-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="admin/admin-members-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Admin content -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">18 / Admin</span>
+            <h3 class="screen-card-title">Admin · Content</h3>
+            <p class="screen-card-desc">Publish / unpublish console for lessons, modules, resources, live sessions. Right-sized MVP — content authored from seed files.</p>
+          </div>
+          <span class="screen-card-flag">Admin</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="admin/admin-content-mobile.html" title="Admin content mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="admin/admin-content-desktop.html" title="Admin content desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="admin/admin-content-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="admin/admin-content-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+
+      <!-- Admin analytics -->
+      <article class="screen-card">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">19 / Admin</span>
+            <h3 class="screen-card-title">Admin · Analytics</h3>
+            <p class="screen-card-desc">KPI tiles · member growth · tier mix · weekly active · Sprint-0 funnel · payment-events feed · operational health.</p>
+          </div>
+          <span class="screen-card-flag">Admin</span>
+        </header>
+        <div class="frame-row">
+          <div>
+            <div class="frame-label">Mobile · 414</div>
+            <div class="frame-mobile"><iframe src="admin/admin-analytics-mobile.html" title="Admin analytics mobile" loading="lazy"></iframe></div>
+          </div>
+          <div>
+            <div class="frame-label">Desktop · 1440</div>
+            <div class="frame-desktop"><iframe src="admin/admin-analytics-desktop.html" title="Admin analytics desktop" loading="lazy"></iframe></div>
+          </div>
+        </div>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="admin/admin-analytics-mobile.html" target="_blank">Open mobile</a>
+          <a class="open-link" href="admin/admin-analytics-desktop.html" target="_blank">Open desktop</a>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DESIGN SYSTEM
+       ============================================================ -->
+  <section class="tour-section" id="system">
+    <div class="tour-section-head">
+      <div>
+        <h2>Design system</h2>
+        <p>Tokens, components, conventions. All 38 mockups reference the same <code>shared/design-system.css</code>.</p>
+      </div>
+      <span class="tour-section-count">1 file · 38 references</span>
+    </div>
+
+    <div class="screen-grid">
+      <article class="screen-card" style="grid-column: 1 / -1;">
+        <header class="screen-card-head">
+          <div class="screen-card-meta">
+            <span class="screen-card-num">Tokens · Components · Patterns</span>
+            <h3 class="screen-card-title">AIKASA design system tokens</h3>
+            <p class="screen-card-desc">
+              Inherited wholesale from <code>AFRICON_BRAND_GUIDE.md</code> — Brand Blue #003366, Brand Green #2ECC71,
+              slate neutrals, Poppins display + body, Inter caption, JetBrains Mono technical. AIKASA-specific overlays
+              per Engineering Plan §10.2: wordmark, "An Africon project" endorsement, Learning Editorial with
+              lighter-touch minimalism, restrained glass (floating nav + one elevated card per section max).
+              Light theme primary across the product. The countdown screen is the one intentional dark surface.
+              Tech-purple #6366f1 is <strong>banned</strong> in AIKASA contexts.
+            </p>
+          </div>
+        </header>
+        <footer class="screen-card-actions">
+          <a class="open-link" href="shared/design-system.css" target="_blank">
+            View design-system.css
+          </a>
+          <a class="open-link" href="shared/icons.html" target="_blank">
+            View icon sprite
+          </a>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="tour-footer">
+  <div>
+    <span class="tour-footer-text">AIKASA · An Africon project · © 2026 Africa AI Consult</span>
+  </div>
+  <div>
+    <span class="tour-footer-text">Mockups generated 24 May 2026 · Source: <code>~/.gstack/projects/aikasa/designs/aikasa-mvp-mockups-20260524/</code></span>
+  </div>
+</footer>
+
+<script>
+  // Section-nav highlight on scroll
+  (() => {
+    const links = document.querySelectorAll('.tour-section-link');
+    const sections = document.querySelectorAll('.tour-section');
+    const map = new Map();
+    links.forEach(l => {
+      const id = l.getAttribute('href').slice(1);
+      const s = document.getElementById(id);
+      if (s) map.set(s, l);
+    });
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && e.intersectionRatio > 0.2) {
+          links.forEach(l => l.classList.remove('active'));
+          const link = map.get(e.target);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-100px 0px -50% 0px', threshold: [0.2, 0.5] });
+
+    sections.forEach(s => obs.observe(s));
+  })();
+</script>
+
+</body>
+</html>

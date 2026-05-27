@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#003366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Lessons — AIKASA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../shared/design-system.css">
+
+  <style>
+    body { background: var(--bg-soft); }
+    .icon { width: 1em; height: 1em; }
+    .nav-item-icon { width: 20px; height: 20px; }
+
+    /* Page head */
+    .page-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-6); flex-wrap: wrap;
+      margin-bottom: var(--s-6);
+    }
+    .page-head h1 {
+      font-size: var(--text-h2);
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--s-2);
+    }
+    .page-head .subtitle {
+      font-size: var(--text-body-lg);
+      color: var(--text-secondary);
+    }
+    .page-head-right { display: flex; align-items: center; gap: var(--s-3); }
+
+    /* Filter row */
+    .filter-row {
+      display: flex; align-items: center; gap: var(--s-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--s-8);
+      padding: var(--s-4);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .pill-chips {
+      display: flex; gap: var(--s-2);
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--s-2);
+      padding: var(--s-2) var(--s-3);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: background var(--t-instant) var(--ease-glass), border-color var(--t-instant) var(--ease-glass), color var(--t-instant) var(--ease-glass);
+      letter-spacing: 0.02em;
+    }
+    .chip:hover { background: white; border-color: var(--brand-blue-200); color: var(--brand-blue); }
+    .chip.active {
+      background: var(--brand-blue);
+      color: white;
+      border-color: var(--brand-blue);
+    }
+    .chip-count {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      opacity: 0.75;
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 320px;
+    }
+    .search-wrap .icon-search {
+      position: absolute;
+      top: 50%; left: var(--s-3);
+      transform: translateY(-50%);
+      width: 18px; height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-wrap .input {
+      padding-left: calc(var(--s-3) + 24px);
+      min-height: 40px;
+    }
+
+    /* Pillar section */
+    .pillar {
+      margin-bottom: var(--s-10);
+    }
+    .pillar-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: var(--s-4); flex-wrap: wrap;
+      margin-bottom: var(--s-4);
+      padding-bottom: var(--s-4);
+      border-bottom: 1px solid var(--border);
+    }
+    .pillar-head-left {
+      display: flex; gap: var(--s-4); align-items: center;
+    }
+    .pillar-num {
+      width: 48px; height: 48px;
+      border-radius: var(--radius);
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .pillar-num-green { background: var(--brand-green-100); color: var(--brand-green-700); }
+    .pillar-num-amber { background: #fef3c7; color: #92400e; }
+    .pillar-head-text { display: flex; flex-direction: column; gap: var(--s-1); }
+    .pillar-eyebrow {
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .pillar-title {
+      font-size: var(--text-h3);
+      font-weight: 600;
+      color: var(--brand-blue);
+      letter-spacing: -0.01em;
+    }
+    .pillar-focus {
+      font-size: var(--text-body-sm);
+      color: var(--text-secondary);
+      max-width: 36rem;
+    }
+    .pillar-counts {
+      display: flex; gap: var(--s-4);
+      font-family: var(--font-caption);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .pillar-counts strong {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    /* Modules */
+    .module {
+      margin-top: var(--s-6);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .module-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-4);
+      padding: var(--s-5) var(--s-6);
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+    }
+    .module-head-left { display: flex; align-items: center; gap: var(--s-4); }
+    .module-num {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--brand-blue);
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      padding: 2px 8px;
+      background: var(--brand-blue-50);
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+    }
+    .module-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .module-meta {
+      display: flex; align-items: center; gap: var(--s-4);
+      font-size: var(--text-body-sm);
+      color: var(--text-muted);
+    }
+    .module-progress {
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .module-progress .progress {
+      width: 100px; height: 4px;
+    }
+
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--s-4);
+      padding: var(--s-5);
+    }
+
+    /* Lesson card */
+    .lesson-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass), transform var(--t-smooth) var(--ease-glass);
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .lesson-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .lesson-card.locked {
+      opacity: 0.7;
+    }
+    .lesson-thumb-c {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--brand-blue) 0%, #001f3d 60%, #000a14 100%);
+      overflow: hidden;
+    }
+    .lesson-thumb-c.green {
+      background: linear-gradient(135deg, var(--brand-green-700) 0%, var(--brand-green-600) 60%, #14513a 100%);
+    }
+    .lesson-thumb-c.amber {
+      background: linear-gradient(135deg, #b45309 0%, #92400e 60%, #4a1d05 100%);
+    }
+    .lesson-thumb-c .grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .lesson-thumb-c .orb {
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      filter: blur(32px);
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      opacity: 0.6;
+      top: -30px; right: -30px;
+    }
+    .lesson-thumb-c .play {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-blue);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .lesson-thumb-c .play .icon { width: 18px; height: 18px; margin-left: 2px; }
+    .lesson-thumb-c .time {
+      position: absolute;
+      top: var(--s-2); right: var(--s-2);
+      padding: 2px 8px;
+      background: rgba(0,0,0,0.55);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: white;
+      letter-spacing: 0.04em;
+    }
+    .lesson-thumb-c .corner-status {
+      position: absolute;
+      top: var(--s-2); left: var(--s-2);
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lesson-thumb-c .corner-status.done {
+      background: var(--brand-green);
+      color: white;
+    }
+    .lesson-thumb-c .corner-status.done .icon { width: 14px; height: 14px; }
+    .lesson-thumb-c .corner-status.locked {
+      background: rgba(0,0,0,0.6);
+      color: rgba(255,255,255,0.85);
+    }
+    .lesson-thumb-c .corner-status.locked .icon { width: 12px; height: 12px; }
+    .lesson-thumb-c .corner-status.next {
+      background: var(--brand-blue-400);
+      color: white;
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      width: auto;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .lesson-body {
+      padding: var(--s-3) var(--s-4) var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-2);
+      flex: 1;
+    }
+    .lesson-num {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .lesson-title {
+      font-size: var(--text-body);
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+      letter-spacing: -0.005em;
+    }
+    .lesson-meta {
+      display: flex; align-items: center; gap: var(--s-2);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+    .lesson-meta .icon { width: 12px; height: 12px; }
+    .lesson-meta-dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--text-faint);
+      display: inline-block;
+    }
+    .lesson-tag {
+      display: inline-flex; align-items: center;
+      padding: 1px 6px;
+      background: var(--brand-blue-50);
+      color: var(--brand-blue);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-caption);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .lesson-tag.tier2 {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .lesson-tag.completed {
+      background: var(--brand-green-100);
+      color: var(--brand-green-700);
+    }
+    .lesson-progress-row {
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .lesson-progress-row .progress { flex: 1; height: 3px; }
+    .lesson-progress-pct {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Pillar preview (collapsed) */
+    .pillar-preview {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: var(--s-5) var(--s-6);
+    }
+    .preview-modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--s-3);
+      margin-top: var(--s-4);
+    }
+    .preview-module {
+      padding: var(--s-3) var(--s-4);
+      background: var(--bg-soft);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column; gap: var(--s-1);
+      transition: background var(--t-instant) var(--ease-glass);
+      border: 1px solid transparent;
+    }
+    .preview-module:hover {
+      background: white;
+      border-color: var(--brand-blue-200);
+    }
+    .preview-module-num {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .preview-module-title {
+      font-family: var(--font-display);
+      font-size: var(--text-body);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.005em;
+    }
+    .preview-module-meta {
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+      margin-top: var(--s-1);
+      display: flex; align-items: center; gap: var(--s-2);
+    }
+    .recent-pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand-green);
+      display: inline-block;
+    }
+
+    .pillar-3-block {
+      display: flex; align-items: center; gap: var(--s-5);
+      padding: var(--s-6);
+      background: linear-gradient(135deg, var(--brand-blue-50) 0%, white 100%);
+      border: 1px solid var(--brand-blue-100);
+      border-radius: var(--radius-lg);
+    }
+    .pillar-3-icon {
+      width: 64px; height: 64px;
+      border-radius: var(--radius);
+      background: white;
+      color: var(--brand-blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .pillar-3-icon .icon { width: 28px; height: 28px; }
+    .pillar-3-text { flex: 1; }
+    .pillar-3-text h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-h4);
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: var(--s-1);
+    }
+    .pillar-3-text p { color: var(--text-secondary); }
+
+    .pillar-3-banner {
+      margin-top: var(--s-4);
+    }
+  </style>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12 12 3l9 9"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5a2 2 0 0 1 2-2h13v17H6a2 2 0 0 0-2 2V5Z"/><path d="M9 7h7"/><path d="M9 11h5"/>
+      </symbol>
+      <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
+      </symbol>
+      <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-7-7 8-8 0.7-0.7Z"/><path d="M6 21l-3-3"/>
+      </symbol>
+      <symbol id="i-newspaper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h13a2 2 0 0 1 2 2v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V4Z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20a5 5 0 0 1 7-4.5"/>
+      </symbol>
+      <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>
+      </symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>
+      </symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7-11-7Z"/>
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 13l4 4L19 7"/>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6l12 12"/><path d="M6 18 18 6"/>
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M13 5l7 7-7 7"/>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="M11 19l-7-7 7-7"/>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/>
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 0 4h3"/><path d="M17 6h3a2 2 0 0 1 0 4h-3"/><path d="M10 15v3"/><path d="M14 15v3"/><path d="M9 21h6"/>
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+      </symbol>
+      <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8a6 6 0 0 1 12 0v5l1.5 3h-15L6 13V8Z"/><path d="M10 19a2 2 0 0 0 4 0"/>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-7"/>
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l8 3v6a9 9 0 0 1-8 9 9 9 0 0 1-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3l2.9 6 6.6 1-4.8 4.6 1.1 6.5L12 18l-5.8 3 1.1-6.5L2.5 10l6.6-1L12 3Z"/>
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </symbol>
+      <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6Z"/>
+      </symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.7-1.4-3.7-3.2-.3-.5.3-.5.7-1.7.1-.1 0-.3 0-.4l-.7-1.9c-.2-.5-.4-.4-.6-.4h-.4c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2.1 3.2 5 4.5 1.8.8 2.5.9 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.9-.2-.3A8 8 0 1 1 12 20Z"/>
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h8"/><path d="M16.5 4.5a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/><path d="M5 12h14"/>
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+      </symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+      </symbol>
+      <symbol id="i-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v3"/><path d="M12 18v3"/><path d="M5 12H2"/><path d="M22 12h-3"/><path d="M5 5l2 2"/><path d="M17 17l2 2"/><path d="M5 19l2-2"/><path d="M17 7l2-2"/>
+      </symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="app-shell">
+    <!-- Desktop sidebar -->
+    <aside class="sidebar" aria-label="Member navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-brand">
+          <div class="wordmark">AIKASA</div>
+          <div class="endorsement">An Africon project</div>
+        </div>
+        <nav aria-label="Primary">
+          <a href="dashboard-desktop.html" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-home"/></svg>
+            Dashboard
+          </a>
+          <a href="lesson-library-desktop.html" class="nav-item active" aria-current="page">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-book"/></svg>
+            Lessons
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-video"/></svg>
+            Live Sessions
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-target"/></svg>
+            Challenges
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-tools"/></svg>
+            Toolbox
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-newspaper"/></svg>
+            AI Updates
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-users"/></svg>
+            Community
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-user"/></svg>
+            Profile
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="#" class="nav-item">
+            <svg class="icon nav-item-icon" aria-hidden="true"><use href="#i-logout"/></svg>
+            Sign out
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main id="main" class="member-content" role="main">
+      <!-- Page head -->
+      <header class="page-head">
+        <div>
+          <h1>Lessons</h1>
+          <p class="subtitle">Practical AI training, one task per video.</p>
+        </div>
+        <div class="page-head-right">
+          <span class="badge badge-blue">Foundation · Level 2</span>
+          <div class="avatar avatar-lg" aria-label="Yaa Mensah" style="width:44px;height:44px;font-size:1rem">YM</div>
+        </div>
+      </header>
+
+      <!-- Filter row -->
+      <section class="filter-row" aria-label="Filter and search lessons">
+        <div class="pill-chips" role="tablist" aria-label="Filter by pillar">
+          <button class="chip active" role="tab" aria-selected="true">All <span class="chip-count">36</span></button>
+          <button class="chip" role="tab" aria-selected="false">AI for Productivity <span class="chip-count">20</span></button>
+          <button class="chip" role="tab" aria-selected="false">AI for Business and Entrepreneurship <span class="chip-count">12</span></button>
+          <button class="chip" role="tab" aria-selected="false">AI Navigation and Clarity <span class="chip-count">4</span></button>
+        </div>
+        <div class="search-wrap">
+          <svg class="icon icon-search" aria-hidden="true"><use href="#i-search"/></svg>
+          <input class="input" type="search" placeholder="Search lessons by task, tool, or skill" aria-label="Search lessons">
+        </div>
+      </section>
+
+      <!-- Pillar 1 — AI for Productivity (expanded) -->
+      <section class="pillar" aria-labelledby="pillar-1">
+        <header class="pillar-head">
+          <div class="pillar-head-left">
+            <div class="pillar-num" aria-hidden="true">1</div>
+            <div class="pillar-head-text">
+              <span class="pillar-eyebrow">Pillar 01 · Daily Productivity</span>
+              <h2 id="pillar-1" class="pillar-title">AI for Productivity</h2>
+              <p class="pillar-focus">Save time, write, research, plan, summarise, communicate.</p>
+            </div>
+          </div>
+          <div class="pillar-counts">
+            <div><strong>20</strong> lessons</div>
+            <div><strong>4</strong> modules</div>
+            <div><strong>3</strong> completed</div>
+          </div>
+        </header>
+
+        <!-- Module 1 -->
+        <article class="module">
+          <header class="module-head">
+            <div class="module-head-left">
+              <span class="module-num">Module 01</span>
+              <h3 class="module-title">Set up your AI stack</h3>
+            </div>
+            <div class="module-meta">
+              <span class="module-progress">
+                <div class="progress" aria-hidden="true"><div class="progress-bar progress-bar-green" style="width:60%"></div></div>
+                <span>3 of 5 done</span>
+              </span>
+            </div>
+          </header>
+          <div class="lessons-grid">
+            <!-- L1 -->
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c green">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status done" aria-label="Completed"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+                <span class="time">8:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 01</span>
+                <h4 class="lesson-title">How to set up ChatGPT for daily work</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag completed">Completed</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>8 min</span>
+                </div>
+              </div>
+            </a>
+            <!-- L2 -->
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c green">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status done" aria-label="Completed"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+                <span class="time">6:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 02</span>
+                <h4 class="lesson-title">Pick the right tool for the task</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag completed">Completed</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>6 min</span>
+                </div>
+              </div>
+            </a>
+            <!-- L3 -->
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c green">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status done" aria-label="Completed"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+                <span class="time">7:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 03</span>
+                <h4 class="lesson-title">Three habits that compound</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag completed">Completed</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>7 min</span>
+                </div>
+              </div>
+            </a>
+            <!-- L4 next -->
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status next" aria-label="Next up">Next up</span>
+                <span class="time">5:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 04</span>
+                <h4 class="lesson-title">Privacy: what to never paste</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>5 min</span>
+                </div>
+              </div>
+            </a>
+            <!-- L5 -->
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">7:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 05</span>
+                <h4 class="lesson-title">When AI is the wrong answer</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>7 min</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Module 2 -->
+        <article class="module">
+          <header class="module-head">
+            <div class="module-head-left">
+              <span class="module-num">Module 02</span>
+              <h3 class="module-title">Write better, faster</h3>
+            </div>
+            <div class="module-meta">
+              <span class="module-progress">
+                <div class="progress" aria-hidden="true"><div class="progress-bar" style="width:17%"></div></div>
+                <span>1 of 6 in progress</span>
+              </span>
+            </div>
+          </header>
+          <div class="lessons-grid">
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">8:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 01</span>
+                <h4 class="lesson-title">How to write better emails in 3 minutes</h4>
+                <div class="lesson-progress-row">
+                  <div class="progress" aria-hidden="true"><div class="progress-bar" style="width:35%"></div></div>
+                  <span class="lesson-progress-pct">35%</span>
+                </div>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>8 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">9:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 02</span>
+                <h4 class="lesson-title">Summarise a long document with NotebookLM</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>9 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">7:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 03</span>
+                <h4 class="lesson-title">Edit a draft without losing your voice</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>7 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">11:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 04</span>
+                <h4 class="lesson-title">Build a personal style guide</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>11 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">8:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 05</span>
+                <h4 class="lesson-title">Translate without losing meaning</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>8 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">6:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 06</span>
+                <h4 class="lesson-title">Brief someone in 5 lines</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>6 min</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Module 3 -->
+        <article class="module">
+          <header class="module-head">
+            <div class="module-head-left">
+              <span class="module-num">Module 03</span>
+              <h3 class="module-title">Plan and research</h3>
+            </div>
+            <div class="module-meta">
+              <span class="module-progress">
+                <div class="progress" aria-hidden="true"><div class="progress-bar" style="width:0%"></div></div>
+                <span>0 of 5 started</span>
+              </span>
+            </div>
+          </header>
+          <div class="lessons-grid">
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">9:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 01</span>
+                <h4 class="lesson-title">How to plan your week with AI</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>9 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">11:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 02</span>
+                <h4 class="lesson-title">Do research with Perplexity (without hallucinations)</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>11 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">7:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 03</span>
+                <h4 class="lesson-title">Reading 30 pages in 5 minutes</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>7 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">10:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 04</span>
+                <h4 class="lesson-title">Map a decision with three viewpoints</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>10 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card">
+              <div class="lesson-thumb-c">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="time">6:00</span>
+                <span class="play" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg></span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 05</span>
+                <h4 class="lesson-title">The "tomorrow you" brief</h4>
+                <div class="lesson-meta">
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>6 min</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Module 4 — Tier 2 locked -->
+        <article class="module">
+          <header class="module-head">
+            <div class="module-head-left">
+              <span class="module-num">Module 04</span>
+              <h3 class="module-title">Practice and feedback</h3>
+              <span class="badge badge-warning"><svg class="icon" style="width:12px;height:12px" aria-hidden="true"><use href="#i-lock"/></svg> Tier 2</span>
+            </div>
+            <div class="module-meta">
+              <span class="module-progress">
+                <div class="progress" aria-hidden="true"><div class="progress-bar" style="width:0%"></div></div>
+                <span>0 of 4 unlocked</span>
+              </span>
+            </div>
+          </header>
+          <div class="lessons-grid">
+            <a href="#" class="lesson-card locked">
+              <div class="lesson-thumb-c amber">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status locked" aria-label="Locked — Tier 2"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+                <span class="time">12:00</span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 01</span>
+                <h4 class="lesson-title">Use AI to critique your own work</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag tier2">Tier 2</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>12 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card locked">
+              <div class="lesson-thumb-c amber">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status locked" aria-label="Locked — Tier 2"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+                <span class="time">10:00</span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 02</span>
+                <h4 class="lesson-title">Build a personal feedback loop</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag tier2">Tier 2</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>10 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card locked">
+              <div class="lesson-thumb-c amber">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status locked" aria-label="Locked — Tier 2"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+                <span class="time">8:00</span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 03</span>
+                <h4 class="lesson-title">Make better mistakes</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag tier2">Tier 2</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>8 min</span>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="lesson-card locked">
+              <div class="lesson-thumb-c amber">
+                <div class="grid" aria-hidden="true"></div>
+                <div class="orb" aria-hidden="true"></div>
+                <span class="corner-status locked" aria-label="Locked — Tier 2"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+                <span class="time">9:00</span>
+              </div>
+              <div class="lesson-body">
+                <span class="lesson-num">Lesson 04</span>
+                <h4 class="lesson-title">Show your work in 10 minutes</h4>
+                <div class="lesson-meta">
+                  <span class="lesson-tag tier2">Tier 2</span>
+                  <span class="lesson-meta-dot" aria-hidden="true"></span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> <span>9 min</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <!-- Pillar 2 — AI for Business and Entrepreneurship (preview) -->
+      <section class="pillar" aria-labelledby="pillar-2">
+        <header class="pillar-head">
+          <div class="pillar-head-left">
+            <div class="pillar-num pillar-num-green" aria-hidden="true">2</div>
+            <div class="pillar-head-text">
+              <span class="pillar-eyebrow">Pillar 02 · Business &amp; Entrepreneurship</span>
+              <h2 id="pillar-2" class="pillar-title">AI for Business and Entrepreneurship</h2>
+              <p class="pillar-focus">Sales, marketing, customer service, proposals, operations, growth.</p>
+            </div>
+          </div>
+          <div class="pillar-counts">
+            <div><strong>12</strong> lessons</div>
+            <div><strong>3</strong> modules</div>
+            <div><strong>1</strong> in progress</div>
+          </div>
+        </header>
+        <div class="pillar-preview">
+          <div class="row row-between" style="align-items:center;flex-wrap:wrap;gap:var(--s-3)">
+            <p class="text-secondary" style="max-width:36rem">Build the AI muscle for revenue work — proposals that convert, customer service that scales, marketing that ships.</p>
+            <a href="#" class="btn btn-secondary btn-sm">Expand section <svg class="icon" style="width:14px;height:14px" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </div>
+          <div class="preview-modules">
+            <a href="#" class="preview-module">
+              <span class="preview-module-num">Module 01</span>
+              <span class="preview-module-title">Presentations with Gamma</span>
+              <span class="preview-module-meta"><span class="recent-pulse" aria-hidden="true"></span>Active · 6 lessons · 3 of 6 done</span>
+            </a>
+            <a href="#" class="preview-module">
+              <span class="preview-module-num">Module 02</span>
+              <span class="preview-module-title">Proposals and pitches</span>
+              <span class="preview-module-meta">3 lessons · not started</span>
+            </a>
+            <a href="#" class="preview-module">
+              <span class="preview-module-num">Module 03</span>
+              <span class="preview-module-title">Marketing &amp; customer service</span>
+              <span class="preview-module-meta">3 lessons · not started</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pillar 3 — AI Navigation and Clarity -->
+      <section class="pillar" aria-labelledby="pillar-3">
+        <header class="pillar-head">
+          <div class="pillar-head-left">
+            <div class="pillar-num pillar-num-amber" aria-hidden="true">3</div>
+            <div class="pillar-head-text">
+              <span class="pillar-eyebrow">Pillar 03 · Navigation &amp; Clarity</span>
+              <h2 id="pillar-3" class="pillar-title">AI Navigation and Clarity</h2>
+              <p class="pillar-focus">Updates, tool guidance, what changed, why it matters.</p>
+            </div>
+          </div>
+          <div class="pillar-counts">
+            <div><strong>4</strong> lessons</div>
+            <div><strong>1</strong> module</div>
+            <div><strong>Weekly</strong> drops</div>
+          </div>
+        </header>
+        <div class="banner banner-info pillar-3-banner" role="status">
+          <svg class="icon" style="width:18px;height:18px;flex-shrink:0" aria-hidden="true"><use href="#i-bell"/></svg>
+          <span>Pillar 3 publishes weekly — your first update lands every Monday.</span>
+        </div>
+        <div class="pillar-3-block" style="margin-top:var(--s-4)">
+          <div class="pillar-3-icon">
+            <svg class="icon" aria-hidden="true"><use href="#i-newspaper"/></svg>
+          </div>
+          <div class="pillar-3-text">
+            <h3>Updates published weekly. Track what changed and why it matters.</h3>
+            <p>Available lessons: "This week in AI: what changed and what matters" · "A simple framework for choosing an AI tool" · "When NOT to use AI".</p>
+          </div>
+          <a href="#" class="btn">
+            View AI Updates
+            <svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
