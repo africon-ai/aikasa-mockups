@@ -151,9 +151,6 @@
       grid-template-columns: 1fr;
       gap: var(--s-8);
     }
-    @media (min-width: 768px) {
-      .screen-grid { grid-template-columns: repeat(2, 1fr); }
-    }
 
     .screen-card {
       background: white;
@@ -260,13 +257,15 @@
       width: 1440px;
       height: 900px;
       border: 0;
-      transform: scale(0.42);
+      transform: scale(0.30);
       transform-origin: 0 0;
       pointer-events: none;
     }
-    @media (min-width: 1024px) {
-      .frame-desktop iframe { transform: scale(0.46); }
-    }
+    /* CSS fallbacks — JS auto-scaler overrides these with a pixel-perfect value */
+    @media (min-width: 720px)  { .frame-desktop iframe { transform: scale(0.32); } }
+    @media (min-width: 960px)  { .frame-desktop iframe { transform: scale(0.46); } }
+    @media (min-width: 1200px) { .frame-desktop iframe { transform: scale(0.58); } }
+    @media (min-width: 1280px) { .frame-desktop iframe { transform: scale(0.65); } }
 
     /* Frame labels */
     .frame-label {
@@ -1050,6 +1049,36 @@
 </footer>
 
 <script>
+  // Pixel-perfect iframe scale-to-fit. CSS media-query fallbacks above cover
+  // the no-JS case; this gives every viewport an exact fit.
+  (() => {
+    const DESIGN_MOBILE_W = 414;
+    const DESIGN_DESKTOP_W = 1440;
+
+    const scale = (sel, designW) => {
+      document.querySelectorAll(sel).forEach(frame => {
+        const iframe = frame.querySelector('iframe');
+        if (!iframe) return;
+        const w = frame.getBoundingClientRect().width;
+        if (w > 0) iframe.style.transform = `scale(${w / designW})`;
+      });
+    };
+
+    const fit = () => {
+      scale('.frame-mobile', DESIGN_MOBILE_W);
+      scale('.frame-desktop', DESIGN_DESKTOP_W);
+    };
+
+    fit();
+    let raf;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(fit);
+    });
+    // Re-fit once fonts settle (changes container width slightly).
+    if (document.fonts?.ready) document.fonts.ready.then(fit);
+  })();
+
   // Section-nav highlight on scroll
   (() => {
     const links = document.querySelectorAll('.tour-section-link');
