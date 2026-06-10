@@ -6,16 +6,16 @@
    ============================================================ */
 
 :root {
-  /* Brand — locked per §10.1, §10.2 */
-  --brand-blue:        #003366;
-  --brand-blue-hover:  #002952;
-  --brand-blue-50:     #e6f0ff;
-  --brand-blue-100:    #cce0ff;
-  --brand-blue-200:    #99c2ff;
-  --brand-blue-300:    #66a3ff;
-  --brand-blue-400:    #3385ff;
-  --brand-blue-700:    #001f3d;
-  --brand-blue-900:    #000a14;
+  /* Brand — primary lifted from the AIKASA logo (#1850A8 royal blue) */
+  --brand-blue:        #1850A8;
+  --brand-blue-hover:  #143F86;
+  --brand-blue-50:     #EEF3FC;
+  --brand-blue-100:    #D6E2F6;
+  --brand-blue-200:    #AEC5EC;
+  --brand-blue-300:    #7C9FDC;
+  --brand-blue-400:    #4E78CC;
+  --brand-blue-700:    #102C5E;
+  --brand-blue-900:    #081C40;
 
   --brand-green:       #2ECC71;        /* accent only — never small body text on white */
   --brand-green-large: #25a05e;        /* AA-safe variant for large/display text on white */
@@ -42,7 +42,7 @@
   --color-success:     #2ECC71;
   --color-warning:     #f59e0b;
   --color-danger:      #f43f5e;
-  --color-info:        #3385ff;
+  --color-info:        #2A5DB8;
 
   /* WhatsApp green — only on WhatsApp CTA per §10.11 */
   --whatsapp:          #25D366;
@@ -110,9 +110,9 @@
   --shadow-xl:  0 24px 64px rgba(15, 23, 42, 0.16);
 
   /* Brand-specific shadows */
-  --shadow-blue-sm: 0 1px 2px rgba(0, 51, 102, 0.1);
-  --shadow-blue: 0 4px 12px rgba(0, 51, 102, 0.18);
-  --shadow-blue-lg: 0 12px 32px rgba(0, 51, 102, 0.24);
+  --shadow-blue-sm: 0 1px 2px rgba(24, 80, 168, 0.12);
+  --shadow-blue: 0 4px 12px rgba(24, 80, 168, 0.20);
+  --shadow-blue-lg: 0 12px 32px rgba(24, 80, 168, 0.26);
 }
 
 /* ============================================================
@@ -378,6 +378,13 @@ input, textarea, select { font: inherit; color: inherit; }
   letter-spacing: -0.01em;
   color: var(--brand-blue);
 }
+
+/* Logo image — primary brand mark on light surfaces.
+   Path is ../shared/aikasa-logo.png from public|member|admin, shared/… from root. */
+.brand-logo-link { display: inline-flex; align-items: center; gap: var(--s-2); }
+.brand-logo { height: 30px; width: auto; display: block; }
+.brand-logo-sm { height: 26px; }
+.brand-logo-lg { height: 40px; }
 .nav-public-right {
   display: flex; align-items: center; gap: var(--s-2);
 }
