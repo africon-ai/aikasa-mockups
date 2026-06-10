@@ -461,7 +461,7 @@
     <aside class="sidebar" aria-label="Admin navigation">
       <div class="sidebar-inner">
         <div class="sidebar-brand">
-          <div class="wordmark">AIKASA <span class="admin-badge">Admin</span></div>
+          <img src="../shared/aikasa-logo.png" alt="AIKASA" class="brand-logo"><span class="admin-badge">Admin</span>
         </div>
         <nav aria-label="Primary">
           <a href="#" class="nav-item">
@@ -504,7 +504,7 @@
         <header class="page-header">
           <div>
             <h1 class="page-title">Analytics</h1>
-            <p class="page-subtitle">PostHog + Sentry feed the platform's product analytics; this dashboard surfaces the launch-week ops view.</p>
+            <p class="page-subtitle">PostHog + Sentry feed the platform's product analytics; this dashboard surfaces the ops-critical view.</p>
           </div>
           <div class="time-range" role="group" aria-label="Time range">
             <button>7d</button>
@@ -564,7 +564,7 @@
                 </span>
                 <span class="legend-item" role="listitem">
                   <span class="legend-dot" style="background: var(--brand-green);"></span>
-                  Founding
+                  AI Transformation
                 </span>
               </div>
             </div>
@@ -575,7 +575,7 @@
                     <stop offset="0%" stop-color="#1850A8" stop-opacity="0.18"/>
                     <stop offset="100%" stop-color="#1850A8" stop-opacity="0"/>
                   </linearGradient>
-                  <linearGradient id="grad-founding" x1="0" x2="0" y1="0" y2="1">
+                  <linearGradient id="grad-tier2" x1="0" x2="0" y1="0" y2="1">
                     <stop offset="0%" stop-color="#2ECC71" stop-opacity="0.16"/>
                     <stop offset="100%" stop-color="#2ECC71" stop-opacity="0"/>
                   </linearGradient>
@@ -603,10 +603,10 @@
                 <path d="M 40 113 L 90 110 L 140 105 L 190 101 L 240 96 L 290 90 L 340 84 L 390 76 L 440 68 L 490 60 L 540 55 L 590 50"
                       fill="none" stroke="#1850A8" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
 
-                <!-- Founding area + line: 12 weeks, 8 → 89 (clip to data window) -->
-                <!-- founding (max 89), scaled to: 200 - (v/247)*150 -->
+                <!-- AI Transformation (Tier 2) area + line: 12 weeks, 8 → 89 (clip to data window) -->
+                <!-- tier 2 (max 89), scaled to: 200 - (v/247)*150 -->
                 <path d="M 40 195 L 90 192 L 140 188 L 190 182 L 240 174 L 290 165 L 340 156 L 390 144 L 440 132 L 490 119 L 540 110 L 590 104 L 590 200 L 40 200 Z"
-                      fill="url(#grad-founding)"/>
+                      fill="url(#grad-tier2)"/>
                 <path d="M 40 195 L 90 192 L 140 188 L 190 182 L 240 174 L 290 165 L 340 156 L 390 144 L 440 132 L 490 119 L 540 110 L 590 104"
                       fill="none" stroke="#25a05e" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="0"/>
 
@@ -629,7 +629,7 @@
             <div class="card-chart-head">
               <div>
                 <h3 class="card-chart-title">Tier mix</h3>
-                <div class="card-chart-sub">247 total · 89 founding</div>
+                <div class="card-chart-sub">247 total · 89 on Tier 2</div>
               </div>
             </div>
             <div class="donut-wrap">
@@ -669,7 +669,7 @@
                     AI Transformation (Tier 2)
                   </div>
                   <div class="donut-legend-value">89</div>
-                  <div class="donut-legend-sub">36% · 89 founding access</div>
+                  <div class="donut-legend-sub">36% · monthly + annual</div>
                 </div>
               </div>
             </div>
@@ -725,11 +725,11 @@
             </div>
           </article>
 
-          <!-- Funnel: Sprint 0 → Founding -->
+          <!-- Funnel: signup funnel -->
           <article class="card-chart">
             <div class="card-chart-head">
               <div>
-                <h3 class="card-chart-title">Sprint 0 → Founding</h3>
+                <h3 class="card-chart-title">Signup funnel</h3>
                 <div class="card-chart-sub">Landing → payment success</div>
               </div>
             </div>
@@ -816,7 +816,7 @@
                 <td class="event-time">24 May 14:32</td>
                 <td style="color: var(--text-primary); font-weight: 500;">Yaa Mensah</td>
                 <td><span class="event-type success">charge.success</span></td>
-                <td class="event-amount">GHS 999 <span style="color: var(--text-muted); font-weight: 500;">/ annual founding</span></td>
+                <td class="event-amount">GHS 6,000 <span style="color: var(--text-muted); font-weight: 500;">/ annual</span></td>
                 <td class="event-ref">PSK_REF_2026_4F9C2A1B</td>
                 <td><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></td>
               </tr>
@@ -824,7 +824,7 @@
                 <td class="event-time">24 May 11:08</td>
                 <td style="color: var(--text-primary); font-weight: 500;">Kofi Annan-Yeboah</td>
                 <td><span class="event-type warn">invoice.payment_failed</span></td>
-                <td class="event-amount">GHS 175</td>
+                <td class="event-amount">GHS 200</td>
                 <td class="event-ref">PSK_REF_2026_3E8B1A0C</td>
                 <td><span class="event-status warn"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> Auto-retry scheduled</span></td>
               </tr>
@@ -832,7 +832,7 @@
                 <td class="event-time">23 May 19:44</td>
                 <td style="color: var(--text-primary); font-weight: 500;">Akua Oforiwaa</td>
                 <td><span class="event-type info">subscription.create</span></td>
-                <td class="event-amount">GHS 999</td>
+                <td class="event-amount">GHS 6,000</td>
                 <td class="event-ref">PSK_REF_2026_2D7A0089</td>
                 <td><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></td>
               </tr>
@@ -848,7 +848,7 @@
                 <td class="event-time">23 May 09:50</td>
                 <td style="color: var(--text-primary); font-weight: 500;">Daniel Mwangi</td>
                 <td><span class="event-type warn">refund.processed</span></td>
-                <td class="event-amount">$12</td>
+                <td class="event-amount">$15</td>
                 <td class="event-ref">PSK_REF_2026_0B5E8867</td>
                 <td><span class="event-status info"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg> Refund issued</span></td>
               </tr>

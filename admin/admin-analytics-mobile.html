@@ -440,7 +440,7 @@
     <button class="hamburger-btn" aria-label="Open navigation menu">
       <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
     </button>
-    <div class="admin-topbar-title">AIKASA <span class="admin-badge">Admin</span></div>
+    <div class="admin-topbar-title"><img src="../shared/aikasa-logo.png" alt="AIKASA" class="brand-logo"><span class="admin-badge">Admin</span></div>
     <div class="avatar-btn" aria-label="Albert Mensah">AM</div>
   </header>
   <div class="nav-hint">Tap menu to navigate · Analytics</div>
@@ -450,7 +450,7 @@
 
       <header class="page-header">
         <h1 class="page-title">Analytics</h1>
-        <p class="page-subtitle">PostHog + Sentry feed product analytics. This dashboard surfaces the launch-week ops view.</p>
+        <p class="page-subtitle">PostHog + Sentry feed product analytics. This dashboard surfaces the ops-critical view.</p>
         <div class="time-range" role="group" aria-label="Time range">
           <button>7d</button>
           <button class="active">30d</button>
@@ -503,7 +503,7 @@
           </div>
           <div class="card-chart-legend">
             <span class="legend-item"><span class="legend-dot" style="background: var(--brand-blue);"></span>Total</span>
-            <span class="legend-item"><span class="legend-dot" style="background: var(--brand-green-large);"></span>Founding</span>
+            <span class="legend-item"><span class="legend-dot" style="background: var(--brand-green-large);"></span>AI Transformation</span>
           </div>
         </div>
         <div class="line-chart-wrap">
@@ -513,7 +513,7 @@
                 <stop offset="0%" stop-color="#1850A8" stop-opacity="0.18"/>
                 <stop offset="100%" stop-color="#1850A8" stop-opacity="0"/>
               </linearGradient>
-              <linearGradient id="grad-founding-m" x1="0" x2="0" y1="0" y2="1">
+              <linearGradient id="grad-tier2-m" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stop-color="#2ECC71" stop-opacity="0.16"/>
                 <stop offset="100%" stop-color="#2ECC71" stop-opacity="0"/>
               </linearGradient>
@@ -537,9 +537,9 @@
             <path d="M 22 80 L 48 78 L 74 74 L 100 71 L 126 67 L 152 63 L 178 58 L 204 51 L 230 44 L 256 37 L 282 33 L 308 30"
                   fill="none" stroke="#1850A8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 
-            <!-- Founding -->
+            <!-- AI Transformation (Tier 2) -->
             <path d="M 22 146 L 48 143 L 74 140 L 100 135 L 126 128 L 152 122 L 178 115 L 204 105 L 230 95 L 256 84 L 282 76 L 308 72 L 308 150 L 22 150 Z"
-                  fill="url(#grad-founding-m)"/>
+                  fill="url(#grad-tier2-m)"/>
             <path d="M 22 146 L 48 143 L 74 140 L 100 135 L 126 128 L 152 122 L 178 115 L 204 105 L 230 95 L 256 84 L 282 76 L 308 72"
                   fill="none" stroke="#25a05e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 
@@ -561,7 +561,7 @@
         <div class="card-chart-head">
           <div>
             <h3 class="card-chart-title">By tier</h3>
-            <div class="card-chart-sub">247 total · 89 founding</div>
+            <div class="card-chart-sub">247 total · 89 on Tier 2</div>
           </div>
         </div>
         <div class="donut-wrap">
@@ -589,7 +589,7 @@
             <div>
               <div class="donut-legend-top"><span class="legend-dot" style="background: var(--brand-green-large);"></span>AI Transformation (T2)</div>
               <div class="donut-legend-value">89</div>
-              <div class="donut-legend-sub">36% · all 89 founding</div>
+              <div class="donut-legend-sub">36% · monthly + annual</div>
             </div>
           </div>
         </div>
@@ -616,7 +616,7 @@
         </div>
       </article>
 
-      <h2 class="section-heading">Sprint 0 funnel</h2>
+      <h2 class="section-heading">Signup funnel</h2>
 
       <!-- Funnel -->
       <article class="card-chart">
@@ -681,7 +681,7 @@
           </div>
           <div class="event-row-mid">
             <span class="event-type success">charge.success</span>
-            <span class="event-amount">GHS 999 / annual</span>
+            <span class="event-amount">GHS 6,000 / annual</span>
           </div>
           <div class="event-ref">PSK_REF_2026_4F9C2A1B</div>
           <div style="margin-top: 4px;"><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></div>
@@ -694,7 +694,7 @@
           </div>
           <div class="event-row-mid">
             <span class="event-type warn">invoice.payment_failed</span>
-            <span class="event-amount">GHS 175</span>
+            <span class="event-amount">GHS 200</span>
           </div>
           <div class="event-ref">PSK_REF_2026_3E8B1A0C</div>
           <div style="margin-top: 4px;"><span class="event-status warn"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> Auto-retry scheduled</span></div>
@@ -707,7 +707,7 @@
           </div>
           <div class="event-row-mid">
             <span class="event-type info">subscription.create</span>
-            <span class="event-amount">GHS 999</span>
+            <span class="event-amount">GHS 6,000</span>
           </div>
           <div class="event-ref">PSK_REF_2026_2D7A0089</div>
           <div style="margin-top: 4px;"><span class="event-status ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Processed</span></div>
@@ -733,7 +733,7 @@
           </div>
           <div class="event-row-mid">
             <span class="event-type warn">refund.processed</span>
-            <span class="event-amount">$12</span>
+            <span class="event-amount">$15</span>
           </div>
           <div class="event-ref">PSK_REF_2026_0B5E8867</div>
           <div style="margin-top: 4px;"><span class="event-status info"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg> Refund issued</span></div>
