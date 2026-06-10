@@ -3,6 +3,31 @@
 Mobile + desktop HTML mockups for all 19 user-facing surfaces of the AIKASA MVP.
 Built against the locked design system in §10 of the engineering plan.
 
+> ## ⚠️ Migration status (updated 2026-06-03)
+>
+> The **`public/` founding funnel is now BUILT and LIVE on the Africon website** (lean,
+> **no login**). These funnel mockups are now a **design reference / record**, not the build
+> target — the live Africon site is the source of truth. The `member/` + `admin/` mockups are
+> unchanged: they remain the **future AIKASA platform (Track B)**, still to be built.
+>
+> **Funnel mockup → live Africon route:**
+>
+> | `public/` mockup | Live route | |
+> |---|---|---|
+> | `landing` | `/aikasa` | upgraded from the old free waitlist |
+> | `pricing` | `/aikasa/pricing` | GHS 399 / 999; USD indicative |
+> | `join` | `/aikasa/join` | country-aware; charged GHS |
+> | `login` | **— dropped —** | no founding-phase login; returns at Track B launch |
+> | `payment-callback` | `/aikasa/verifying` | server-verifies the Paystack ref |
+> | `payment-success` | `/aikasa/success` | |
+> | `countdown` | `/aikasa/countdown` | now a **public** page (was `/dashboard`-gated) |
+>
+> Live stack: Next.js 15 + **Firebase** (Firestore `aikasaFoundingMembers` + Cloud Functions)
+> + Paystack (GHS) + Resend + mNotify. Launch target **15 July 2026**. Each `public/*.html`
+> file carries a "reference only — now live on Africon" banner. Full detail:
+> `/Users/governor/Desktop/2/aikasa/AIKASA_MIGRATION_STATUS.md` and the Africon
+> `docs/AIKASA_FOUNDING_GO_LIVE.md`.
+
 ## Where to start
 
 Open **`index.html`** in a browser. It's the stakeholder tour — every screen in
@@ -24,14 +49,14 @@ python3 -m http.server 8080
 │   ├── design-system.css         # All tokens + components
 │   ├── icons.html                # Inline SVG icon sprite (28 icons)
 │   └── pretext-init.js           # Resize-aware text layout helper
-├── public/                       # 7 screens × mobile + desktop = 14 files
-│   ├── landing-{mobile,desktop}.html
-│   ├── pricing-{mobile,desktop}.html
-│   ├── join-{mobile,desktop}.html
-│   ├── login-{mobile,desktop}.html
-│   ├── payment-callback-{mobile,desktop}.html
-│   ├── payment-success-{mobile,desktop}.html
-│   └── countdown-{mobile,desktop}.html       # DARK THEME
+├── public/                       # 7 screens × mobile + desktop = 14 files — ⚠️ NOW LIVE ON AFRICON (reference only)
+│   ├── landing-{mobile,desktop}.html         # → /aikasa
+│   ├── pricing-{mobile,desktop}.html         # → /aikasa/pricing
+│   ├── join-{mobile,desktop}.html            # → /aikasa/join
+│   ├── login-{mobile,desktop}.html           # — DROPPED in production (no founding-phase login)
+│   ├── payment-callback-{mobile,desktop}.html # → /aikasa/verifying
+│   ├── payment-success-{mobile,desktop}.html # → /aikasa/success
+│   └── countdown-{mobile,desktop}.html       # → /aikasa/countdown (public; DARK THEME)
 ├── member/                       # 9 screens × mobile + desktop = 18 files
 │   ├── dashboard-{mobile,desktop}.html
 │   ├── lesson-library-{mobile,desktop}.html
@@ -135,11 +160,14 @@ desktop viewports comparable.
 
 | Document | Role |
 |---|---|
+| `AIKASA_MIGRATION_STATUS.md` | **Funnel truth** — what moved to Africon, route map, live status (2026-06-03) |
+| Africon `docs/AIKASA_FOUNDING_GO_LIVE.md` | Live funnel build handoff + go-live checklist |
 | `AIKASA_Master_Blueprint_and_Execution_Charter_v3.pdf` | Strategy and content (pillars, pricing, learning model, founding offer) |
-| `AIKASA_MVP_Engineering_Plan.md` §10 | Design system overlays, canonical naming, responsive specs, accessibility |
+| `AIKASA_MVP_Engineering_Plan.md` §10 | Design system overlays, canonical naming, responsive specs, accessibility (Track B) |
 | `AFRICON_BRAND_GUIDE.md` | Inherited token system (colors, type, spacing) |
 | `meeting_summary.txt` | Original positioning + decisions |
 
-For any content drift, the canonical source is the engineering plan §10 +
-the master blueprint. Where they differ, the engineering plan wins
-(per §10 source-of-truth principle).
+For the **funnel (`public/`)**, the live Africon implementation is the source of truth
+(`AIKASA_MIGRATION_STATUS.md` + the go-live handoff). For the **`member/` + `admin/`
+platform (Track B)**, the canonical source is the engineering plan §10 + the master
+blueprint; where they differ, the engineering plan wins (per §10 source-of-truth principle).

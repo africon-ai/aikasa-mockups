@@ -422,9 +422,30 @@
   </div>
 </header>
 
+<div role="note" aria-label="Migration status" style="max-width:1100px;margin:1.5rem auto 0;padding:1rem 1.25rem;border:1px solid #003366;border-left:4px solid #2ECC71;border-radius:10px;background:#EEF5FF;color:#0F2A4A;font-size:.95rem;line-height:1.55;">
+  <strong style="color:#003366;">⚠️ Migration update (2026-06-03):</strong>
+  The <strong>Public founding funnel below is now built and live on the Africon website</strong>
+  (lean — <strong>no login</strong>). These funnel screens are a <strong>design reference</strong>
+  now, not the build target; the live Africon site is the source of truth. The Member portal and
+  Admin screens are unchanged — the future AIKASA platform (Track B), still to build.
+  <div style="margin-top:.6rem;font-size:.84rem;color:#243B57;">
+    <strong style="color:#003366;">Live routes:</strong>
+    Landing → <code>/aikasa</code> ·
+    Pricing → <code>/aikasa/pricing</code> ·
+    Join → <code>/aikasa/join</code> ·
+    Login → <em>dropped</em> ·
+    Payment callback → <code>/aikasa/verifying</code> ·
+    Payment success → <code>/aikasa/success</code> ·
+    Countdown → <code>/aikasa/countdown</code> (public).
+    Launch target <strong>15 July 2026</strong>.
+    Stack: Next.js 15 + Firebase + Paystack + Resend + mNotify.
+    Detail: <code>AIKASA_MIGRATION_STATUS.md</code> · Africon <code>docs/AIKASA_FOUNDING_GO_LIVE.md</code>.
+  </div>
+</div>
+
 <nav class="tour-section-nav" aria-label="Section navigation">
   <div class="tour-section-nav-inner">
-    <a class="tour-section-link active" href="#public">Public (7)</a>
+    <a class="tour-section-link active" href="#public">Public (7 · live)</a>
     <a class="tour-section-link" href="#member">Member portal (9)</a>
     <a class="tour-section-link" href="#admin">Admin (3)</a>
     <a class="tour-section-link" href="#system">Design system</a>
@@ -460,10 +481,10 @@
   <section class="tour-section" id="public">
     <div class="tour-section-head">
       <div>
-        <h2>Public flow</h2>
-        <p>What a prospective member sees before paying — landing through payment confirmation, ending in the dark countdown screen.</p>
+        <h2>Public flow <span style="font-size:.7em;font-weight:700;color:#2ECC71;vertical-align:middle;">● LIVE ON AFRICON</span></h2>
+        <p>What a prospective member sees before paying — landing through payment confirmation, ending in the dark countdown screen. <strong>This funnel is now built and live on the Africon website (lean, no login) — these screens are a design reference, not the build target.</strong></p>
       </div>
-      <span class="tour-section-count">7 screens · 14 mockups</span>
+      <span class="tour-section-count">7 screens · live on Africon</span>
     </div>
 
     <div class="screen-grid">
@@ -473,7 +494,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">01 / Public</span>
             <h3 class="screen-card-title">Landing</h3>
-            <p class="screen-card-desc">The first impression. Tagline-led hero, 3 pillars, how it works, Africon credibility, founding member offer, final CTA.</p>
+            <p class="screen-card-desc">The first impression. Tagline-led hero, 3 pillars, how it works, Africon credibility, founding member offer, final CTA.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -505,7 +526,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">02 / Public</span>
             <h3 class="screen-card-title">Pricing</h3>
-            <p class="screen-card-desc">Founding offer pinned · region/cycle toggle · Tier 1 vs Tier 2 comparison · refund &amp; grace FAQ.</p>
+            <p class="screen-card-desc">Founding offer pinned · region/cycle toggle · Tier 1 vs Tier 2 comparison · refund &amp; grace FAQ.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa/pricing</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -531,7 +552,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">03 / Public</span>
             <h3 class="screen-card-title">Join (sign-up)</h3>
-            <p class="screen-card-desc">Founding member application form · Ghana +233 default · plan radio cards · canonical benefits side rail.</p>
+            <p class="screen-card-desc">Founding member application form · Ghana +233 default · plan radio cards · canonical benefits side rail.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa/join</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -557,7 +578,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">04 / Public</span>
             <h3 class="screen-card-title">Login</h3>
-            <p class="screen-card-desc">Calm two-field login · forgot-password link · pillar reminder rail (desktop) · founding member nudge.</p>
+            <p class="screen-card-desc">Calm two-field login · forgot-password link · pillar reminder rail (desktop) · founding member nudge.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#9A1B1B;">▸ Dropped in production · no founding-phase login (returns at Track B launch)</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -583,7 +604,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">05 / Public</span>
             <h3 class="screen-card-title">Payment callback</h3>
-            <p class="screen-card-desc">The verifying state. Screen <em>is</em> the loading state. Reassures users that they were not double-charged.</p>
+            <p class="screen-card-desc">The verifying state. Screen <em>is</em> the loading state. Reassures users that they were not double-charged.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa/verifying (renamed)</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -609,7 +630,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">06 / Public</span>
             <h3 class="screen-card-title">Payment success</h3>
-            <p class="screen-card-desc">"You're in, and we're glad." Receipt, founding badge, what-happens-next timeline. Calm celebration.</p>
+            <p class="screen-card-desc">"You're in, and we're glad." Receipt, founding badge, what-happens-next timeline. Calm celebration.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa/success</span></p>
           </div>
           <span class="screen-card-flag">Light</span>
         </header>
@@ -635,7 +656,7 @@
           <div class="screen-card-meta">
             <span class="screen-card-num">07 / Public</span>
             <h3 class="screen-card-title">Pre-launch countdown</h3>
-            <p class="screen-card-desc">The one intentional dark surface. Founding members see this on /dashboard until launch day. Premium, restrained, anticipatory.</p>
+            <p class="screen-card-desc">The one intentional dark surface. A public pre-launch page everyone sees until launch day. Premium, restrained, anticipatory.<br><span style="display:inline-block;margin-top:.45rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#003366;">▸ Now live on Africon · /aikasa/countdown (public)</span></p>
           </div>
           <span class="screen-card-flag dark">Dark</span>
         </header>
