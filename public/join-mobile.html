@@ -425,7 +425,7 @@
     }
     .sticky-cta-row {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr auto;
       gap: var(--s-3);
       align-items: center;
     }
@@ -763,11 +763,11 @@
   <!-- Sticky bottom CTA -->
   <div class="sticky-cta" role="region" aria-label="Create your account">
     <div class="sticky-cta-row">
-      <a href="pricing-mobile.html" class="btn btn-secondary btn-lg">View plans</a>
       <a href="../member/dashboard-mobile.html" class="btn btn-lg">
         Create account
         <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
       </a>
+      <a href="pricing-mobile.html" class="btn btn-secondary btn-lg">View plans</a>
     </div>
   </div>
 </body>
