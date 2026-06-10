@@ -6,9 +6,8 @@
   <meta name="theme-color" content="#020617">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Almost there — AIKASA Founding Member</title>
-  <meta name="description" content="AIKASA is in build. As a Founding Member, you're one of the first inside. Target launch: August / September 2026.">
-  <meta name="robots" content="noindex">
+  <title>AIKASA — Launching 15 August 2026</title>
+  <meta name="description" content="AIKASA is launching 15 August 2026 — a guided AI implementation ecosystem for African professionals and entrepreneurs. Get notified the moment we go live.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,12 +133,6 @@
     .hero {
       text-align: center;
       padding: var(--s-6) 0 var(--s-8);
-    }
-    .hero-badge { margin-bottom: var(--s-4); }
-    .founding-badge {
-      background: rgba(46, 204, 113, 0.10);
-      border-color: rgba(46, 204, 113, 0.35);
-      color: var(--brand-green);
     }
     .hero-eyebrow {
       font-family: var(--font-caption);
@@ -278,6 +271,63 @@
       font-size: 0.7rem;
       color: var(--text-muted);
       letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    /* NOTIFY — email capture (stacked) */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .notify {
+      margin-bottom: var(--s-12);
+      text-align: center;
+    }
+    .notify-label {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: var(--s-3);
+    }
+    .notify-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-3);
+    }
+    .notify-input {
+      width: 100%;
+      padding: var(--s-4) var(--s-4);
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      transition: border-color var(--t-smooth) var(--ease-glass), box-shadow var(--t-smooth) var(--ease-glass);
+    }
+    .notify-input::placeholder { color: var(--text-faint); }
+    .notify-input:focus {
+      outline: none;
+      border-color: rgba(51, 133, 255, 0.6);
+      box-shadow: 0 0 0 3px rgba(51, 133, 255, 0.12);
+    }
+    .notify-btn { width: 100%; }
+    .notify-note {
+      font-family: var(--font-caption);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+      margin-top: var(--s-3);
       line-height: 1.5;
     }
 
@@ -469,8 +519,6 @@
   </style>
 </head>
 <body>
-<div data-aikasa-migration-banner style="position:fixed;top:0;left:0;right:0;z-index:2147483647;background:#1850A8;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;font-size:12px;line-height:1.4;letter-spacing:.02em;padding:7px 14px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.25);border-bottom:2px solid #2ECC71;"><strong style="color:#2ECC71;">REFERENCE ONLY</strong> — this funnel screen is now <strong>live on Africon</strong>: <code style="background:rgba(255,255,255,.16);padding:1px 6px;border-radius:4px;">/aikasa/countdown</code> (public). Lean founding model. See <strong>AIKASA_MIGRATION_STATUS.md</strong>.</div>
-
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- SVG icon sprite -->
@@ -491,7 +539,7 @@
   <div class="page">
     <header class="top-bar" aria-label="Header">
       <div class="top-bar-left">
-        <a href="dashboard-mobile.html" class="wordmark">AIKASA</a>
+        <a href="landing-mobile.html" class="wordmark" aria-label="AIKASA — home">AIKASA</a>
         <span class="endorsement">An Africon project</span>
       </div>
       <span class="top-bar-status">
@@ -503,31 +551,28 @@
     <main id="main">
       <!-- HERO -->
       <section class="hero">
-        <div class="hero-badge">
-          <span class="founding-badge">Founding Member 2026</span>
-        </div>
         <p class="hero-eyebrow">Building in public</p>
-        <h1 class="hero-headline">Almost there, <span class="accent">Yaa.</span></h1>
-        <p class="hero-sub">We're putting the finishing touches on AIKASA. You'll be one of the first inside.</p>
+        <h1 class="hero-headline">Launching <span class="accent">15 August 2026.</span></h1>
+        <p class="hero-sub">We're putting the finishing touches on AIKASA — a guided AI implementation ecosystem for African professionals and entrepreneurs. AI that works, going live soon.</p>
       </section>
 
       <!-- COUNTDOWN — 2x2 -->
       <section class="countdown-wrap" aria-label="Time until launch">
         <div class="countdown" role="timer" aria-live="off">
           <div class="digit-card">
-            <div class="digit-value">84</div>
+            <div class="digit-value">66</div>
             <div class="digit-label">Days</div>
           </div>
           <div class="digit-card">
-            <div class="digit-value">12</div>
+            <div class="digit-value">10</div>
             <div class="digit-label">Hours</div>
           </div>
           <div class="digit-card">
-            <div class="digit-value">35</div>
+            <div class="digit-value">24</div>
             <div class="digit-label">Minutes</div>
           </div>
           <div class="digit-card">
-            <div class="digit-value">22</div>
+            <div class="digit-value">18</div>
             <div class="digit-label">Seconds</div>
           </div>
         </div>
@@ -535,11 +580,25 @@
 
       <div class="launch-target">
         <div class="launch-target-label">
-          Target launch
-          <span class="target-accent">August / September 2026</span>
+          Full public launch
+          <span class="target-accent">15 August 2026</span>
         </div>
-        <div class="launch-target-detail">Final date confirmed when our GO / NO-GO gates close in July.</div>
+        <div class="launch-target-detail">Accra, Ghana &middot; available worldwide on launch day.</div>
       </div>
+
+      <!-- NOTIFY -->
+      <section class="notify" aria-labelledby="notify-title">
+        <p id="notify-title" class="notify-label">Get notified at launch</p>
+        <form class="notify-form" action="#" method="post" novalidate>
+          <label for="notify-email" class="sr-only">Email address</label>
+          <input id="notify-email" class="notify-input" type="email" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email" required>
+          <button type="submit" class="btn btn-lg notify-btn">
+            Notify me
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-bell"/></svg>
+          </button>
+        </form>
+        <p class="notify-note">One email on launch day. No spam, unsubscribe anytime.</p>
+      </section>
 
       <!-- BETWEEN NOW AND LAUNCH -->
       <section class="between" aria-labelledby="between-title">
@@ -551,21 +610,21 @@
             <div class="between-icon"><svg><use href="#i-check"/></svg></div>
             <div class="between-card-text">
               <div class="between-card-head">
-                <h4>Welcome confirmation</h4>
+                <h4>Three pillars defined</h4>
                 <span class="between-tag tag-done">Done</span>
               </div>
-              <p>Email and WhatsApp confirmation landed in your inbox.</p>
+              <p>Productivity, Business and Navigation — the curriculum is locked.</p>
             </div>
           </article>
 
           <article class="between-card is-done">
-            <div class="between-icon"><svg><use href="#i-trophy"/></svg></div>
+            <div class="between-icon"><svg><use href="#i-video"/></svg></div>
             <div class="between-card-text">
               <div class="between-card-head">
-                <h4>Founding Member 2026 badge</h4>
+                <h4>First lessons recorded</h4>
                 <span class="between-tag tag-done">Done</span>
               </div>
-              <p>Unlocked on your profile and dashboard.</p>
+              <p>The opening practical lessons across all three pillars are in the can.</p>
             </div>
           </article>
 
@@ -573,21 +632,10 @@
             <div class="between-icon"><svg><use href="#i-bell"/></svg></div>
             <div class="between-card-text">
               <div class="between-card-head">
-                <h4>Monthly build updates</h4>
+                <h4>Building in public</h4>
                 <span class="between-tag tag-active">In progress</span>
               </div>
-              <p>Periodic notes on what shipped, what's next, what changed.</p>
-            </div>
-          </article>
-
-          <article class="between-card">
-            <div class="between-icon"><svg><use href="#i-video"/></svg></div>
-            <div class="between-card-text">
-              <div class="between-card-head">
-                <h4>One preview video</h4>
-                <span class="between-tag">Coming in July</span>
-              </div>
-              <p>A first look at a working pillar lesson, well before launch.</p>
+              <p>Monthly notes on what shipped, what's next and what changed.</p>
             </div>
           </article>
 
@@ -595,10 +643,21 @@
             <div class="between-icon"><svg><use href="#i-download"/></svg></div>
             <div class="between-card-text">
               <div class="between-card-head">
-                <h4>One downloadable prompt pack</h4>
-                <span class="between-tag">Coming in July</span>
+                <h4>Prompt packs and templates</h4>
+                <span class="between-tag">Coming soon</span>
               </div>
-              <p>Start using AIKASA prompts at work the day you receive them.</p>
+              <p>Real artefacts you can paste, edit and run on your own work.</p>
+            </div>
+          </article>
+
+          <article class="between-card">
+            <div class="between-icon"><svg><use href="#i-trophy"/></svg></div>
+            <div class="between-card-text">
+              <div class="between-card-head">
+                <h4>Full public launch</h4>
+                <span class="between-tag">15 Aug 2026</span>
+              </div>
+              <p>Doors open to everyone. Sign up and start your 90-day journey.</p>
             </div>
           </article>
         </div>

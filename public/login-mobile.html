@@ -50,23 +50,8 @@
     }
 
     .login-wordmark {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 1.375rem;
-      color: var(--brand-blue);
-      letter-spacing: -0.01em;
       margin-bottom: var(--s-6);
-      display: flex; align-items: baseline; gap: var(--s-3);
-    }
-    .login-wordmark-tag {
-      font-family: var(--font-caption);
-      font-size: var(--text-caption);
-      font-weight: 500;
-      color: var(--text-muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding-left: var(--s-3);
-      border-left: 1px solid var(--border);
+      display: flex; align-items: center; gap: var(--s-3);
     }
     .login-card h1 {
       font-family: var(--font-display);
@@ -146,43 +131,6 @@
 
     .submit-btn { margin-top: var(--s-2); }
     .submit-btn .btn { width: 100%; justify-content: center; }
-
-    .divider {
-      display: flex; align-items: center; gap: var(--s-3);
-      margin: var(--s-6) 0 var(--s-4);
-      color: var(--text-faint);
-      font-family: var(--font-caption);
-      font-size: var(--text-caption);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .divider::before, .divider::after {
-      content: "";
-      flex: 1; height: 1px;
-      background: var(--border);
-    }
-
-    .info-banner {
-      padding: var(--s-3) var(--s-4);
-      background: var(--brand-blue-50);
-      border: 1px solid var(--brand-blue-100);
-      border-radius: var(--radius);
-      font-size: var(--text-body-sm);
-      color: var(--brand-blue);
-      display: flex; gap: var(--s-3); align-items: flex-start;
-      line-height: 1.5;
-    }
-    .info-banner svg {
-      width: 18px; height: 18px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .info-banner strong { display: block; font-weight: 600; margin-bottom: 1px; }
-    .info-banner-body {
-      font-size: var(--text-caption);
-      color: var(--brand-blue-700);
-      line-height: 1.5;
-    }
 
     .login-foot {
       margin-top: var(--s-6);
@@ -292,8 +240,6 @@
   </style>
 </head>
 <body>
-<div data-aikasa-migration-banner style="position:fixed;top:0;left:0;right:0;z-index:2147483647;background:#1850A8;color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;font-size:12px;line-height:1.4;letter-spacing:.02em;padding:7px 14px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.25);border-bottom:2px solid #2ECC71;"><strong style="color:#2ECC71;">REFERENCE ONLY</strong> — this funnel screen is <strong>dropped in production</strong> — no founding-phase login (returns at Track B launch). Lean founding model. See <strong>AIKASA_MIGRATION_STATUS.md</strong>.</div>
-
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- AIKASA inline SVG icon sprite. Copy this <svg> block into every page once,
@@ -409,7 +355,7 @@
   </svg>
 
   <header class="mob-nav" role="banner">
-    <a href="landing-mobile.html" class="wordmark">AIKASA</a>
+    <a href="landing-mobile.html" class="brand-logo-link" aria-label="AIKASA — home"><img src="../shared/aikasa-logo.png" alt="AIKASA" class="brand-logo"></a>
     <div class="mob-nav-actions">
       <a href="join-mobile.html" class="btn btn-sm">Join</a>
     </div>
@@ -419,8 +365,7 @@
     <section class="login-section">
       <div class="login-card">
         <div class="login-wordmark">
-          AIKASA
-          <span class="login-wordmark-tag">AI that works</span>
+          <img src="../shared/aikasa-logo.png" alt="AIKASA" class="brand-logo">
         </div>
         <h1>Welcome back.</h1>
         <p class="sub">Continue your guided AI journey.</p>
@@ -451,25 +396,15 @@
           </div>
 
           <div class="submit-btn">
-            <button type="submit" class="btn btn-lg">
+            <a href="../member/dashboard-mobile.html" class="btn btn-lg">
               Sign in
               <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
-            </button>
+            </a>
           </div>
         </form>
 
-        <div class="divider">or</div>
-
-        <div class="info-banner">
-          <svg><use href="#i-calendar"/></svg>
-          <div>
-            <strong>Founding Members</strong>
-            <span class="info-banner-body">Your access starts on launch day &mdash; Aug/Sept 2026.</span>
-          </div>
-        </div>
-
         <div class="login-foot">
-          Not a member yet? <a href="join-mobile.html">Become a Founding Member</a>
+          New to AIKASA? <a href="join-mobile.html">Create an account</a>
         </div>
       </div>
     </section>
@@ -522,7 +457,7 @@
 
   <!-- Sticky bottom CTA -->
   <div class="sticky-cta" role="region" aria-label="Sign in">
-    <a href="#" class="btn btn-lg">
+    <a href="../member/dashboard-mobile.html" class="btn btn-lg">
       Sign in
       <svg width="16" height="16"><use href="#i-arrow-right"/></svg>
     </a>
